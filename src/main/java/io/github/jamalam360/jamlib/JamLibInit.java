@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package io.github.jamalam360.templatemod;
+package io.github.jamalam360.jamlib;
 
 import net.fabricmc.api.ModInitializer;
 
@@ -30,11 +30,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TemplateModInit implements ModInitializer {
+public class JamLibInit implements ModInitializer {
     public static Logger LOGGER = LogManager.getLogger();
 
-    public static final String MOD_ID = "templatemod";
-    public static final String MOD_NAME = "Template Mod";
+    public static final String MOD_ID = "jamlib";
+    public static final String MOD_NAME = "JamLib";
 
     @Override
     public void onInitialize() {

@@ -1,33 +1,33 @@
 {
   "schemaVersion": 1,
-  "id": "templatemod",
+  "id": "jamlib",
   "version": "${version}",
-  "name": "Template Mod",
-  "description": "A Fabric mod template",
+  "name": "JamLib",
+  "description": "A general multipurpose library for JamCoreModding's mods",
   "authors": [
     "Jamalam"
   ],
   "contact": {
-    "sources": "https://github.com/JamCoreModding/FabricTemplateMod",
-    "issues": "https://github.com/JamCoreModding/FabricTemplateMod/issues"
+    "sources": "https://github.com/JamCoreModding/JamLib",
+    "issues": "https://github.com/JamCoreModding/JamLib/issues"
   },
   "license": "MIT",
-  "icon": "assets/templatemod/icon.png",
+  "icon": "assets/jamlib/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.jamalam360.templatemod.TemplateModInit"
+      "io.github.jamalam360.jamlib.JamLibInit"
     ]
   },
   "mixins": [
-    "templatemod.mixins.json"
+    "jamlib.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.12.5",
     "fabric": "*"
   },
   "custom": {
-    "notify_gradle_properties_url": "https://raw.githubusercontent.com/JamCoreModding/FabricTemplateMod/main/gradle.properties",
+    "notify_gradle_properties_url": "https://raw.githubusercontent.com/JamCoreModding/JamLib/main/gradle.properties",
     "notify_gradle_properties_key": "mod_version"
   }
 }
