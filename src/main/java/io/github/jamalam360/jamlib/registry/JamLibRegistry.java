@@ -2,6 +2,7 @@ package io.github.jamalam360.jamlib.registry;
 
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.registry.entry.BlockEntry;
+import io.github.jamalam360.jamlib.registry.entry.BlockWithEntityEntry;
 import io.github.jamalam360.jamlib.registry.entry.ItemEntry;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Logger;
@@ -31,11 +32,21 @@ public class JamLibRegistry {
                             entry.getBlock()
                     );
 
-                    Registry.register(
-                            Registry.ITEM,
-                            entry.getId(),
-                            entry.getItem()
-                    );
+                    if (entry.getItem() != null) {
+                        Registry.register(
+                                Registry.ITEM,
+                                entry.getId(),
+                                entry.getItem()
+                        );
+                    }
+
+                    if (entry instanceof BlockWithEntityEntry blockEntityEntry) {
+                        Registry.register(
+                                Registry.BLOCK_ENTITY_TYPE,
+                                entry.getId(),
+                                blockEntityEntry.getBlockEntityType()
+                        );
+                    }
                 } else if (field.getType().isAssignableFrom(ItemEntry.class)) {
                     ItemEntry entry = (ItemEntry) field.get(registry);
 
