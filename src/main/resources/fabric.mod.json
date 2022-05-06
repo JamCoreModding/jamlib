@@ -16,6 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
+      "io.github.jamalam360.jamlib.JamLib"
     ]
   },
   "mixins": [
