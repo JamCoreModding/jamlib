@@ -2,8 +2,5 @@
 
 ### Features
 
-### Fixes
-
-Closed issues:
-
-Full Changelog: 
+- Initial release
+- Basic registry functionality

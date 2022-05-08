@@ -43,12 +43,3 @@ dependencies {
     modApi(libs.optional.mod.menu)
 }
 
-tasks {
-    named("prepareRemapJar") {
-        dependsOn("optimizeOutputsOfJar")
-    }
-
-    named("remapJar") {
-        dependsOn("optimizeOutputsOfJar")
-    }
-}
