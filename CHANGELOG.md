@@ -2,7 +2,8 @@
 
 ### Features
 
-- Added a registry package.
-- Added a tick scheduler.
+### Fixes
 
-Closed issues: N/A
+Closed issues:
+
+Full Changelog: 
