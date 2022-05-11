@@ -4,8 +4,11 @@
 
 - Add enchantment registry.
 - Infer registry entry `Identifier` from field name.
+- Add config.
 
 ### Fixes
+
+- No fixes.
 
 Closed issues: None.
 
