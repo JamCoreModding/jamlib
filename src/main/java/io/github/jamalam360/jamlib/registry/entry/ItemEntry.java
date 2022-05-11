@@ -28,12 +28,16 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 public class ItemEntry {
-    private final Identifier id;
     private final Item item;
+    private Identifier id = null;
 
-    public ItemEntry(Identifier id, Item item) {
-        this.id = id;
+    public ItemEntry(Item item) {
         this.item = item;
+    }
+
+    public ItemEntry withIdentifier(Identifier id) {
+        this.id = id;
+        return this;
     }
 
     public Identifier getId() {

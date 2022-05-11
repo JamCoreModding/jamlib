@@ -27,39 +27,51 @@ package io.github.jamalam360.jamlib.registry;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.registry.entry.BlockEntry;
 import io.github.jamalam360.jamlib.registry.entry.BlockWithEntityEntry;
+import io.github.jamalam360.jamlib.registry.entry.EnchantmentEntry;
 import io.github.jamalam360.jamlib.registry.entry.ItemEntry;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 @SuppressWarnings("unused")
 public class JamLibRegistry {
     private static final Logger LOGGER = JamLib.getLogger("Registry");
 
-    public void register(List<Object> registries) {
+    public void register(String modId, List<Object> registries) {
         for (Object registry : registries) {
-            register(registry);
+            register(modId, registry);
         }
     }
 
-    public void register(Object registry) {
+    public void register(String modId, Object registry) {
         for (Field field : registry.getClass().getDeclaredFields()) {
             try {
                 if (field.getType().isAssignableFrom(BlockEntry.class)) {
                     BlockEntry entry = (BlockEntry) field.get(registry);
 
+                    Identifier identifier;
+
+                    if (entry.getId() != null) {
+                        identifier = entry.getId();
+                    } else {
+                        String fieldName = field.getName();
+                        identifier = new Identifier(modId, fieldName.toLowerCase(Locale.ROOT));
+                    }
+
                     Registry.register(
                             Registry.BLOCK,
-                            entry.getId(),
+                            identifier,
                             entry.getBlock()
                     );
 
                     if (entry.getItem() != null) {
                         Registry.register(
                                 Registry.ITEM,
-                                entry.getId(),
+                                identifier,
                                 entry.getItem()
                         );
                     }
@@ -67,17 +79,43 @@ public class JamLibRegistry {
                     if (entry instanceof BlockWithEntityEntry blockEntityEntry) {
                         Registry.register(
                                 Registry.BLOCK_ENTITY_TYPE,
-                                entry.getId(),
+                                identifier,
                                 blockEntityEntry.getBlockEntityType()
                         );
                     }
                 } else if (field.getType().isAssignableFrom(ItemEntry.class)) {
                     ItemEntry entry = (ItemEntry) field.get(registry);
 
+                    Identifier identifier;
+
+                    if (entry.getId() != null) {
+                        identifier = entry.getId();
+                    } else {
+                        String fieldName = field.getName();
+                        identifier = new Identifier(modId, fieldName.toLowerCase(Locale.ROOT));
+                    }
+
                     Registry.register(
                             Registry.ITEM,
-                            entry.getId(),
+                            identifier,
                             entry.getItem()
+                    );
+                } else if (field.getType().isAssignableFrom(EnchantmentEntry.class)) {
+                    EnchantmentEntry entry = (EnchantmentEntry) field.get(registry);
+
+                    Identifier identifier;
+
+                    if (entry.getId() != null) {
+                        identifier = entry.getId();
+                    } else {
+                        String fieldName = field.getName();
+                        identifier = new Identifier(modId, fieldName.toLowerCase(Locale.ROOT));
+                    }
+
+                    Registry.register(
+                            Registry.ENCHANTMENT,
+                            identifier,
+                            entry.getEnchantment()
                     );
                 }
             } catch (IllegalAccessException e) {

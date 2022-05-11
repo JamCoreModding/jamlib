@@ -32,13 +32,17 @@ import net.minecraft.util.Identifier;
 
 @SuppressWarnings("unused")
 public class BlockEntry {
-    private final Identifier id;
     private final Block block;
+    private Identifier id = null;
     private BlockItem item;
 
-    public BlockEntry(Identifier id, Block block) {
-        this.id = id;
+    public BlockEntry(Block block) {
         this.block = block;
+    }
+
+    public BlockEntry withIdentifier(Identifier id) {
+        this.id = id;
+        return this;
     }
 
     public BlockEntry withItem(ItemGroup group) {
