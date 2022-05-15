@@ -2,8 +2,14 @@
 
 ### Features
 
+- Add enchantment registry.
+- Infer registry entry `Identifier` from field name.
+- Add config.
+
 ### Fixes
 
-Closed issues:
+- No fixes.
 
-Full Changelog: 
+Closed issues: None.
+
+Full Changelog: [Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.0.1...0.0.2)
