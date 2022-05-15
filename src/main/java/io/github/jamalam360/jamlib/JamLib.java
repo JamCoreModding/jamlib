@@ -24,8 +24,8 @@
 
 package io.github.jamalam360.jamlib;
 
+import io.github.jamalam360.jamlib.tick.TickScheduling;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +37,6 @@ public class JamLib implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ClientTickEvents.END_WORLD_TICK.register(TickScheduling::onEndTickClient);
         ServerTickEvents.END_WORLD_TICK.register(TickScheduling::onEndTickServer);
 
         getLogger("JamLibInit").info("JamLib has been initialized");

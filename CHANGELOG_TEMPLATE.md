@@ -4,6 +4,6 @@
 
 ### Fixes
 
-Closed issues:
+Closed issues: None.
 
-Full Changelog: 
+[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/...)

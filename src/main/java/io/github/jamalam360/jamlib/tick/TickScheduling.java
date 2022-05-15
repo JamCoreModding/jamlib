@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package io.github.jamalam360.jamlib;
+package io.github.jamalam360.jamlib.tick;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.world.ClientWorld;

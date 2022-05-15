@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "io.github.jamalam360.jamlib.JamLib"
+    ],
+    "client": [
+      "io.github.jamalam360.jamlib.JamLibClient"
     ]
   },
   "mixins": [
