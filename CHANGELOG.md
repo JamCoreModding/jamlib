@@ -1,9 +1,9 @@
 ## Changelog
 
-### Fixes
+### Features
 
-- Move client logic to client initializer.
+### Fixes
 
 Closed issues: None.
 
-[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.0.2...0.0.3)
+[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/...)
