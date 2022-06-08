@@ -43,6 +43,7 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.ScreenTexts;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -117,7 +118,6 @@ public abstract class JamLibConfig {
                 } catch (IllegalAccessException ignored) {
                 }
         }
-
         try {
             gson.fromJson(Files.newBufferedReader(path), config);
         } catch (Exception e) {
@@ -129,7 +129,7 @@ public abstract class JamLibConfig {
                 try {
                     info.value = info.field.get(null);
                     info.tempValue = info.value.toString();
-                } catch (IllegalAccessException | NullPointerException ignored) {
+                } catch (IllegalAccessException ignored) {
                 }
         }
     }
@@ -275,12 +275,12 @@ public abstract class JamLibConfig {
             super.init();
             if (!reload) loadValues();
 
-            this.addDrawableChild(new ButtonWidget(this.width / 2 - 154, this.height - 28, 150, 20, Text.translatable("gui.cancel"), button -> {
+            this.addDrawableChild(new ButtonWidget(this.width / 2 - 154, this.height - 28, 150, 20, ScreenTexts.CANCEL, button -> {
                 loadValues();
                 Objects.requireNonNull(client).setScreen(parent);
             }));
 
-            ButtonWidget done = this.addDrawableChild(new ButtonWidget(this.width / 2 + 4, this.height - 28, 150, 20, Text.translatable("gui.done"), (button) -> {
+            ButtonWidget done = this.addDrawableChild(new ButtonWidget(this.width / 2 + 4, this.height - 28, 150, 20, ScreenTexts.DONE, (button) -> {
                 for (EntryInfo info : entries)
                     if (info.id.equals(modid)) {
                         try {
@@ -298,7 +298,7 @@ public abstract class JamLibConfig {
             for (EntryInfo info : entries) {
                 if (info.id.equals(modid)) {
                     Text name = Objects.requireNonNullElseGet(info.name, () -> Text.translatable(translationPrefix + info.field.getName()));
-                    ButtonWidget resetButton = new ButtonWidget(width - 205, 0, 40, 20, Text.literal("Reset").formatted(Formatting.RED), (button -> {
+                    ButtonWidget resetButton = new ButtonWidget(width - 205, 0, 40, 20, Text.translatable("Reset").formatted(Formatting.RED), (button -> {
                         info.value = info.defaultValue;
                         info.tempValue = info.defaultValue.toString();
                         info.index = 0;
@@ -473,7 +473,6 @@ public abstract class JamLibConfig {
         boolean isColor() default false;
     }
 
-    @SuppressWarnings("unused")
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
     public @interface Client {
