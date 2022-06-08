@@ -117,6 +117,7 @@ public abstract class JamLibConfig {
                 } catch (IllegalAccessException ignored) {
                 }
         }
+
         try {
             gson.fromJson(Files.newBufferedReader(path), config);
         } catch (Exception e) {
@@ -128,7 +129,7 @@ public abstract class JamLibConfig {
                 try {
                     info.value = info.field.get(null);
                     info.tempValue = info.value.toString();
-                } catch (IllegalAccessException ignored) {
+                } catch (IllegalAccessException | NullPointerException ignored) {
                 }
         }
     }

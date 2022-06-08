@@ -1,13 +1,9 @@
 ## Changelog
 
-### Features
-
-- Port to 1.19.
-
 ### Fixes
 
-- None.
+- Attempt to fix NPE with config.
 
 Closed issues: None.
 
-[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.0.5...0.0.6)
+[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.0.6...0.0.7)
