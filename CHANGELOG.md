@@ -1,9 +1,9 @@
 ## Changelog
 
-### Fixes
+### Features
 
-- More 1.19 related config fixes.
+### Fixes
 
 Closed issues: None.
 
-[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.0.7...0.0.8)
+[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/...)
