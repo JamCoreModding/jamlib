@@ -25,102 +25,68 @@
 package io.github.jamalam360.jamlib.registry;
 
 import io.github.jamalam360.jamlib.JamLib;
-import io.github.jamalam360.jamlib.registry.entry.BlockEntry;
-import io.github.jamalam360.jamlib.registry.entry.BlockWithEntityEntry;
-import io.github.jamalam360.jamlib.registry.entry.EnchantmentEntry;
-import io.github.jamalam360.jamlib.registry.entry.ItemEntry;
+import io.github.jamalam360.jamlib.registry.annotation.ContentRegistry;
+import io.github.jamalam360.jamlib.registry.annotation.WithIdentifier;
+import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Locale;
 
 @SuppressWarnings("unused")
 public class JamLibRegistry {
-    private static final Logger LOGGER = JamLib.getLogger("Registry");
+    public static void register(Class<?> registry) {
+        if (!registry.isAnnotationPresent(ContentRegistry.class)) {
+            JamLib.LOGGER.warn("@ContentRegistry annotation not present on registry class " + registry.getName());
+            return;
+        }
 
-    public void register(String modId, List<Object> registries) {
-        for (Object registry : registries) {
-            register(modId, registry);
+        String modId = registry.getAnnotation(ContentRegistry.class).value();
+
+        for (Field f : registry.getFields()) {
+            if (!f.canAccess(null)) {
+                JamLib.LOGGER.warn("Cannot access field " + f.getName() + " in registry class " + registry.getName());
+                continue;
+            }
+
+            Class<?> fClass = f.getDeclaringClass();
+
+            Object fObj = null;
+
+            try {
+                fObj = f.get(null);
+            } catch (IllegalAccessException ignored) {
+            }
+
+            Identifier fId = getIdentifier(modId, f);
+
+            if (fClass.isAssignableFrom(Item.class)) {
+                Registry.register(Registry.ITEM, fId, (Item) fObj);
+            } else if (fClass.isAssignableFrom(Block.class)) {
+                Registry.register(Registry.BLOCK, fId, (Block) fObj);
+            } else if (fClass.isAssignableFrom(BlockEntityType.class)) {
+                Registry.register(Registry.BLOCK_ENTITY_TYPE, fId, (BlockEntityType<?>) fObj);
+            } else if (fClass.isAssignableFrom(EntityType.class)) {
+                Registry.register(Registry.ENTITY_TYPE, fId, (EntityType<?>) fObj);
+            } else if (fClass.isAssignableFrom(Enchantment.class)) {
+                Registry.register(Registry.ENCHANTMENT, fId, (Enchantment) fObj);
+            }
         }
     }
 
-    public void register(String modId, Object registry) {
-        for (Field field : registry.getClass().getDeclaredFields()) {
-            try {
-                if (field.getType().isAssignableFrom(BlockEntry.class)) {
-                    BlockEntry entry = (BlockEntry) field.get(registry);
+    private static Identifier getIdentifier(String modId, Field f) {
+        String path;
 
-                    Identifier identifier;
-
-                    if (entry.getId() != null) {
-                        identifier = entry.getId();
-                    } else {
-                        String fieldName = field.getName();
-                        identifier = new Identifier(modId, fieldName.toLowerCase(Locale.ROOT));
-                    }
-
-                    Registry.register(
-                            Registry.BLOCK,
-                            identifier,
-                            entry.getBlock()
-                    );
-
-                    if (entry.getItem() != null) {
-                        Registry.register(
-                                Registry.ITEM,
-                                identifier,
-                                entry.getItem()
-                        );
-                    }
-
-                    if (entry instanceof BlockWithEntityEntry blockEntityEntry) {
-                        Registry.register(
-                                Registry.BLOCK_ENTITY_TYPE,
-                                identifier,
-                                blockEntityEntry.getBlockEntityType()
-                        );
-                    }
-                } else if (field.getType().isAssignableFrom(ItemEntry.class)) {
-                    ItemEntry entry = (ItemEntry) field.get(registry);
-
-                    Identifier identifier;
-
-                    if (entry.getId() != null) {
-                        identifier = entry.getId();
-                    } else {
-                        String fieldName = field.getName();
-                        identifier = new Identifier(modId, fieldName.toLowerCase(Locale.ROOT));
-                    }
-
-                    Registry.register(
-                            Registry.ITEM,
-                            identifier,
-                            entry.getItem()
-                    );
-                } else if (field.getType().isAssignableFrom(EnchantmentEntry.class)) {
-                    EnchantmentEntry entry = (EnchantmentEntry) field.get(registry);
-
-                    Identifier identifier;
-
-                    if (entry.getId() != null) {
-                        identifier = entry.getId();
-                    } else {
-                        String fieldName = field.getName();
-                        identifier = new Identifier(modId, fieldName.toLowerCase(Locale.ROOT));
-                    }
-
-                    Registry.register(
-                            Registry.ENCHANTMENT,
-                            identifier,
-                            entry.getEnchantment()
-                    );
-                }
-            } catch (IllegalAccessException e) {
-                LOGGER.warn("Failed to access field: " + e.getMessage());
-            }
+        if (f.isAnnotationPresent(WithIdentifier.class)) {
+            path = f.getAnnotation(WithIdentifier.class).value();
+        } else {
+            path = f.getName().toLowerCase();
         }
+
+        return new Identifier(modId, path);
     }
 }

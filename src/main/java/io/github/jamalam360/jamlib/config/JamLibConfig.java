@@ -28,6 +28,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.jamalam360.jamlib.JamLib;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -107,6 +108,8 @@ public abstract class JamLibConfig {
     public static void init(String modid, Class<?> config) {
         path = FabricLoader.getInstance().getConfigDir().resolve(modid + ".json");
         configClass.put(modid, config);
+
+        JamLib.LOGGER.info("Registered config for " + modid);
 
         for (Field field : config.getFields()) {
             EntryInfo info = new EntryInfo();

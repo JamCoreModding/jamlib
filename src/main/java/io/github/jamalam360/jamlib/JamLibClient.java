@@ -35,6 +35,5 @@ public class JamLibClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientTickEvents.END_WORLD_TICK.register(TickScheduling::onEndTickClient);
-        JamLib.getLogger("JamLibClientInit").info("JamLib has been initialized on the client");
     }
 }
