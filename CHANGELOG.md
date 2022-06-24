@@ -1,7 +1,6 @@
 ## Changelog
 
 ### Features
-<<<<<<< HEAD
 
 - Add a logging helper.
 - Revamp the registry system to be annotation based.
