@@ -25,6 +25,7 @@
 package io.github.jamalam360.jamlib.registry;
 
 import io.github.jamalam360.jamlib.JamLib;
+import io.github.jamalam360.jamlib.registry.annotation.BlockItemFactory;
 import io.github.jamalam360.jamlib.registry.annotation.ContentRegistry;
 import io.github.jamalam360.jamlib.registry.annotation.WithIdentifier;
 import net.minecraft.block.Block;
@@ -32,13 +33,21 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 @SuppressWarnings("unused")
 public class JamLibRegistry {
+    public static void register(Class<?>... registries) {
+        for (Class<?> clazz : registries) {
+            register(clazz);
+        }
+    }
+
     public static void register(Class<?> registry) {
         if (!registry.isAnnotationPresent(ContentRegistry.class)) {
             JamLib.LOGGER.warn("@ContentRegistry annotation not present on registry class " + registry.getName());
@@ -46,12 +55,15 @@ public class JamLibRegistry {
         }
 
         String modId = registry.getAnnotation(ContentRegistry.class).value();
+        boolean checkedForBlockItemCreator = false;
+        Method blockItemCreator = null;
 
         for (Field f : registry.getFields()) {
             if (!f.canAccess(null)) {
                 JamLib.LOGGER.warn("Cannot access field " + f.getName() + " in registry class " + registry.getName());
                 continue;
             }
+
 
             Class<?> fClass = f.getDeclaringClass();
 
@@ -68,12 +80,40 @@ public class JamLibRegistry {
                 Registry.register(Registry.ITEM, fId, (Item) fObj);
             } else if (fClass.isAssignableFrom(Block.class)) {
                 Registry.register(Registry.BLOCK, fId, (Block) fObj);
+
+                if (!checkedForBlockItemCreator) {
+                    for (Method method : registry.getDeclaredMethods()) {
+                        if (method.isAnnotationPresent(BlockItemFactory.class)) {
+                            if (method.getParameterTypes().length != 1 || !method.getParameterTypes()[0].isAssignableFrom(Block.class) || !method.getReturnType().isAssignableFrom(Item.class)) {
+                                throw new IllegalArgumentException("@BlockItemFactory method " + method.getName() + " in registry class " + registry.getName() + " has invalid parameters or return type.");
+                            }
+
+                            if (!method.canAccess(null)) {
+                                throw new IllegalArgumentException("Cannot access @BlockItemFactory method " + method.getName() + " in registry class " + registry.getName());
+                            }
+
+                            blockItemCreator = method;
+                            break;
+                        }
+                    }
+
+                    checkedForBlockItemCreator = true;
+                }
+
+                if (blockItemCreator != null) {
+                    try {
+                        Registry.register(Registry.ITEM, fId, (Item) blockItemCreator.invoke(null, fObj));
+                    } catch (Exception ignored) {
+                    }
+                }
             } else if (fClass.isAssignableFrom(BlockEntityType.class)) {
                 Registry.register(Registry.BLOCK_ENTITY_TYPE, fId, (BlockEntityType<?>) fObj);
             } else if (fClass.isAssignableFrom(EntityType.class)) {
                 Registry.register(Registry.ENTITY_TYPE, fId, (EntityType<?>) fObj);
             } else if (fClass.isAssignableFrom(Enchantment.class)) {
                 Registry.register(Registry.ENCHANTMENT, fId, (Enchantment) fObj);
+            } else if (fClass.isAssignableFrom(ScreenHandlerType.class)) {
+                Registry.register(Registry.SCREEN_HANDLER, fId, (ScreenHandlerType<?>) fObj);
             }
         }
     }
