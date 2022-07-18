@@ -14,6 +14,28 @@ val mod_version: String by project
 group = "io.github.jamalam360"
 version = mod_version
 
+sourceSets {
+    val main = this.getByName("main")
+
+    create("testmod") {
+        this.compileClasspath += main.compileClasspath
+        this.compileClasspath += main.output
+        this.runtimeClasspath += main.runtimeClasspath
+        this.runtimeClasspath += main.output
+    }
+}
+
+loom {
+    runs {
+        create("testClient") {
+            client()
+            name("Testmod Client")
+            source(sourceSets.getByName("testmod"))
+            runDir("run")
+        }
+    }
+}
+
 repositories {
     val mavenUrls = mapOf(
         Pair("https://maven.terraformersmc.com/releases", listOf("com.terraformersmc"))

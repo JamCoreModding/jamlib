@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "jamlib-test",
+  "version": "${version}",
+  "name": "JamLib Test",
+  "description": "Test mod for JamLib",
+  "authors": [
+    "Jamalam"
+  ],
+  "contact": {
+    "sources": "https://github.com/JamCoreModding/JamLib",
+    "issues": "https://github.com/JamCoreModding/JamLib/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/jamlib-test/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.jamalam360.jamlib.test.JamLibTest"
+    ],
+    "client": [
+      "io.github.jamalam360.jamlib.test.JamLibTestClient"
+    ]
+  },
+  "mixins": [
+    "jamlib-test.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.5",
+    "fabric": "*"
+  },
+  "custom": {
+    "notify_gradle_properties_url": "https://raw.githubusercontent.com/JamCoreModding/JamLib/main/gradle.properties",
+    "notify_gradle_properties_key": "mod_version"
+  }
+}
