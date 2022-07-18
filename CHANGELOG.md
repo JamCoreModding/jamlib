@@ -1,5 +1,7 @@
 ## Changelog
 
+**BREAKING CHANGE**: Artifact specifier has been changed from `jam-lib` to `jamlib`.
+
 ### Features
 
 - Add the annotation `@BlockItemFactory` to allow registry classes to construct their own block items.
