@@ -28,6 +28,7 @@ import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.registry.annotation.BlockItemFactory;
 import io.github.jamalam360.jamlib.registry.annotation.ContentRegistry;
 import io.github.jamalam360.jamlib.registry.annotation.WithIdentifier;
+import io.github.jamalam360.jamlib.registry.annotation.WithoutBlockItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
@@ -100,7 +101,7 @@ public class JamLibRegistry {
                     checkedForBlockItemCreator = true;
                 }
 
-                if (blockItemCreator != null) {
+                if (blockItemCreator != null && !f.isAnnotationPresent(WithoutBlockItem.class)) {
                     try {
                         Registry.register(Registry.ITEM, fId, (Item) blockItemCreator.invoke(null, fObj));
                     } catch (Exception ignored) {
