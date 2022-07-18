@@ -25,6 +25,9 @@
 package io.github.jamalam360.jamlib.test;
 
 import io.github.jamalam360.jamlib.log.JamLibLogger;
+import io.github.jamalam360.jamlib.registry.JamLibRegistry;
+import io.github.jamalam360.jamlib.test.registry.TestBlocks;
+import io.github.jamalam360.jamlib.test.registry.TestItems;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.text.Text;
 
@@ -34,6 +37,8 @@ public class JamLibTest implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        JamLibRegistry.register(TestItems.class, TestBlocks.class);
+
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS.registerHandler(((server, player, handler, buf, responseSender) -> {
             int i = buf.readInt();
             player.sendMessage(Text.literal("Random number: " + i + "; Client: " + player.world.isClient()), false);

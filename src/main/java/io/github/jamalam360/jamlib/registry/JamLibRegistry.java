@@ -65,9 +65,7 @@ public class JamLibRegistry {
                 continue;
             }
 
-
-            Class<?> fClass = f.getDeclaringClass();
-
+            Class<?> fClass = f.getType();
             Object fObj = null;
 
             try {

@@ -9,6 +9,7 @@
 ### Fixes
 
 - `ScreenHandlerType`s can now be registered.
+- Fix an incorrect method call in the registry.
 
 Closed issues: None.
 
