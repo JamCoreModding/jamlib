@@ -25,10 +25,8 @@
 package io.github.jamalam360.jamlib.test;
 
 import com.mojang.blaze3d.platform.InputUtil;
+import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.option.KeyBind;
 import net.minecraft.text.Text;
 
 import java.util.Random;
@@ -37,23 +35,16 @@ import java.util.Random;
  * @author Jamalam360
  */
 public class JamLibTestClient implements ClientModInitializer {
-    private static final KeyBind NETWORK_KEYBIND = KeyBindingHelper.registerKeyBinding(
-            new KeyBind(
-                    "key.jamlib.network",
-                    InputUtil.Type.KEYSYM,
-                    InputUtil.KEY_K_CODE,
-                    "key.category.jamlib"
-            )
-    );
     public static final Random RANDOM = new Random();
 
     @Override
     public void onInitializeClient() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (NETWORK_KEYBIND.wasPressed()) {
-                JamLibTestNetwork.NETWORK_KEYBIND_PRESS.send((buf) -> buf.writeInt(RANDOM.nextInt(100)));
-            }
-        });
+        JamLibKeybinds.register(new JamLibKeybinds.JamLibKeybind(
+                "jamlib-test",
+                "network",
+                InputUtil.KEY_K_CODE,
+                (client) -> JamLibTestNetwork.NETWORK_KEYBIND_PRESS.send((buf) -> buf.writeInt(RANDOM.nextInt(100)))
+        ));
 
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.registerHandler(((client, handler, buf, responseSender) -> client.player.sendMessage(Text.literal("Response: " + buf.readInt()), false)));
     }

@@ -4,11 +4,14 @@ A general multipurpose library for JamCoreModding's mods.
 
 ## Features
 
-- Registration.
-- Configuration.
+- Annotation based registration.
+- Single class configuration.
 - General utilities.
 - NBT (de)serialization.
-- More to come as we need it!
+- Networking.
+- Keybindings.
+- Scheduling.
+- Development environment 'auth' (use your username and skin in dev environments).
 
 ## Maven
 

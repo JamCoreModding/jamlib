@@ -24,6 +24,7 @@
 
 package io.github.jamalam360.jamlib;
 
+import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
 import io.github.jamalam360.jamlib.tick.TickScheduling;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -35,5 +36,6 @@ public class JamLibClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientTickEvents.END_WORLD_TICK.register(TickScheduling::onEndTickClient);
+        ClientTickEvents.END_CLIENT_TICK.register(JamLibKeybinds::onEndTick);
     }
 }
