@@ -41,6 +41,11 @@ public class JamLibS2CNetworkChannel extends JamLibNetworkChannel<ClientPlayNetw
         super(identifier);
     }
 
+    public void send(ServerPlayerEntity player) {
+        PacketByteBuf buf = PacketByteBufs.empty();
+        ServerPlayNetworking.send(player, this.getIdentifier(), buf);
+    }
+
     public void send(ServerPlayerEntity player, Consumer<PacketByteBuf> dataWriter) {
         PacketByteBuf buf = PacketByteBufs.create();
         dataWriter.accept(buf);

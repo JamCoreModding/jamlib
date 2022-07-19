@@ -40,6 +40,11 @@ public class JamLibC2SNetworkChannel extends JamLibNetworkChannel<ServerPlayNetw
         super(identifier);
     }
 
+    public void send() {
+        PacketByteBuf buf = PacketByteBufs.empty();
+        ClientPlayNetworking.send(this.getIdentifier(), buf);
+    }
+
     public void send(Consumer<PacketByteBuf> dataWriter) {
         PacketByteBuf buf = PacketByteBufs.create();
         dataWriter.accept(buf);

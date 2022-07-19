@@ -49,6 +49,5 @@ public abstract class JamLibNetworkChannel<T> {
         this.handler = handler;
         this.registerHandler();
     }
-
     protected abstract void registerHandler();
 }
