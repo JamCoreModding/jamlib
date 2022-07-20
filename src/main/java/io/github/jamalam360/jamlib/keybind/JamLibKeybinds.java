@@ -40,7 +40,7 @@ import java.util.function.Consumer;
 public class JamLibKeybinds {
     private static final List<JamLibKeybindImpl> KEY_BINDS = new ArrayList<>();
 
-    public static void register(JamLibKeybind keyBind) {
+    public static KeyBind register(JamLibKeybind keyBind) {
         KeyBind keyBindBacker = new KeyBind(
                 "key." + keyBind.modId() + "." + keyBind.name(),
                 InputUtil.Type.KEYSYM,
@@ -54,6 +54,8 @@ public class JamLibKeybinds {
         ));
 
         KeyBindingHelper.registerKeyBinding(keyBindBacker);
+
+        return keyBindBacker;
     }
 
     @ApiStatus.Internal
