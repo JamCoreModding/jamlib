@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_16",
   "plugin": "io.github.jamalam360.jamlib.mixin.JamLibMixinPlugin",
   "mixins": [
-    "dev.EulaReaderMixin"
+    "dev.EulaReaderMixin",
+    "dev.MinecraftServerMixin"
   ],
   "client": [
     "dev.session.MinecraftClientMixin",
