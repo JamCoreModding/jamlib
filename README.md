@@ -11,7 +11,7 @@ A general multipurpose library for JamCoreModding's mods.
 - Networking.
 - Keybindings.
 - Scheduling.
-- Development environment 'auth' (use your username and skin in dev environments).
+- Development environment 'auth' (use your username and skin in dev environments), as well as other utilities for development environments.
 
 ## Maven
 
@@ -25,9 +25,16 @@ repositories {
 }
 
 dependencies {
-    modImplementation("io.github.jamalam360:jam-lib:{VERSION}")
+    modImplementation("io.github.jamalam360:jamlib:{VERSION}")
 }
 ```
+
+## System Properties
+
+- `jamlib.dev.disable-eula-auto-agree`: Disable the EULA auto-agree in development environments.
+- `jamlib.dev.disable-offline-mode`: Disable using offline mode by default in development environments.
+- `jamlib.dev.session.uuid`: Set your username in development environments.
+- `jamlib.dev.session.skin`: Set your UUID in development environments.
 
 ## Links
 

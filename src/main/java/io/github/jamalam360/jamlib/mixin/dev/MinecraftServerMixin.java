@@ -18,6 +18,8 @@ public class MinecraftServerMixin {
             cancellable = true
     )
     public void jamlib$setNotOnlineInDev(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(false);
+        if (System.getProperty("jamlib.dev.disable-offline-mode") == null) {
+            cir.setReturnValue(false);
+        }
     }
 }

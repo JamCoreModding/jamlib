@@ -18,6 +18,8 @@ public class EulaReaderMixin {
             cancellable = true
     )
     public void jamlib$setEulaAlwaysAgreedToInDev(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(true);
+        if (System.getProperty("jamlib.dev.disable-eula-auto-agree") == null) {
+            cir.setReturnValue(true);
+        }
     }
 }
