@@ -73,7 +73,8 @@ import java.util.regex.Pattern;
  * Based on <a href="https://github.com/Minenash/TinyConfig">https://github.com/Minenash/TinyConfig</a>
  * Credits to Minenash
  * <p>
- * Adapted by Jamalam for JamLib
+ * <p>
+ * Adapted by Jamalam for use in JamLib
  */
 
 @SuppressWarnings({"unchecked", "unused"})
@@ -162,7 +163,15 @@ public abstract class JamLibConfig {
                 }, func);
             } else if (type.isEnum()) {
                 List<?> values = Arrays.asList(field.getType().getEnumConstants());
-                Function<Object, Text> func = value -> Text.translatable(modid + ".jamlibconfig." + "enum." + type.getSimpleName() + "." + info.value.toString());
+                Function<Object, Text> func = (value) -> {
+                    String translationKey = modid + ".jamlibconfig.enum." + type.getSimpleName() + "." + info.value.toString();
+
+                    if (I18n.hasTranslation(translationKey)) {
+                        return Text.translatable(translationKey);
+                    } else {
+                        return Text.literal(info.value.toString());
+                    }
+                };
                 info.widget = new AbstractMap.SimpleEntry<ButtonWidget.PressAction, Function<Object, Text>>(button -> {
                     int index = values.indexOf(info.value) + 1;
                     info.value = values.get(index >= values.size() ? 0 : index);
@@ -170,6 +179,7 @@ public abstract class JamLibConfig {
                 }, func);
             }
         }
+
         entries.add(info);
     }
 
@@ -232,7 +242,7 @@ public abstract class JamLibConfig {
     @Environment(EnvType.CLIENT)
     private static class MidnightConfigScreen extends Screen {
         protected MidnightConfigScreen(Screen parent, String modid) {
-            super(Text.translatable(modid + ".jamlibconfig." + "title"));
+            super(getConfigScreenTitle(modid));
             this.parent = parent;
             this.modid = modid;
             this.translationPrefix = modid + ".jamlibconfig.";
@@ -389,6 +399,15 @@ public abstract class JamLibConfig {
                 }
             }
             super.render(matrices, mouseX, mouseY, delta);
+        }
+
+        @SuppressWarnings("OptionalGetWithoutIsPresent")
+        private static Text getConfigScreenTitle(String modid) {
+            if (I18n.hasTranslation(modid + ".jamlibconfig.title")) {
+                return Text.translatable(modid + ".jamlibconfig.title");
+            } else {
+                return Text.literal(FabricLoader.getInstance().getModContainer(modid).get().getMetadata().getName());
+            }
         }
     }
 
