@@ -3,7 +3,9 @@
   "package": "io.github.jamalam360.jamlib.mixin",
   "compatibilityLevel": "JAVA_16",
   "plugin": "io.github.jamalam360.jamlib.mixin.JamLibMixinPlugin",
-  "mixins": [],
+  "mixins": [
+    "dev.EulaReaderMixin"
+  ],
   "client": [
     "dev.session.MinecraftClientMixin",
     "dev.session.RunArgsNetworkMixin"
