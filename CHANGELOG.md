@@ -2,8 +2,8 @@
 
 ### Features
 
-- Return the backing keybind when registering JamLib keybinds.
+### Fixes
 
 Closed issues: None.
 
-[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.3.1...0.3.2)
+[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/...)

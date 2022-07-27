@@ -26,6 +26,7 @@ package io.github.jamalam360.jamlib.test;
 
 import com.mojang.blaze3d.platform.InputUtil;
 import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
+import io.github.jamalam360.jamlib.network.JamLibClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.text.Text;
 
@@ -46,6 +47,8 @@ public class JamLibTestClient implements ClientModInitializer {
                 (client) -> JamLibTestNetwork.NETWORK_KEYBIND_PRESS.send((buf) -> buf.writeInt(RANDOM.nextInt(100)))
         ));
 
-        JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.registerHandler(((client, handler, buf, responseSender) -> client.player.sendMessage(Text.literal("Response: " + buf.readInt()), false)));
+        JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.setHandler(((client, handler, buf, responseSender) -> client.player.sendMessage(Text.literal("Response: " + buf.readInt()), false)));
+
+        JamLibClientNetworking.registerHandlers("jamlib-test");
     }
 }

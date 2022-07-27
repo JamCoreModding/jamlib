@@ -24,39 +24,21 @@
 
 package io.github.jamalam360.jamlib.network;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Map;
 
 /**
  * @author Jamalam
  */
-public class JamLibC2SNetworkChannel extends JamLibNetworkChannel<ServerPlayNetworking.PlayChannelHandler> {
-    public JamLibC2SNetworkChannel(Identifier identifier) {
-        super(identifier);
-    }
+public class JamLibServerNetworking {
+    protected static final Map<String, List<JamLibNetworkChannel<?>>> SERVER_CHANNELS = new HashMap<>();
 
-    public void send() {
-        PacketByteBuf buf = PacketByteBufs.empty();
-        ClientPlayNetworking.send(this.getIdentifier(), buf);
-    }
-
-    public void send(Consumer<PacketByteBuf> dataWriter) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        dataWriter.accept(buf);
-        ClientPlayNetworking.send(this.getIdentifier(), buf);
-    }
-
-    public void setHandler(ServerPlayNetworking.PlayChannelHandler handler) {
-        this.handler = handler;
-        List<JamLibNetworkChannel<?>> list = JamLibServerNetworking.SERVER_CHANNELS.getOrDefault(this.getIdentifier().getNamespace(), new ArrayList<>());
-        list.add(this);
-        JamLibServerNetworking.SERVER_CHANNELS.put(this.getIdentifier().getNamespace(), list);
+    public static void registerHandlers(String modId) {
+        for (JamLibNetworkChannel<?> channel : SERVER_CHANNELS.getOrDefault(modId, List.of())) {
+            ServerPlayNetworking.registerGlobalReceiver(channel.getIdentifier(), (ServerPlayNetworking.PlayChannelHandler) channel.getHandler());
+        }
     }
 }

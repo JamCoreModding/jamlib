@@ -26,12 +26,16 @@ package io.github.jamalam360.jamlib.network;
 
 import net.minecraft.util.Identifier;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Jamalam
  */
 public abstract class JamLibNetworkChannel<T> {
+    private static final Map<String, JamLibNetworkChannel<?>> SERVER_CHANNELS = new HashMap<>();
     private final Identifier identifier;
-    private T handler;
+    protected T handler;
 
     public JamLibNetworkChannel(Identifier identifier) {
         this.identifier = identifier;
@@ -44,10 +48,4 @@ public abstract class JamLibNetworkChannel<T> {
     protected T getHandler() {
         return handler;
     }
-
-    public void registerHandler(T handler) {
-        this.handler = handler;
-        this.registerHandler();
-    }
-    protected abstract void registerHandler();
 }

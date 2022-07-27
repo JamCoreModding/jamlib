@@ -31,6 +31,8 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -52,8 +54,10 @@ public class JamLibS2CNetworkChannel extends JamLibNetworkChannel<ClientPlayNetw
         ServerPlayNetworking.send(player, this.getIdentifier(), buf);
     }
 
-    @Override
-    protected void registerHandler() {
-        ClientPlayNetworking.registerGlobalReceiver(this.getIdentifier(), this.getHandler());
+    public void setHandler(ClientPlayNetworking.PlayChannelHandler handler) {
+        this.handler = handler;
+        List<JamLibNetworkChannel<?>> list = JamLibClientNetworking.CLIENT_CHANNELS.getOrDefault(this.getIdentifier().getNamespace(), new ArrayList<>());
+        list.add(this);
+        JamLibClientNetworking.CLIENT_CHANNELS.put(this.getIdentifier().getNamespace(), list);
     }
 }
