@@ -25,6 +25,7 @@
 package io.github.jamalam360.jamlib.keybind;
 
 import com.mojang.blaze3d.platform.InputUtil;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBind;
@@ -32,6 +33,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -39,6 +41,7 @@ import java.util.function.Consumer;
  */
 public class JamLibKeybinds {
     private static final List<JamLibKeybindImpl> KEY_BINDS = new ArrayList<>();
+    private static final Map<JamLibHoldKeybindImpl, Boolean> HOLD_KEY_BINDS = new Object2BooleanOpenHashMap<>();
 
     public static KeyBind register(JamLibKeybind keyBind) {
         KeyBind keyBindBacker = new KeyBind(
@@ -58,6 +61,25 @@ public class JamLibKeybinds {
         return keyBindBacker;
     }
 
+    public static KeyBind register(JamLibHoldKeybind keyBind) {
+        KeyBind keyBindBacker = new KeyBind(
+                "key." + keyBind.modId() + "." + keyBind.name(),
+                InputUtil.Type.KEYSYM,
+                keyBind.keyCode(),
+                "key.category." + keyBind.modId()
+        );
+
+        HOLD_KEY_BINDS.put(new JamLibHoldKeybindImpl(
+                keyBindBacker,
+                keyBind.onPress(),
+                keyBind.onRelease()
+        ), false);
+
+        KeyBindingHelper.registerKeyBinding(keyBindBacker);
+
+        return keyBindBacker;
+    }
+
     @ApiStatus.Internal
     public static void onEndTick(MinecraftClient client) {
         KEY_BINDS.forEach(keyBind -> {
@@ -65,11 +87,35 @@ public class JamLibKeybinds {
                 keyBind.wasPressedConsumer().accept(client);
             }
         });
+
+        List<JamLibHoldKeybindImpl> toInvert = new ArrayList<>();
+
+        HOLD_KEY_BINDS.forEach((keyBind, pressed) -> {
+            if (keyBind.keyBind().isPressed()) {
+                if (!pressed) {
+                    keyBind.onPress().accept(client);
+                    toInvert.add(keyBind);
+                }
+            } else {
+                if (pressed) {
+                    keyBind.onRelease().accept(client);
+                    toInvert.add(keyBind);
+                }
+            }
+        });
+
+        toInvert.forEach(keyBind -> HOLD_KEY_BINDS.put(keyBind, !HOLD_KEY_BINDS.get(keyBind)));
     }
 
     public record JamLibKeybind(String modId, String name, int keyCode, Consumer<MinecraftClient> wasPressedConsumer) {
     }
 
     private record JamLibKeybindImpl(KeyBind keyBind, Consumer<MinecraftClient> wasPressedConsumer) {
+    }
+
+    public record JamLibHoldKeybind(String modId, String name, int keyCode, Consumer<MinecraftClient> onPress, Consumer<MinecraftClient> onRelease) {
+    }
+
+    private record JamLibHoldKeybindImpl(KeyBind keyBind, Consumer<MinecraftClient> onPress, Consumer<MinecraftClient> onRelease) {
     }
 }

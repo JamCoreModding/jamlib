@@ -47,6 +47,14 @@ public class JamLibTestClient implements ClientModInitializer {
                 (client) -> JamLibTestNetwork.NETWORK_KEYBIND_PRESS.send((buf) -> buf.writeInt(RANDOM.nextInt(100)))
         ));
 
+        JamLibKeybinds.register(new JamLibKeybinds.JamLibHoldKeybind(
+                "jamlib-test",
+                "hold",
+                InputUtil.KEY_V_CODE,
+                (client) -> client.player.sendMessage(Text.literal("Hold Begin"), true),
+                (client) -> client.player.sendMessage(Text.literal("Hold End"), true)
+        ));
+
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.setHandler(((client, handler, buf, responseSender) -> client.player.sendMessage(Text.literal("Response: " + buf.readInt()), false)));
 
         JamLibClientNetworking.registerHandlers("jamlib-test");
