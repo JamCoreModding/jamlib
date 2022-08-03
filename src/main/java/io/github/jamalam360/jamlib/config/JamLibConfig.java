@@ -50,6 +50,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 import java.awt.*;
+import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -227,11 +228,21 @@ public abstract class JamLibConfig {
     public static void write(String modid) {
         path = FabricLoader.getInstance().getConfigDir().resolve(modid + ".json");
         try {
-            if (!Files.exists(path)) Files.createFile(path);
+            if (!Files.exists(path)) {Files.createFile(path);}
             Files.write(path, gson.toJson(configClass.get(modid).getDeclaredConstructor().newInstance()).getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void reloadAll() {
+        configClass.keySet().forEach((modId) -> {
+            try {
+                gson.fromJson(Files.newBufferedReader(FabricLoader.getInstance().getConfigDir().resolve(modId + ".json")), configClass.get(modId));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Environment(EnvType.CLIENT)

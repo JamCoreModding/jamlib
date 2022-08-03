@@ -24,13 +24,17 @@
 
 package io.github.jamalam360.jamlib.test;
 
+import io.github.jamalam360.jamlib.config.JamLibConfig;
 import io.github.jamalam360.jamlib.log.JamLibLogger;
 import io.github.jamalam360.jamlib.network.JamLibServerNetworking;
 import io.github.jamalam360.jamlib.registry.JamLibRegistry;
 import io.github.jamalam360.jamlib.test.registry.TestBlocks;
 import io.github.jamalam360.jamlib.test.registry.TestItems;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.text.Text;
+
+import static net.minecraft.server.command.CommandManager.literal;
 
 public class JamLibTest implements ModInitializer {
     public static final String MOD_ID = "jamlib-test";
@@ -48,6 +52,18 @@ public class JamLibTest implements ModInitializer {
 
         JamLibServerNetworking.registerHandlers("jamlib-test");
 
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("jamlib-test").then(literal("config").executes(context -> {
+            context.getSource().sendFeedback(Text.literal(String.valueOf(Config.testInt)), false);
+            return 1;
+        }))));
+
+        JamLibConfig.init("jamlib-test", Config.class);
+
         LOGGER.logInitialize();
+    }
+
+    public static class Config extends JamLibConfig {
+        @JamLibConfig.Entry
+        public static int testInt = 0;
     }
 }

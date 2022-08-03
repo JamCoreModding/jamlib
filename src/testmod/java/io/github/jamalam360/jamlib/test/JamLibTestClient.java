@@ -25,6 +25,9 @@
 package io.github.jamalam360.jamlib.test;
 
 import com.mojang.blaze3d.platform.InputUtil;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+import io.github.jamalam360.jamlib.config.JamLibConfig;
 import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
 import io.github.jamalam360.jamlib.network.JamLibClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
@@ -35,7 +38,7 @@ import java.util.Random;
 /**
  * @author Jamalam360
  */
-public class JamLibTestClient implements ClientModInitializer {
+public class JamLibTestClient implements ClientModInitializer, ModMenuApi {
     public static final Random RANDOM = new Random();
 
     @Override
@@ -58,5 +61,10 @@ public class JamLibTestClient implements ClientModInitializer {
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.setHandler(((client, handler, buf, responseSender) -> client.player.sendMessage(Text.literal("Response: " + buf.readInt()), false)));
 
         JamLibClientNetworking.registerHandlers("jamlib-test");
+    }
+
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return (parent) -> JamLibConfig.getScreen(parent, "jamlib-test");
     }
 }

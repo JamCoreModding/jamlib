@@ -24,10 +24,16 @@
 
 package io.github.jamalam360.jamlib;
 
+import io.github.jamalam360.jamlib.config.JamLibConfig;
+import io.github.jamalam360.jamlib.log.JamLibLogger;
 import io.github.jamalam360.jamlib.tick.TickScheduling;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import io.github.jamalam360.jamlib.log.JamLibLogger;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.text.Text;
+
+import static net.minecraft.server.command.CommandManager.literal;
 
 public class JamLib implements ModInitializer {
     public static final JamLibLogger LOGGER = JamLibLogger.getLogger("jamlib");
@@ -35,6 +41,24 @@ public class JamLib implements ModInitializer {
     @Override
     public void onInitialize() {
         ServerTickEvents.END_WORLD_TICK.register(TickScheduling::onEndTickServer);
+
+        //noinspection CodeBlock2Expr
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, env) -> {
+            dispatcher.register(
+                    literal("jamlib").then(
+                            literal("version").executes(context -> {
+                                //noinspection OptionalGetWithoutIsPresent
+                                context.getSource().sendFeedback(Text.literal("JamLib " + FabricLoader.getInstance().getModContainer("jamlib").get().getMetadata().getVersion()), false);
+                                return 1;
+                            })
+                    ).then(literal("config").then(literal("reload").executes(context -> {
+                        JamLibConfig.reloadAll();
+                        context.getSource().sendFeedback(Text.literal("JamLib configs reloaded"), false);
+                        return 1;
+                    })))
+            );
+        });
+
         LOGGER.logInitialize();
     }
 }

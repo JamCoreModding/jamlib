@@ -20,6 +20,9 @@
     ],
     "client": [
       "io.github.jamalam360.jamlib.test.JamLibTestClient"
+    ],
+    "modmenu": [
+      "io.github.jamalam360.jamlib.test.JamLibTestClient"
     ]
   },
   "mixins": [
