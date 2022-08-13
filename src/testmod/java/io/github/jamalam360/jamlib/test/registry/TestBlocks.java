@@ -43,7 +43,7 @@ public class TestBlocks {
     public static final Block TEST_BLOCK = new Block(FabricBlockSettings.of(Material.STONE));
 
     @BlockItemFactory
-    public static Item createBlockItem(Block block) {
+    public static BlockItem createBlockItem(Block block) {
         return new BlockItem(block, new FabricItemSettings().group(ItemGroup.MISC));
     }
 }

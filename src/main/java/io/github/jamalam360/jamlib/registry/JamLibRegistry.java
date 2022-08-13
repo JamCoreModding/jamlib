@@ -75,15 +75,15 @@ public class JamLibRegistry {
 
             Identifier fId = getIdentifier(modId, f);
 
-            if (fClass.isAssignableFrom(Item.class)) {
+            if (Item.class.isAssignableFrom(fClass)) {
                 Registry.register(Registry.ITEM, fId, (Item) fObj);
-            } else if (fClass.isAssignableFrom(Block.class)) {
+            } else if (Block.class.isAssignableFrom(fClass)) {
                 Registry.register(Registry.BLOCK, fId, (Block) fObj);
 
                 if (!checkedForBlockItemCreator) {
                     for (Method method : registry.getDeclaredMethods()) {
                         if (method.isAnnotationPresent(BlockItemFactory.class)) {
-                            if (method.getParameterTypes().length != 1 || !method.getParameterTypes()[0].isAssignableFrom(Block.class) || !method.getReturnType().isAssignableFrom(Item.class)) {
+                            if (method.getParameterTypes().length != 1 || !Block.class.isAssignableFrom(method.getParameterTypes()[0]) || !Item.class.isAssignableFrom(method.getReturnType())) {
                                 throw new IllegalArgumentException("@BlockItemFactory method " + method.getName() + " in registry class " + registry.getName() + " has invalid parameters or return type.");
                             }
 
@@ -105,13 +105,13 @@ public class JamLibRegistry {
                     } catch (Exception ignored) {
                     }
                 }
-            } else if (fClass.isAssignableFrom(BlockEntityType.class)) {
+            } else if (BlockEntityType.class.isAssignableFrom(fClass)) {
                 Registry.register(Registry.BLOCK_ENTITY_TYPE, fId, (BlockEntityType<?>) fObj);
-            } else if (fClass.isAssignableFrom(EntityType.class)) {
+            } else if (EntityType.class.isAssignableFrom(fClass)) {
                 Registry.register(Registry.ENTITY_TYPE, fId, (EntityType<?>) fObj);
-            } else if (fClass.isAssignableFrom(Enchantment.class)) {
+            } else if (Enchantment.class.isAssignableFrom(fClass)) {
                 Registry.register(Registry.ENCHANTMENT, fId, (Enchantment) fObj);
-            } else if (fClass.isAssignableFrom(ScreenHandlerType.class)) {
+            } else if (ScreenHandlerType.class.isAssignableFrom(fClass)) {
                 Registry.register(Registry.SCREEN_HANDLER, fId, (ScreenHandlerType<?>) fObj);
             }
         }

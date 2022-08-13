@@ -1,10 +1,7 @@
 ## Changelog
 
-### Features
-
-- Add `/jamlib version`.
-- Add `/jamlib config reload`, to reload config changes from the disk without restarting.
+Fixes a reflection issue with the registry module.
 
 Closed issues: None.
 
-[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.4.1...0.4.2)
+[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.4.2...0.4.3)
