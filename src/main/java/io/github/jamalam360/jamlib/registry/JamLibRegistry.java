@@ -34,7 +34,10 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -113,6 +116,12 @@ public class JamLibRegistry {
                 Registry.register(Registry.ENCHANTMENT, fId, (Enchantment) fObj);
             } else if (ScreenHandlerType.class.isAssignableFrom(fClass)) {
                 Registry.register(Registry.SCREEN_HANDLER, fId, (ScreenHandlerType<?>) fObj);
+            } else if (SoundEvent.class.isAssignableFrom(fClass)) {
+                Registry.register(Registry.SOUND_EVENT, fId, (SoundEvent) fObj);
+            } else if (RecipeSerializer.class.isAssignableFrom(fClass)) {
+                Registry.register(Registry.RECIPE_SERIALIZER, fId, (RecipeSerializer<?>) fObj);
+            } else if (RecipeType.class.isAssignableFrom(fClass)) {
+                Registry.register(Registry.RECIPE_TYPE, fId, (RecipeType<?>) fObj);
             }
         }
     }
