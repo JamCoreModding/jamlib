@@ -24,7 +24,10 @@
 
 package io.github.jamalam360.jamlib.test;
 
-import io.github.jamalam360.jamlib.config.JamLibConfig;
+import io.github.jamalam360.jamlib.config.v2.Description;
+import io.github.jamalam360.jamlib.config.v2.Excluded;
+import io.github.jamalam360.jamlib.config.v2.JamLibConfig;
+import io.github.jamalam360.jamlib.config.v2.NestedConfig;
 import io.github.jamalam360.jamlib.log.JamLibLogger;
 import io.github.jamalam360.jamlib.network.JamLibServerNetworking;
 import io.github.jamalam360.jamlib.registry.JamLibRegistry;
@@ -33,6 +36,7 @@ import io.github.jamalam360.jamlib.test.registry.TestItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -57,13 +61,71 @@ public class JamLibTest implements ModInitializer {
             return 1;
         }))));
 
-        JamLibConfig.init("jamlib-test", Config.class);
+//        JamLibConfig.init("jamlib-test", Config.class);
+        JamLibConfig.register(Config.class);
+
+        System.out.println(new Config());
+        System.out.println(new Config.Favourites());
+        System.out.println(new Config.Favourites.Activity());
 
         LOGGER.logInitialize();
     }
 
-    public static class Config extends JamLibConfig {
-        @JamLibConfig.Entry
+    public enum Cheese {
+        CHEDDAR,
+        BRIE,
+        COTTAGE_CHEESE,
+        MOZZARELLA
+    }
+
+    @io.github.jamalam360.jamlib.config.v2.Config("jamlib-test")
+    public static class Config {
         public static int testInt = 0;
+        public static boolean testBoolean = false;
+        public static Identifier dirt = new Identifier("minecraft:dirt");
+        @Description("There is only one correct answer.")
+        public static Cheese bestCheese = Cheese.CHEDDAR;
+        @Excluded
+        public static String ignored = "i am not here";
+
+        @Override
+        public String toString() {
+            return "Config{" +
+                    "testInt=" + testInt +
+                    ", testBoolean=" + testBoolean +
+                    ", dirt=" + dirt +
+                    ", bestCheese=" + bestCheese +
+                    ", ignored='" + ignored + '\'' +
+                    '}';
+        }
+
+        @NestedConfig("favourites")
+        public static class Favourites {
+            public static String food = "Pizza";
+            public static String drink = "Coke";
+
+            @Override
+            public String toString() {
+                return "Favourites{" +
+                        "food='" + food + '\'' +
+                        ", drink='" + drink + '\'' +
+                        '}';
+            }
+
+            @Description("What is your favourite activity?")
+            @NestedConfig("activities")
+            public static class Activity {
+                public static String sport = "Basketball";
+                public static String music = "Rock";
+
+                @Override
+                public String toString() {
+                    return "Activity{" +
+                            "sport='" + sport + '\'' +
+                            ", music='" + music + '\'' +
+                            '}';
+                }
+            }
+        }
     }
 }

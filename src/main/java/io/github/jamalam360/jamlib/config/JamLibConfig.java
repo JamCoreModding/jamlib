@@ -67,17 +67,19 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
- * MidnightConfig v2.1.0 by TeamMidnightDust & Motschen
+ * MidnightConfig v2.1.0 by TeamMidnightDust & Motschen.
  * Single class config library - feel free to copy!
- * <a href="https://github.com/TeamMidnightDust/MidnightLib/blob/main/src/main/java/eu/midnightdust/lib/config/MidnightConfig.java">https://github.com/TeamMidnightDust/MidnightLib/blob/main/src/main/java/eu/midnightdust/lib/config/MidnightConfig.java</a>
+ * <a href="https://github.com/TeamMidnightDust/MidnightLib/blob/main/src/main/java/eu/midnightdust/lib/config/MidnightConfig.java">https://github.com/TeamMidnightDust/MidnightLib/blob/main/src/main/java/eu/midnightdust/lib/config/MidnightConfig.java</a>.
  * <p>
  * Based on <a href="https://github.com/Minenash/TinyConfig">https://github.com/Minenash/TinyConfig</a>
- * Credits to Minenash
+ * Credits to Minenash.
  * <p>
- * <p>
- * Adapted by Jamalam for use in JamLib
+ * Adapted by Jamalam for use in JamLib.
+ *
+ * @deprecated Replaced by {@link io.github.jamalam360.jamlib.config.v2.JamLibConfig}.
  */
 
+@Deprecated(since = "0.5.0")
 @SuppressWarnings({"unchecked", "unused"})
 public abstract class JamLibConfig {
     private static final Pattern INTEGER_ONLY = Pattern.compile("(-?\\d*)");

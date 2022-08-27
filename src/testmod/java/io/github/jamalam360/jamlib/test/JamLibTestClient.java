@@ -27,7 +27,7 @@ package io.github.jamalam360.jamlib.test;
 import com.mojang.blaze3d.platform.InputUtil;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import io.github.jamalam360.jamlib.config.JamLibConfig;
+import io.github.jamalam360.jamlib.config.v2.JamLibConfigScreen;
 import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
 import io.github.jamalam360.jamlib.network.JamLibClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
@@ -65,6 +65,6 @@ public class JamLibTestClient implements ClientModInitializer, ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return (parent) -> JamLibConfig.getScreen(parent, "jamlib-test");
+        return (parent) -> new JamLibConfigScreen(parent, "jamlib-test");
     }
 }

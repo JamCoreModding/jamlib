@@ -53,7 +53,9 @@ loom {
 
 repositories {
     val mavenUrls = mapOf(
-        Pair("https://maven.terraformersmc.com/releases", listOf("com.terraformersmc"))
+            Pair("https://maven.terraformersmc.com/releases", listOf("com.terraformersmc")),
+            Pair("https://maven.quiltmc.org/repository/release/", listOf("org.quiltmc")),
+            Pair("https://api.modrinth.com/maven", listOf("maven.modrinth")),
     )
 
     for (mavenPair in mavenUrls) {
@@ -74,9 +76,8 @@ dependencies {
         addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.mappings.build.get()}:v2"))
     })
 
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.api)
-
-    modApi(libs.optional.mod.menu)
+    modImplementation(libs.bundles.fabric)
+    modApi(libs.bundles.required)
+    modImplementation(libs.bundles.optional)
+    modLocalRuntime(libs.bundles.runtime)
 }
-
