@@ -66,7 +66,7 @@ public class JamLibLogger {
     }
 
     public void logInitialize() {
-        logger.info("Mod initialized!");
+        this.info("Mod initialized!");
     }
 
     public Logger getUnderlyingLogger() {
