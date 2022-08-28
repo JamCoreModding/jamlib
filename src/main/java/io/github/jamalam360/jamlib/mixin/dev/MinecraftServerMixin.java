@@ -24,6 +24,7 @@
 
 package io.github.jamalam360.jamlib.mixin.dev;
 
+import io.github.jamalam360.jamlib.JamLib;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,6 +44,7 @@ public class MinecraftServerMixin {
     )
     public void jamlib$setNotOnlineInDev(CallbackInfoReturnable<Boolean> cir) {
         if (System.getProperty("jamlib.dev.disable-offline-mode") == null) {
+            JamLib.LOGGER.info("Offline mode has been enabled automatically - use the property `jamlib.dev.disable-offline-mode` to disable this.");
             cir.setReturnValue(false);
         }
     }

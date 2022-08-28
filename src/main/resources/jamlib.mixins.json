@@ -9,7 +9,8 @@
   ],
   "client": [
     "dev.session.MinecraftClientMixin",
-    "dev.session.RunArgsNetworkMixin"
+    "dev.session.RunArgsNetworkMixin",
+    "event.client.MouseMixin"
   ],
   "server": [],
   "injectors": {

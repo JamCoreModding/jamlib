@@ -24,6 +24,7 @@
 
 package io.github.jamalam360.jamlib.mixin.dev;
 
+import io.github.jamalam360.jamlib.JamLib;
 import net.minecraft.server.dedicated.EulaReader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,6 +44,7 @@ public class EulaReaderMixin {
     )
     public void jamlib$setEulaAlwaysAgreedToInDev(CallbackInfoReturnable<Boolean> cir) {
         if (System.getProperty("jamlib.dev.disable-eula-auto-agree") == null) {
+            JamLib.LOGGER.info("EULA has been agreed to automatically - use the property `jamlib.dev.disable-eula-auto-agree` to disable this.");
             cir.setReturnValue(true);
         }
     }
