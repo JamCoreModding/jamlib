@@ -51,11 +51,7 @@ public class JamLib implements ModInitializer {
                                 context.getSource().sendFeedback(Text.literal("JamLib " + FabricLoader.getInstance().getModContainer("jamlib").get().getMetadata().getVersion()), false);
                                 return 1;
                             })
-                    ).then(literal("config").then(literal("reload").executes(context -> {
-                        JamLibConfig.reloadAll();
-                        context.getSource().sendFeedback(Text.literal("JamLib configs reloaded"), false);
-                        return 1;
-                    })))
+                    )
             );
         });
 
