@@ -1,8 +1,8 @@
 plugins {
     id("fabric-loom") version "1.0-SNAPSHOT"
-    id("io.github.juuxel.loom-quiltflower") version "1.7.+"
+    id("io.github.juuxel.loom-quiltflower") version "1.8.+"
     id("io.github.p03w.machete") version "1.+"
-    id("org.cadixdev.licenser") version "0.6.1"
+    id("org.cadixdev.licenser") version "0.6.+"
 }
 
 apply(from = "https://raw.githubusercontent.com/JamCoreModding/Gronk/main/publishing.gradle.kts")

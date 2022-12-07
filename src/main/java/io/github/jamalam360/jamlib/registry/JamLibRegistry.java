@@ -29,6 +29,8 @@ import io.github.jamalam360.jamlib.registry.annotation.BlockItemFactory;
 import io.github.jamalam360.jamlib.registry.annotation.ContentRegistry;
 import io.github.jamalam360.jamlib.registry.annotation.WithIdentifier;
 import io.github.jamalam360.jamlib.registry.annotation.WithoutBlockItem;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
@@ -36,16 +38,15 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 @SuppressWarnings("unused")
 public class JamLibRegistry {
+
     public static void register(Class<?>... registries) {
         for (Class<?> clazz : registries) {
             register(clazz);
@@ -79,9 +80,9 @@ public class JamLibRegistry {
             Identifier fId = getIdentifier(modId, f);
 
             if (Item.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.ITEM, fId, (Item) fObj);
+                Registry.register(Registries.ITEM, fId, (Item) fObj);
             } else if (Block.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.BLOCK, fId, (Block) fObj);
+                Registry.register(Registries.BLOCK, fId, (Block) fObj);
 
                 if (!checkedForBlockItemCreator) {
                     for (Method method : registry.getDeclaredMethods()) {
@@ -104,24 +105,22 @@ public class JamLibRegistry {
 
                 if (blockItemCreator != null && !f.isAnnotationPresent(WithoutBlockItem.class)) {
                     try {
-                        Registry.register(Registry.ITEM, fId, (Item) blockItemCreator.invoke(null, fObj));
+                        Registry.register(Registries.ITEM, fId, (Item) blockItemCreator.invoke(null, fObj));
                     } catch (Exception ignored) {
                     }
                 }
             } else if (BlockEntityType.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.BLOCK_ENTITY_TYPE, fId, (BlockEntityType<?>) fObj);
+                Registry.register(Registries.BLOCK_ENTITY_TYPE, fId, (BlockEntityType<?>) fObj);
             } else if (EntityType.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.ENTITY_TYPE, fId, (EntityType<?>) fObj);
+                Registry.register(Registries.ENTITY_TYPE, fId, (EntityType<?>) fObj);
             } else if (Enchantment.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.ENCHANTMENT, fId, (Enchantment) fObj);
+                Registry.register(Registries.ENCHANTMENT, fId, (Enchantment) fObj);
             } else if (ScreenHandlerType.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.SCREEN_HANDLER, fId, (ScreenHandlerType<?>) fObj);
+                Registry.register(Registries.SCREEN_HANDLER_TYPE, fId, (ScreenHandlerType<?>) fObj);
             } else if (SoundEvent.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.SOUND_EVENT, fId, (SoundEvent) fObj);
-            } else if (RecipeSerializer.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.RECIPE_SERIALIZER, fId, (RecipeSerializer<?>) fObj);
+                Registry.register(Registries.RECIPE_SERIALIZER, fId, (RecipeSerializer<?>) fObj);
             } else if (RecipeType.class.isAssignableFrom(fClass)) {
-                Registry.register(Registry.RECIPE_TYPE, fId, (RecipeType<?>) fObj);
+                Registry.register(Registries.RECIPE_TYPE, fId, (RecipeType<?>) fObj);
             }
         }
     }
