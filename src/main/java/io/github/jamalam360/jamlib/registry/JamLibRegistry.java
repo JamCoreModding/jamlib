@@ -25,17 +25,20 @@
 package io.github.jamalam360.jamlib.registry;
 
 import io.github.jamalam360.jamlib.JamLib;
-import io.github.jamalam360.jamlib.registry.annotation.BlockItemFactory;
 import io.github.jamalam360.jamlib.registry.annotation.ContentRegistry;
 import io.github.jamalam360.jamlib.registry.annotation.WithIdentifier;
 import io.github.jamalam360.jamlib.registry.annotation.WithoutBlockItem;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
@@ -46,6 +49,8 @@ import net.minecraft.util.Identifier;
 
 @SuppressWarnings("unused")
 public class JamLibRegistry {
+
+    protected static final HashMap<ItemGroup, List<Item>> ITEM_GROUP_REGISTRATION_QUEUE = new HashMap<>();
 
     public static void register(Class<?>... registries) {
         for (Class<?> clazz : registries) {
@@ -60,8 +65,15 @@ public class JamLibRegistry {
         }
 
         String modId = registry.getAnnotation(ContentRegistry.class).value();
-        boolean checkedForBlockItemCreator = false;
-        Method blockItemCreator = null;
+        JamLibContentRegistry jlcr = null;
+
+        if (JamLibContentRegistry.class.isAssignableFrom(registry)) {
+            try {
+                jlcr = (JamLibContentRegistry) registry.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                JamLib.LOGGER.warn("Couldn't create instance of registry " + registry.getName() + ", some features will not be available");
+            }
+        }
 
         for (Field f : registry.getFields()) {
             if (!f.canAccess(null)) {
@@ -81,33 +93,37 @@ public class JamLibRegistry {
 
             if (Item.class.isAssignableFrom(fClass)) {
                 Registry.register(Registries.ITEM, fId, (Item) fObj);
+
+                if (jlcr == null) {
+                    continue;
+                }
+                ItemGroup group = jlcr.getItemGroup((Item) fObj);
+                if (group == null) {
+                    continue;
+                }
+
+                List<Item> l = ITEM_GROUP_REGISTRATION_QUEUE.getOrDefault(group, new ArrayList<>());
+                l.add((Item) fObj);
+                ITEM_GROUP_REGISTRATION_QUEUE.put(group, l);
             } else if (Block.class.isAssignableFrom(fClass)) {
                 Registry.register(Registries.BLOCK, fId, (Block) fObj);
 
-                if (!checkedForBlockItemCreator) {
-                    for (Method method : registry.getDeclaredMethods()) {
-                        if (method.isAnnotationPresent(BlockItemFactory.class)) {
-                            if (method.getParameterTypes().length != 1 || !Block.class.isAssignableFrom(method.getParameterTypes()[0]) || !Item.class.isAssignableFrom(method.getReturnType())) {
-                                throw new IllegalArgumentException("@BlockItemFactory method " + method.getName() + " in registry class " + registry.getName() + " has invalid parameters or return type.");
-                            }
-
-                            if (!method.canAccess(null)) {
-                                throw new IllegalArgumentException("Cannot access @BlockItemFactory method " + method.getName() + " in registry class " + registry.getName());
-                            }
-
-                            blockItemCreator = method;
-                            break;
-                        }
+                if (jlcr != null && !f.isAnnotationPresent(WithoutBlockItem.class)) {
+                    Item item = jlcr.createBlockItem((Block) fObj);
+                    if (item == null) {
+                        continue;
                     }
 
-                    checkedForBlockItemCreator = true;
-                }
+                    Registry.register(Registries.ITEM, fId, item);
 
-                if (blockItemCreator != null && !f.isAnnotationPresent(WithoutBlockItem.class)) {
-                    try {
-                        Registry.register(Registries.ITEM, fId, (Item) blockItemCreator.invoke(null, fObj));
-                    } catch (Exception ignored) {
+                    ItemGroup group = jlcr.getItemGroup(item);
+                    if (group == null) {
+                        continue;
                     }
+
+                    List<Item> l = ITEM_GROUP_REGISTRATION_QUEUE.getOrDefault(group, new ArrayList<>());
+                    l.add(item);
+                    ITEM_GROUP_REGISTRATION_QUEUE.put(group, l);
                 }
             } else if (BlockEntityType.class.isAssignableFrom(fClass)) {
                 Registry.register(Registries.BLOCK_ENTITY_TYPE, fId, (BlockEntityType<?>) fObj);
@@ -122,6 +138,14 @@ public class JamLibRegistry {
             } else if (RecipeType.class.isAssignableFrom(fClass)) {
                 Registry.register(Registries.RECIPE_TYPE, fId, (RecipeType<?>) fObj);
             }
+        }
+
+        for (ItemGroup group : ITEM_GROUP_REGISTRATION_QUEUE.keySet()) {
+            ItemGroupEvents.modifyEntriesEvent(group).register((content) -> {
+                for (Item item : ITEM_GROUP_REGISTRATION_QUEUE.get(group)) {
+                    content.addStack(item.getDefaultStack());
+                }
+            });
         }
     }
 

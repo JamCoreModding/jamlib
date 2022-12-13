@@ -1,5 +1,9 @@
 ## Changelog
 
-This release ports JamLib to 1.19.3, and drops active support for other 1.19 releases.
+### Features
 
-[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.5.0...0.5.1)
+- New `ItemGroup` API for 1.19.3.
+
+Closed issues: None.
+
+[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/0.5.1...0.5.2)
