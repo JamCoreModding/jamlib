@@ -2,8 +2,9 @@
 
 ### Features
 
+- Add a logger that is only active in development environments.
+
 ### Fixes
 
-Closed issues: None.
 
 [Full Changelog](https://github.com/JamCoreModding/JamLib/compare/...)

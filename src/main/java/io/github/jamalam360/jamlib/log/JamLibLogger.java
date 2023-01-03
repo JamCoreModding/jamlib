@@ -34,35 +34,45 @@ import org.apache.logging.log4j.Logger;
 @SuppressWarnings("unused")
 public class JamLibLogger {
     private final String modId;
+    private final boolean developmentOnly;
     private final Logger logger;
 
-    private JamLibLogger(String modId) {
+    private JamLibLogger(String modId, boolean developmentOnly) {
         this.modId = modId;
         this.logger = LogManager.getLogger(modId);
+        this.developmentOnly = developmentOnly;
     }
 
     public static JamLibLogger getLogger(String modId) {
-        return new JamLibLogger(modId);
+        return new JamLibLogger(modId, false);
     }
+
+    public static JamLibLogger getDevelopmentOnlyLogger(String modId) { return new JamLibLogger(modId, true); }
 
     private String addModId(String message) {
         if (!FabricLoader.getInstance().isDevelopmentEnvironment()) {
             message = "[" + modId + "] " + message;
         }
 
-        return message;
+        return this.developmentOnly ? "(Development Only) " + message : message;
     }
 
     public void info(String message) {
-        logger.info(addModId(message));
+        if (this.isActive()) {
+            logger.info(addModId(message));
+        }
     }
 
     public void warn(String message) {
-        logger.warn(addModId(message));
+        if (this.isActive()) {
+            logger.warn(addModId(message));
+        }
     }
 
     public void error(String message) {
-        logger.error(addModId(message));
+        if (this.isActive()) {
+            logger.error(addModId(message));
+        }
     }
 
     public void logInitialize() {
@@ -71,5 +81,9 @@ public class JamLibLogger {
 
     public Logger getUnderlyingLogger() {
         return logger;
+    }
+
+    public boolean isActive() {
+        return !this.developmentOnly || (this.developmentOnly && FabricLoader.getInstance().isDevelopmentenvironment());
     }
 }
