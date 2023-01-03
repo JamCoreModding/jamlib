@@ -31,18 +31,24 @@ import io.github.jamalam360.jamlib.registry.annotation.WithIdentifier;
 import io.github.jamalam360.jamlib.registry.annotation.WithoutBlockItem;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.command.argument.ArgumentTypeInfo;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.Schedule;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.effect.StatusEffect;
@@ -107,7 +113,7 @@ public class JamLibRegistry {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "DataFlowIssue"})
     public static void register(Class<?> registry) {
         if (!registry.isAnnotationPresent(ContentRegistry.class)) {
             JamLib.LOGGER.warn("@ContentRegistry annotation not present on registry class " + registry.getName());
@@ -165,6 +171,23 @@ public class JamLibRegistry {
                     try {
                         Registry.register(Registry.ITEM, fId, (Item) blockItemCreator.invoke(null, fObj));
                     } catch (Exception ignored) {
+                    }
+                }
+            }
+
+            if (EntityType.class.isAssignableFrom(fClass)) {
+                Class<? extends Entity> entityClass = ((EntityType<?>) fObj).getBaseClass();
+
+                for (Method method : entityClass.getDeclaredMethods()) {
+                    if (Modifier.isStatic(method.getModifiers()) && method.getParameterTypes().length == 0 && method.getReturnType() == DefaultAttributeContainer.Builder.class) {
+                        JamLib.DEV_LOGGER.info("Registering entity attributes for " + entityClass.getName() + " automatically");
+
+                        try {
+                            FabricDefaultAttributeRegistry.register((EntityType<? extends LivingEntity>) fObj, (Builder) method.invoke(null));
+                        } catch (Exception e) {
+                            JamLib.LOGGER.warn("Failed to register entity attributes for " + entityClass.getName());
+                            JamLib.LOGGER.warn(e.toString());
+                        }
                     }
                 }
             }

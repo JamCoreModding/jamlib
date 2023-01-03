@@ -6,4 +6,4 @@
 
 Closed issues: None.
 
-[Full Changelog](https://github.com/JamCoreModding/JamLib/compare/...)
+[Full Changelog](https://github.com/JamCoreModding/jam-lib/compare/...)
