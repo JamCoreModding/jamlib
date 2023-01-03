@@ -1,6 +1,6 @@
 plugins {
     id("fabric-loom") version "1.0-SNAPSHOT"
-    id("io.github.juuxel.loom-quiltflower") version "1.7.+"
+    id("io.github.juuxel.loom-quiltflower") version "1.+"
     id("io.github.p03w.machete") version "1.+"
     id("org.cadixdev.licenser") version "0.6.1"
 }
@@ -16,7 +16,8 @@ version = mod_version
 repositories {
     val mavenUrls = mapOf(
             Pair("https://maven.terraformersmc.com/releases", listOf("com.terraformersmc")),
-            Pair("https://maven.quiltmc.org/repository/release/", listOf("org.quiltmc")),
+            Pair("https://maven.quiltmc.org/repository/release/", listOf("org.quiltmc", "org.quiltmc.unpick")),
+            Pair("https://maven.quiltmc.org/repository/snapshot/", listOf("org.quiltmc", "org.quiltmc.unpick")),
             Pair("https://api.modrinth.com/maven", listOf("maven.modrinth")),
     )
 
