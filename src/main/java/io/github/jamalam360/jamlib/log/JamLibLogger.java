@@ -84,6 +84,6 @@ public class JamLibLogger {
     }
 
     public boolean isActive() {
-        return !this.developmentOnly || (this.developmentOnly && FabricLoader.getInstance().isDevelopmentenvironment());
+        return !this.developmentOnly || FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 }
