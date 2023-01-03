@@ -25,7 +25,7 @@ public class JamLibCompatibilityModuleHandler {
                 JamLib.LOGGER.info("Initializing", modId, "compatibility module for", e.getKey());
 
                 try {
-                    Class<?> clazz = Class.forName("io.github.jamalam360.honk.compatibility." + e.getValue().getAsString());
+                    Class<?> clazz = Class.forName(e.getValue().getAsString());
                     ModInitializer init = (ModInitializer) clazz.getConstructor().newInstance();
                     init.onInitialize();
                 } catch (Exception exception) {

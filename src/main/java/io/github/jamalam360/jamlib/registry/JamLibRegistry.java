@@ -32,6 +32,7 @@ import io.github.jamalam360.jamlib.registry.annotation.WithoutBlockItem;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Map;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -176,17 +177,27 @@ public class JamLibRegistry {
             }
 
             if (EntityType.class.isAssignableFrom(fClass)) {
-                Class<? extends Entity> entityClass = ((EntityType<?>) fObj).getBaseClass();
+                Class<? extends Entity> entityClass = null;
+                try {
+                    entityClass = (Class<? extends Entity>) Class.forName(((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0].getTypeName());
+                } catch (ClassNotFoundException e) {
+                    JamLib.LOGGER.warn("Encountered error registering entity attributes. This should absolutely be reported. Reflection was a mistake...");
+                    JamLib.LOGGER.warn(e.toString());
+                }
 
-                for (Method method : entityClass.getDeclaredMethods()) {
-                    if (Modifier.isStatic(method.getModifiers()) && method.getParameterTypes().length == 0 && method.getReturnType() == DefaultAttributeContainer.Builder.class) {
-                        JamLib.DEV_LOGGER.info("Registering entity attributes for", entityClass.getName(), "automatically");
+                if (entityClass != null) {
+                    for (Method method : entityClass.getMethods()) {
+                        if (method.getDeclaringClass() == entityClass && Modifier.isStatic(method.getModifiers()) && method.getParameterCount() == 0 && method.getReturnType() == DefaultAttributeContainer.Builder.class) {
+                            JamLib.DEV_LOGGER.info("Registering entity attributes for", entityClass.getName(), "automatically");
 
-                        try {
-                            FabricDefaultAttributeRegistry.register((EntityType<? extends LivingEntity>) fObj, (Builder) method.invoke(null));
-                        } catch (Exception e) {
-                            JamLib.LOGGER.warn("Failed to register entity attributes for", entityClass.getName());
-                            JamLib.LOGGER.warn(e.toString());
+                            try {
+                                FabricDefaultAttributeRegistry.register((EntityType<? extends LivingEntity>) fObj, (Builder) method.invoke(null));
+                            } catch (Exception e) {
+                                JamLib.LOGGER.warn("Failed to register entity attributes for", entityClass.getName());
+                                JamLib.LOGGER.warn(e.toString());
+                            }
+
+                            break;
                         }
                     }
                 }

@@ -3,13 +3,14 @@
   "id": "jamlib",
   "version": "${version}",
   "name": "JamLib",
-  "description": "A general multipurpose library for JamCoreModding's mods",
+  "description": "A general multipurpose library for JamCoreModding's mods.",
   "authors": [
     "Jamalam"
   ],
   "contact": {
-    "sources": "https://github.com/JamCoreModding/JamLib",
-    "issues": "https://github.com/JamCoreModding/JamLib/issues"
+    "sources": "https://github.com/JamCoreModding/jam-lib",
+    "issues": "https://github.com/JamCoreModding/jam-lib/issues",
+    "wiki": "https://docs.jamalam.tech"
   },
   "license": "MIT",
   "icon": "assets/jamlib/icon.png",

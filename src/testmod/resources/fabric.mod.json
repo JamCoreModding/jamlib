@@ -33,7 +33,8 @@
     "fabric": "*"
   },
   "custom": {
-    "notify_gradle_properties_url": "https://raw.githubusercontent.com/JamCoreModding/JamLib/main/gradle.properties",
-    "notify_gradle_properties_key": "mod_version"
+    "jamlib:compatibility_modules": {
+      "fabric": "io.github.jamalam360.jamlib.test.TestCompatibilityModule"
+    }
   }
 }

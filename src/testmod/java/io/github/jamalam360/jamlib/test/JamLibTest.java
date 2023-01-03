@@ -24,25 +24,28 @@
 
 package io.github.jamalam360.jamlib.test;
 
+import static net.minecraft.server.command.CommandManager.literal;
+
+import io.github.jamalam360.jamlib.compatibility.JamLibCompatibilityModuleHandler;
 import io.github.jamalam360.jamlib.config.JamLibConfig;
 import io.github.jamalam360.jamlib.log.JamLibLogger;
 import io.github.jamalam360.jamlib.network.JamLibServerNetworking;
 import io.github.jamalam360.jamlib.registry.JamLibRegistry;
 import io.github.jamalam360.jamlib.test.registry.TestBlocks;
+import io.github.jamalam360.jamlib.test.registry.TestEntities;
 import io.github.jamalam360.jamlib.test.registry.TestItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.text.Text;
 
-import static net.minecraft.server.command.CommandManager.literal;
-
 public class JamLibTest implements ModInitializer {
+
     public static final String MOD_ID = "jamlib-test";
     public static final JamLibLogger LOGGER = JamLibLogger.getLogger(MOD_ID);
 
     @Override
     public void onInitialize() {
-        JamLibRegistry.register(TestItems.class, TestBlocks.class);
+        JamLibRegistry.register(TestItems.class, TestBlocks.class, TestEntities.class);
 
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS.setHandler(((server, player, handler, buf, responseSender) -> {
             int i = buf.readInt();
@@ -58,11 +61,13 @@ public class JamLibTest implements ModInitializer {
         }))));
 
         JamLibConfig.init("jamlib-test", Config.class);
+        JamLibCompatibilityModuleHandler.initialize(MOD_ID);
 
         LOGGER.logInitialize();
     }
 
     public static class Config extends JamLibConfig {
+
         @JamLibConfig.Entry
         public static int testInt = 0;
     }
