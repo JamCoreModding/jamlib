@@ -57,6 +57,8 @@ sourceSets {
 }
 
 loom {
+    runtimeOnlyLog4j.set(true)
+
     runs {
         create("testClient") {
             client()
