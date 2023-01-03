@@ -116,7 +116,7 @@ public class JamLibRegistry {
     @SuppressWarnings({"unchecked", "DataFlowIssue"})
     public static void register(Class<?> registry) {
         if (!registry.isAnnotationPresent(ContentRegistry.class)) {
-            JamLib.LOGGER.warn("@ContentRegistry annotation not present on registry class " + registry.getName());
+            JamLib.LOGGER.warn("@ContentRegistry annotation not present on registry class", registry.getName());
             return;
         }
 
@@ -126,7 +126,7 @@ public class JamLibRegistry {
 
         for (Field f : registry.getFields()) {
             if (!f.canAccess(null)) {
-                JamLib.LOGGER.warn("Cannot access field " + f.getName() + " in registry class " + registry.getName());
+                JamLib.LOGGER.warn("Cannot access field", f.getName(), "in registry class", registry.getName());
                 continue;
             }
 
@@ -180,12 +180,12 @@ public class JamLibRegistry {
 
                 for (Method method : entityClass.getDeclaredMethods()) {
                     if (Modifier.isStatic(method.getModifiers()) && method.getParameterTypes().length == 0 && method.getReturnType() == DefaultAttributeContainer.Builder.class) {
-                        JamLib.DEV_LOGGER.info("Registering entity attributes for " + entityClass.getName() + " automatically");
+                        JamLib.DEV_LOGGER.info("Registering entity attributes for", entityClass.getName(), "automatically");
 
                         try {
                             FabricDefaultAttributeRegistry.register((EntityType<? extends LivingEntity>) fObj, (Builder) method.invoke(null));
                         } catch (Exception e) {
-                            JamLib.LOGGER.warn("Failed to register entity attributes for " + entityClass.getName());
+                            JamLib.LOGGER.warn("Failed to register entity attributes for", entityClass.getName());
                             JamLib.LOGGER.warn(e.toString());
                         }
                     }

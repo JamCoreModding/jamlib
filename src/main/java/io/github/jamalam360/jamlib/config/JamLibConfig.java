@@ -85,7 +85,7 @@ public abstract class JamLibConfig {
         path = FabricLoader.getInstance().getConfigDir().resolve(modid + ".json");
         configClass.put(modid, config);
 
-        JamLib.LOGGER.info("Registered config for " + modid);
+        JamLib.LOGGER.info("Registered config for", modid);
 
         for (Field field : config.getFields()) {
             EntryInfo info = new EntryInfo();

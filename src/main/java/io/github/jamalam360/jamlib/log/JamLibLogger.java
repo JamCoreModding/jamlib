@@ -49,29 +49,29 @@ public class JamLibLogger {
 
     public static JamLibLogger getDevelopmentOnlyLogger(String modId) { return new JamLibLogger(modId, true); }
 
-    private String addModId(String message) {
+    private String addModId(String... messages) {
         if (!FabricLoader.getInstance().isDevelopmentEnvironment()) {
-            message = "[" + modId + "] " + message;
+            messages[0] = "[" + modId + "] " + messages[0];
         }
 
-        return this.developmentOnly ? "(Development Only) " + message : message;
+        return this.developmentOnly ? "(Development Only) " + String.join(" ", messages) : String.join(" ", messages);
     }
 
-    public void info(String message) {
+    public void info(String... messages) {
         if (this.isActive()) {
-            logger.info(addModId(message));
-        }
-    }
-
-    public void warn(String message) {
-        if (this.isActive()) {
-            logger.warn(addModId(message));
+            logger.info(addModId(messages));
         }
     }
 
-    public void error(String message) {
+    public void warn(String... messages) {
         if (this.isActive()) {
-            logger.error(addModId(message));
+            logger.warn(addModId(messages));
+        }
+    }
+
+    public void error(String... messages) {
+        if (this.isActive()) {
+            logger.error(addModId(messages));
         }
     }
 

@@ -53,7 +53,7 @@ public class MinecraftClientMixin {
     )
     private void jamlib$useDevAuth(YggdrasilAuthenticationService authService, RunArgs runArgs, CallbackInfoReturnable<UserApiService> cir) {
         jamlib$tryLoadSession(runArgs.network.session).ifPresent(session -> {
-            JamLib.LOGGER.info("Updating session to player with username: " + session.getUsername());
+            JamLib.LOGGER.info("Updating session to player with username:", session.getUsername());
             ((Ducks.RunArgs$Network) runArgs.network).setSession(session);
         });
     }
