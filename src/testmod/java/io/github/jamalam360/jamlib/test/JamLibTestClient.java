@@ -30,32 +30,32 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import io.github.jamalam360.jamlib.config.JamLibConfig;
 import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
 import io.github.jamalam360.jamlib.network.JamLibClientNetworking;
+import java.util.Random;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.text.Text;
-
-import java.util.Random;
 
 /**
  * @author Jamalam360
  */
 public class JamLibTestClient implements ClientModInitializer, ModMenuApi {
+
     public static final Random RANDOM = new Random();
 
     @Override
     public void onInitializeClient() {
         JamLibKeybinds.register(new JamLibKeybinds.JamLibKeybind(
-                "jamlib-test",
-                "network",
-                InputUtil.KEY_K_CODE,
-                (client) -> JamLibTestNetwork.NETWORK_KEYBIND_PRESS.send((buf) -> buf.writeInt(RANDOM.nextInt(100)))
+              "jamlib-test",
+              "network",
+              InputUtil.KEY_K_CODE,
+              (client) -> JamLibTestNetwork.NETWORK_KEYBIND_PRESS.send((buf) -> buf.writeInt(RANDOM.nextInt(100)))
         ));
 
         JamLibKeybinds.register(new JamLibKeybinds.JamLibHoldKeybind(
-                "jamlib-test",
-                "hold",
-                InputUtil.KEY_V_CODE,
-                (client) -> client.player.sendMessage(Text.literal("Hold Begin"), true),
-                (client) -> client.player.sendMessage(Text.literal("Hold End"), true)
+              "jamlib-test",
+              "hold",
+              InputUtil.KEY_V_CODE,
+              (client) -> client.player.sendMessage(Text.literal("Hold Begin"), true),
+              (client) -> client.player.sendMessage(Text.literal("Hold End"), true)
         ));
 
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.setHandler(((client, handler, buf, responseSender) -> client.player.sendMessage(Text.literal("Response: " + buf.readInt()), false)));

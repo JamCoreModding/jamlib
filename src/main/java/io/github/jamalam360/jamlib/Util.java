@@ -73,11 +73,11 @@ public class Util {
     }
 
     /**
-     * @param value     The nullable value.
-     * @param function  The function to run to calculate the return value if {@code value} is not null.
+     * @param value        The nullable value.
+     * @param function     The function to run to calculate the return value if {@code value} is not null.
      * @param elseFunction The function to run to calculate the return value if {@code value} is null.
-     * @param <T>       The value type.
-     * @param <R>       The result type.
+     * @param <T>          The value type.
+     * @param <R>          The result type.
      */
     public static <T, R> R ifNotNull(@Nullable T value, Function<T, R> function, Supplier<R> elseFunction) {
         if (value != null) {

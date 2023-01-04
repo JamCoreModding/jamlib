@@ -25,13 +25,11 @@
 package io.github.jamalam360.jamlib.network;
 
 import net.minecraft.util.Identifier;
-
-import java.util.HashMap;
-import java.util.Map;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 public abstract class JamLibNetworkChannel<T> {
+
     private final Identifier identifier;
     protected T handler;
 

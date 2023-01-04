@@ -24,16 +24,16 @@
 
 package io.github.jamalam360.jamlib.network;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 /**
  * Used to register client-side channels.
  */
 public class JamLibClientNetworking {
+
     protected static final Map<String, List<JamLibNetworkChannel<?>>> CLIENT_CHANNELS = new HashMap<>();
 
     /**

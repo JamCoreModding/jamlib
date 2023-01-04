@@ -37,10 +37,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin {
+
     @Inject(
-            method = "isOnlineMode",
-            at = @At("HEAD"),
-            cancellable = true
+          method = "isOnlineMode",
+          at = @At("HEAD"),
+          cancellable = true
     )
     public void jamlib$setNotOnlineInDev(CallbackInfoReturnable<Boolean> cir) {
         if (System.getProperty("jamlib.dev.disable-offline-mode") == null) {

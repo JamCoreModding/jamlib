@@ -24,6 +24,9 @@
 
 package io.github.jamalam360.jamlib.network;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -31,14 +34,11 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
 /**
  * <p>Represents a server-to-client channel in JamLib's networking system.</p>
  */
 public class JamLibS2CNetworkChannel extends JamLibNetworkChannel<ClientPlayNetworking.PlayChannelHandler> {
+
     /**
      * Create and register a new network channel.
      *
@@ -70,7 +70,8 @@ public class JamLibS2CNetworkChannel extends JamLibNetworkChannel<ClientPlayNetw
     /**
      * Sets the client-side handler that is called when the client receives this packet.
      *
-     * @param handler A {@link net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.PlayChannelHandler} that is called when the packet is received client-side.
+     * @param handler A {@link net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.PlayChannelHandler} that is called when the packet is received
+     *                client-side.
      */
     public void setHandler(ClientPlayNetworking.PlayChannelHandler handler) {
         this.handler = handler;

@@ -29,7 +29,9 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 public class Ducks {
+
     public interface RunArgs$Network {
+
         void setSession(Session session);
     }
 }

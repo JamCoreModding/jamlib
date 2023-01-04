@@ -40,7 +40,9 @@ import org.spongepowered.asm.mixin.Shadow;
 public class RunArgsNetworkMixin implements Ducks.RunArgs$Network {
 
     @Mutable
-    @Shadow @Final public Session session;
+    @Shadow
+    @Final
+    public Session session;
 
     @Override
     public void setSession(Session session) {

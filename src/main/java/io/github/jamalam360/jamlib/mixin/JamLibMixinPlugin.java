@@ -24,18 +24,18 @@
 
 package io.github.jamalam360.jamlib.mixin;
 
+import java.util.List;
+import java.util.Set;
 import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import java.util.List;
-import java.util.Set;
-
 /**
  * @author Jamalam
  */
 public class JamLibMixinPlugin implements IMixinConfigPlugin {
+
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (mixinClassName.contains("mixin.dev")) {

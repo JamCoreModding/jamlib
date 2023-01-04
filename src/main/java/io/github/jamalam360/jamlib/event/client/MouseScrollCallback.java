@@ -37,6 +37,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
  */
 @Environment(EnvType.CLIENT)
 public interface MouseScrollCallback {
+
     Event<MouseScrollCallback> EVENT = EventFactory.createArrayBacked(MouseScrollCallback.class, (listeners) -> (mouseX, mouseY, amount) -> {
         boolean consumed = false;
 
@@ -55,8 +56,8 @@ public interface MouseScrollCallback {
      * @param mouseX The x-coordinate of the mouse.
      * @param mouseY The y-coordinate of the mouse.
      * @param amount The scroll amount.
-     * @return Whether the callback performed an action. If {@code true},
-     *          other callbacks after this will not be called.
+     *
+     * @return Whether the callback performed an action. If {@code true}, other callbacks after this will not be called.
      */
     boolean onMouseScroll(double mouseX, double mouseY, double amount);
 }

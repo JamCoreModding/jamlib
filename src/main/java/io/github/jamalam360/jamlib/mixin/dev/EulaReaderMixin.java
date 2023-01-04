@@ -37,10 +37,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EulaReader.class)
 public class EulaReaderMixin {
+
     @Inject(
-            method = "isEulaAgreedTo",
-            at = @At("HEAD"),
-            cancellable = true
+          method = "isEulaAgreedTo",
+          at = @At("HEAD"),
+          cancellable = true
     )
     public void jamlib$setEulaAlwaysAgreedToInDev(CallbackInfoReturnable<Boolean> cir) {
         if (System.getProperty("jamlib.dev.disable-eula-auto-agree") == null) {

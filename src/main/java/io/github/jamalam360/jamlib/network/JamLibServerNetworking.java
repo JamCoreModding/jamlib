@@ -24,16 +24,16 @@
 
 package io.github.jamalam360.jamlib.network;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 /**
  * @author Jamalam
  */
 public class JamLibServerNetworking {
+
     protected static final Map<String, List<JamLibNetworkChannel<?>>> SERVER_CHANNELS = new HashMap<>();
 
     /**

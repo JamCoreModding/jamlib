@@ -35,5 +35,6 @@ import net.minecraft.item.ItemGroup;
 
 @ContentRegistry("jamlib-test")
 public class TestItems {
+
     public static final Item TEST_ITEM = new Item(new FabricItemSettings().group(ItemGroup.MISC));
 }

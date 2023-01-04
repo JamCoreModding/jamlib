@@ -29,6 +29,27 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.jamalam360.jamlib.JamLib;
+import java.awt.Color;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -49,22 +70,6 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.awt.*;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
-
 /**
  * <p>MidnightConfig v2.1.0 by TeamMidnightDust & Motschen (adapted from Minenash/TinyConfig),
  * adapted by Jamalam for use in JamLib</p>
@@ -73,6 +78,7 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings({"unchecked", "unused"})
 public abstract class JamLibConfig {
+
     private static final Map<String, Class<?>> configClass = new HashMap<>();
     private static final Pattern INTEGER_ONLY = Pattern.compile("(-?\\d*)");
     private static final Pattern DECIMAL_ONLY = Pattern.compile("-?(\\d+\\.?\\d*|\\d*\\.?\\d+|\\.)");
@@ -84,9 +90,8 @@ public abstract class JamLibConfig {
     /**
      * Initialize the config of your mod, and, if a file is present, load and update it.
      *
-     * @param modid Your mods ID. The config file will be stored in {@code config/{modid}.json}.
-     * @param config Your mods config class, a normal class with public, static entry's annotated
-     *               by {@link Entry}.
+     * @param modid  Your mods ID. The config file will be stored in {@code config/{modid}.json}.
+     * @param config Your mods config class, a normal class with public, static entry's annotated by {@link Entry}.
      */
     public static void init(String modid, Class<?> config) {
         path = FabricLoader.getInstance().getConfigDir().resolve(modid + ".json");
@@ -181,7 +186,9 @@ public abstract class JamLibConfig {
 
         info.widget = (BiFunction<TextFieldWidget, ButtonWidget, Predicate<String>>) (t, b) -> s -> {
             s = s.trim();
-            if (!(s.isEmpty() || !isNumber || pattern.matcher(s).matches())) return false;
+            if (!(s.isEmpty() || !isNumber || pattern.matcher(s).matches())) {
+                return false;
+            }
 
             Number value = 0;
             boolean inLimits = false;
@@ -190,8 +197,8 @@ public abstract class JamLibConfig {
                 value = f.apply(s);
                 inLimits = value.doubleValue() >= min && value.doubleValue() <= max;
                 info.error = inLimits ? null : new AbstractMap.SimpleEntry<>(t, Text.literal(value.doubleValue() < min ?
-                        "§cMinimum " + (isNumber ? "value" : "length") + (cast ? " is " + (int) min : " is " + min) :
-                        "§cMaximum " + (isNumber ? "value" : "length") + (cast ? " is " + (int) max : " is " + max)));
+                                                                                             "§cMinimum " + (isNumber ? "value" : "length") + (cast ? " is " + (int) min : " is " + min) :
+                                                                                             "§cMaximum " + (isNumber ? "value" : "length") + (cast ? " is " + (int) max : " is " + max)));
             }
 
             info.tempValue = s;
@@ -214,7 +221,9 @@ public abstract class JamLibConfig {
                     s = '#' + s;
                 }
 
-                if (!HEXADECIMAL_ONLY.matcher(s).matches()) return false;
+                if (!HEXADECIMAL_ONLY.matcher(s).matches()) {
+                    return false;
+                }
 
                 try {
                     info.colorButton.setMessage(Text.literal("⬛").setStyle(Style.EMPTY.withColor(Color.decode(info.tempValue).getRGB())));
@@ -227,8 +236,7 @@ public abstract class JamLibConfig {
     }
 
     /**
-     * Writes the current config to its file. You do not need to call this manually
-     * after updating the config, it is done automatically.
+     * Writes the current config to its file. You do not need to call this manually after updating the config, it is done automatically.
      *
      * @param modid Your mods ID.
      */
@@ -257,7 +265,7 @@ public abstract class JamLibConfig {
      * </pre>
      *
      * @param parent The screens parent.
-     * @param modid Your mods ID.
+     * @param modid  Your mods ID.
      *
      * @return An {@link Screen} allowing the user to configure the config.
      */
@@ -269,6 +277,7 @@ public abstract class JamLibConfig {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
     public @interface Entry {
+
         int width() default 100;
 
         double min() default Double.MIN_NORMAL;
@@ -291,6 +300,7 @@ public abstract class JamLibConfig {
     }
 
     protected static class EntryInfo {
+
         Field field;
         Object widget;
         int width;
@@ -308,6 +318,7 @@ public abstract class JamLibConfig {
 
     @Environment(EnvType.CLIENT)
     private static class MidnightConfigScreen extends Screen {
+
         private final String translationPrefix;
         private final Screen parent;
         private final String modid;
@@ -363,7 +374,9 @@ public abstract class JamLibConfig {
         @Override
         protected void init() {
             super.init();
-            if (!reload) loadValues();
+            if (!reload) {
+                loadValues();
+            }
 
             this.addDrawableChild(new ButtonWidget(this.width / 2 - 154, this.height - 28, 150, 20, ScreenTexts.CANCEL, button -> {
                 loadValues();
@@ -385,7 +398,9 @@ public abstract class JamLibConfig {
             }));
 
             this.list = new MidnightConfigListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
-            if (this.client != null && this.client.world != null) this.list.setRenderBackground(false);
+            if (this.client != null && this.client.world != null) {
+                this.list.setRenderBackground(false);
+            }
             this.addSelectableChild(this.list);
 
             for (EntryInfo info : entries) {
@@ -410,7 +425,9 @@ public abstract class JamLibConfig {
 
                         this.list.addButton(List.of(new ButtonWidget(width - 160, 0, 150, 20, widget.getValue().apply(info.value), widget.getKey()), resetButton), name);
                     } else if (info.field.getType() == List.class) {
-                        if (!reload) info.index = 0;
+                        if (!reload) {
+                            info.index = 0;
+                        }
 
                         TextFieldWidget widget = new TextFieldWidget(textRenderer, width - 160, 0, 150, 20, null);
                         widget.setMaxLength(info.width);
@@ -431,7 +448,9 @@ public abstract class JamLibConfig {
                             double scrollAmount = list.getScrollAmount();
                             this.reload = true;
                             info.index = info.index + 1;
-                            if (info.index > ((List<String>) info.value).size()) info.index = 0;
+                            if (info.index > ((List<String>) info.value).size()) {
+                                info.index = 0;
+                            }
                             Objects.requireNonNull(client).setScreen(this);
                             list.setScrollAmount(scrollAmount);
                         }));
@@ -502,6 +521,7 @@ public abstract class JamLibConfig {
 
     @Environment(EnvType.CLIENT)
     private static class MidnightConfigListWidget extends ElementListWidget<ButtonEntry> {
+
         TextRenderer textRenderer;
 
         public MidnightConfigListWidget(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
@@ -536,6 +556,7 @@ public abstract class JamLibConfig {
     }
 
     private static class ButtonEntry extends ElementListWidget.Entry<ButtonEntry> {
+
         public static final Map<ClickableWidget, Text> buttonsWithText = new HashMap<>();
         private static final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         public final List<ClickableWidget> buttons;
@@ -543,7 +564,9 @@ public abstract class JamLibConfig {
         private final List<ClickableWidget> children = new ArrayList<>();
 
         private ButtonEntry(List<ClickableWidget> buttons, Text text) {
-            if (!buttons.isEmpty()) buttonsWithText.put(buttons.get(0), text);
+            if (!buttons.isEmpty()) {
+                buttonsWithText.put(buttons.get(0), text);
+            }
 
             this.buttons = buttons;
             this.text = text;
@@ -575,6 +598,7 @@ public abstract class JamLibConfig {
     }
 
     private static class HiddenAnnotationExclusionStrategy implements ExclusionStrategy {
+
         public boolean shouldSkipClass(Class<?> clazz) {
             return false;
         }

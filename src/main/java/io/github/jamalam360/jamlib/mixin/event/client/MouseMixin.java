@@ -41,6 +41,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(Mouse.class)
 public class MouseMixin {
+
     @Shadow
     private double x;
 
@@ -52,14 +53,14 @@ public class MouseMixin {
     private MinecraftClient client;
 
     @Inject(
-            method = "onMouseScroll",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/entity/player/PlayerInventory;scrollInHotbar(D)V",
-                    shift = At.Shift.BEFORE
-            ),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
-            cancellable = true
+          method = "onMouseScroll",
+          at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/entity/player/PlayerInventory;scrollInHotbar(D)V",
+                shift = At.Shift.BEFORE
+          ),
+          locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+          cancellable = true
     )
     private void jamlib$callMouseScrollEvent(long window, double scrollDeltaX, double scrollDeltaY, CallbackInfo ci, double amount) {
         double mouseX = this.x * (double) this.client.getWindow().getScaledWidth() / (double) this.client.getWindow().getWidth();

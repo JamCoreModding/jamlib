@@ -109,6 +109,67 @@ public class JamLibRegistry {
 
     private static final Map<Class<?>, Registry<?>> REGISTRIES = new HashMap<>();
 
+    static {
+        addRegistry(GameEvent.class, Registry.GAME_EVENT);
+        addRegistry(SoundEvent.class, Registry.SOUND_EVENT);
+        addRegistry(Fluid.class, Registry.FLUID);
+        addRegistry(StatusEffect.class, Registry.STATUS_EFFECT);
+        addRegistry(Block.class, Registry.BLOCK);
+        addRegistry(Enchantment.class, Registry.ENCHANTMENT);
+        addRegistry(EntityType.class, Registry.ENTITY_TYPE);
+        addRegistry(Item.class, Registry.ITEM);
+        addRegistry(Potion.class, Registry.POTION);
+        addRegistry(ParticleType.class, Registry.PARTICLE_TYPE);
+        addRegistry(BlockEntityType.class, Registry.BLOCK_ENTITY_TYPE);
+        addRegistry(PaintingVariant.class, Registry.PAINTING_VARIANT);
+        addRegistry(Identifier.class, Registry.CUSTOM_STAT);
+        addRegistry(ChunkStatus.class, Registry.CHUNK_STATUS);
+        addRegistry(RuleTest.class, Registry.RULE_TEST);
+        addRegistry(PosRuleTest.class, Registry.POS_RULE_TEST);
+        addRegistry(ScreenHandlerType.class, Registry.SCREEN_HANDLER);
+        addRegistry(RecipeType.class, Registry.RECIPE_TYPE);
+        addRegistry(RecipeSerializer.class, Registry.RECIPE_SERIALIZER);
+        addRegistry(EntityAttributes.class, Registry.ATTRIBUTE);
+        addRegistry(PositionSourceType.class, Registry.POSITION_SOURCE_TYPE);
+        addRegistry(ArgumentTypeInfo.class, Registry.COMMAND_ARGUMENT_TYPE);
+        addRegistry(StatType.class, Registry.STAT_TYPE);
+        addRegistry(VillagerType.class, Registry.VILLAGER_TYPE);
+        addRegistry(VillagerProfession.class, Registry.VILLAGER_PROFESSION);
+        addRegistry(PointOfInterestType.class, Registry.POINT_OF_INTEREST_TYPE);
+        addRegistry(MemoryModuleType.class, Registry.MEMORY_MODULE_TYPE);
+        addRegistry(SensorType.class, Registry.SENSOR_TYPE);
+        addRegistry(Schedule.class, Registry.SCHEDULE);
+        addRegistry(Activity.class, Registry.ACTIVITY);
+        addRegistry(LootPoolEntryType.class, Registry.LOOT_POOL_ENTRY_TYPE);
+        addRegistry(LootFunctionType.class, Registry.LOOT_FUNCTION_TYPE);
+        addRegistry(LootConditionType.class, Registry.LOOT_CONDITION_TYPE);
+        addRegistry(LootNumberProviderType.class, Registry.LOOT_NUMBER_PROVIDER_TYPE);
+        addRegistry(LootNbtProviderType.class, Registry.LOOT_NBT_PROVIDER_TYPE);
+        addRegistry(LootScoreProviderType.class, Registry.LOOT_SCORE_PROVIDER_TYPE);
+        addRegistry(FloatProviderType.class, Registry.FLOAT_PROVIDER_TYPE);
+        addRegistry(IntProviderType.class, Registry.INT_PROVIDER_TYPE);
+        addRegistry(HeightProviderType.class, Registry.HEIGHT_PROVIDER_TYPE);
+        addRegistry(BlockPredicateType.class, Registry.BLOCK_PREDICATE_TYPE);
+        addRegistry(Carver.class, Registry.CARVER);
+        addRegistry(Feature.class, Registry.FEATURE);
+        addRegistry(StructurePlacementType.class, Registry.STRUCTURE_PLACEMENT_TYPE);
+        addRegistry(StructurePieceType.class, Registry.STRUCTURE_PIECE);
+        addRegistry(StructureType.class, Registry.STRUCTURE_TYPE);
+        addRegistry(PlacementModifierType.class, Registry.PLACEMENT_MODIFIER_TYPE);
+        addRegistry(BlockStateProviderType.class, Registry.BLOCK_STATE_PROVIDER_TYPE);
+        addRegistry(FoliagePlacerType.class, Registry.FOLIAGE_PLACER_TYPE);
+        addRegistry(TrunkPlacerType.class, Registry.TRUNK_PLACER_TYPE);
+        addRegistry(RootPlacerType.class, Registry.ROOT_PLACER_TYPE);
+        addRegistry(TreeDecoratorType.class, Registry.TREE_DECORATOR_TYPE);
+        addRegistry(FeatureSizeType.class, Registry.FEATURE_SIZE_TYPE);
+        addRegistry(TreeDecoratorType.class, Registry.TREE_DECORATOR_TYPE);
+        addRegistry(StructurePoolElementType.class, Registry.STRUCTURE_POOL_ELEMENT);
+        addRegistry(CatType.class, Registry.CAT_VARIANT);
+        addRegistry(FrogType.class, Registry.FROG_VARIANT);
+        addRegistry(BannerPattern.class, Registry.BANNER_PATTERN);
+        addRegistry(Instrument.class, Registry.INSTRUMENT);
+    }
+
     /**
      * Registers a custom {@link Registry} so that it can be recognized when registering fields. All vanilla registries are supported by default.
      *
@@ -134,8 +195,7 @@ public class JamLibRegistry {
      * <p>Processes a registry class, registering all valid fields in it. This should be called at mod initialization.</p>
      *
      * <p>Fields may have additional processing outside of just registering them, for example {@link Block}s can have items registered (via {@link BlockItemFactory}),
-     * and
-     * {@link EntityType}'s can have their attributes automatically registered if they define a method that takes no parameters and returns an
+     * and {@link EntityType}'s can have their attributes automatically registered if they define a method that takes no parameters and returns an
      * {@link DefaultAttributeContainer.Builder}.</p>
      *
      * <p>The {@code registry} must be annotated with {@link ContentRegistry}.</p>
@@ -242,66 +302,5 @@ public class JamLibRegistry {
         }
 
         return new Identifier(modId, path);
-    }
-
-    static {
-        addRegistry(GameEvent.class, Registry.GAME_EVENT);
-        addRegistry(SoundEvent.class, Registry.SOUND_EVENT);
-        addRegistry(Fluid.class, Registry.FLUID);
-        addRegistry(StatusEffect.class, Registry.STATUS_EFFECT);
-        addRegistry(Block.class, Registry.BLOCK);
-        addRegistry(Enchantment.class, Registry.ENCHANTMENT);
-        addRegistry(EntityType.class, Registry.ENTITY_TYPE);
-        addRegistry(Item.class, Registry.ITEM);
-        addRegistry(Potion.class, Registry.POTION);
-        addRegistry(ParticleType.class, Registry.PARTICLE_TYPE);
-        addRegistry(BlockEntityType.class, Registry.BLOCK_ENTITY_TYPE);
-        addRegistry(PaintingVariant.class, Registry.PAINTING_VARIANT);
-        addRegistry(Identifier.class, Registry.CUSTOM_STAT);
-        addRegistry(ChunkStatus.class, Registry.CHUNK_STATUS);
-        addRegistry(RuleTest.class, Registry.RULE_TEST);
-        addRegistry(PosRuleTest.class, Registry.POS_RULE_TEST);
-        addRegistry(ScreenHandlerType.class, Registry.SCREEN_HANDLER);
-        addRegistry(RecipeType.class, Registry.RECIPE_TYPE);
-        addRegistry(RecipeSerializer.class, Registry.RECIPE_SERIALIZER);
-        addRegistry(EntityAttributes.class, Registry.ATTRIBUTE);
-        addRegistry(PositionSourceType.class, Registry.POSITION_SOURCE_TYPE);
-        addRegistry(ArgumentTypeInfo.class, Registry.COMMAND_ARGUMENT_TYPE);
-        addRegistry(StatType.class, Registry.STAT_TYPE);
-        addRegistry(VillagerType.class, Registry.VILLAGER_TYPE);
-        addRegistry(VillagerProfession.class, Registry.VILLAGER_PROFESSION);
-        addRegistry(PointOfInterestType.class, Registry.POINT_OF_INTEREST_TYPE);
-        addRegistry(MemoryModuleType.class, Registry.MEMORY_MODULE_TYPE);
-        addRegistry(SensorType.class, Registry.SENSOR_TYPE);
-        addRegistry(Schedule.class, Registry.SCHEDULE);
-        addRegistry(Activity.class, Registry.ACTIVITY);
-        addRegistry(LootPoolEntryType.class, Registry.LOOT_POOL_ENTRY_TYPE);
-        addRegistry(LootFunctionType.class, Registry.LOOT_FUNCTION_TYPE);
-        addRegistry(LootConditionType.class, Registry.LOOT_CONDITION_TYPE);
-        addRegistry(LootNumberProviderType.class, Registry.LOOT_NUMBER_PROVIDER_TYPE);
-        addRegistry(LootNbtProviderType.class, Registry.LOOT_NBT_PROVIDER_TYPE);
-        addRegistry(LootScoreProviderType.class, Registry.LOOT_SCORE_PROVIDER_TYPE);
-        addRegistry(FloatProviderType.class, Registry.FLOAT_PROVIDER_TYPE);
-        addRegistry(IntProviderType.class, Registry.INT_PROVIDER_TYPE);
-        addRegistry(HeightProviderType.class, Registry.HEIGHT_PROVIDER_TYPE);
-        addRegistry(BlockPredicateType.class, Registry.BLOCK_PREDICATE_TYPE);
-        addRegistry(Carver.class, Registry.CARVER);
-        addRegistry(Feature.class, Registry.FEATURE);
-        addRegistry(StructurePlacementType.class, Registry.STRUCTURE_PLACEMENT_TYPE);
-        addRegistry(StructurePieceType.class, Registry.STRUCTURE_PIECE);
-        addRegistry(StructureType.class, Registry.STRUCTURE_TYPE);
-        addRegistry(PlacementModifierType.class, Registry.PLACEMENT_MODIFIER_TYPE);
-        addRegistry(BlockStateProviderType.class, Registry.BLOCK_STATE_PROVIDER_TYPE);
-        addRegistry(FoliagePlacerType.class, Registry.FOLIAGE_PLACER_TYPE);
-        addRegistry(TrunkPlacerType.class, Registry.TRUNK_PLACER_TYPE);
-        addRegistry(RootPlacerType.class, Registry.ROOT_PLACER_TYPE);
-        addRegistry(TreeDecoratorType.class, Registry.TREE_DECORATOR_TYPE);
-        addRegistry(FeatureSizeType.class, Registry.FEATURE_SIZE_TYPE);
-        addRegistry(TreeDecoratorType.class, Registry.TREE_DECORATOR_TYPE);
-        addRegistry(StructurePoolElementType.class, Registry.STRUCTURE_POOL_ELEMENT);
-        addRegistry(CatType.class, Registry.CAT_VARIANT);
-        addRegistry(FrogType.class, Registry.FROG_VARIANT);
-        addRegistry(BannerPattern.class, Registry.BANNER_PATTERN);
-        addRegistry(Instrument.class, Registry.INSTRUMENT);
     }
 }

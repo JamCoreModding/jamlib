@@ -32,6 +32,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 public class JamLibClient implements ClientModInitializer {
+
     @Override
     public void onInitializeClient() {
         ClientTickEvents.END_WORLD_TICK.register(TickScheduling::onEndTickClient);
