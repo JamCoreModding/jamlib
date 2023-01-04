@@ -36,6 +36,11 @@ import java.util.Map;
 public class JamLibServerNetworking {
     protected static final Map<String, List<JamLibNetworkChannel<?>>> SERVER_CHANNELS = new HashMap<>();
 
+    /**
+     * Register all server-side networking channels associated with this {@code modId}.
+     *
+     * @param modId Your mods ID.
+     */
     public static void registerHandlers(String modId) {
         for (JamLibNetworkChannel<?> channel : SERVER_CHANNELS.getOrDefault(modId, List.of())) {
             ServerPlayNetworking.registerGlobalReceiver(channel.getIdentifier(), (ServerPlayNetworking.PlayChannelHandler) channel.getHandler());

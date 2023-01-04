@@ -28,10 +28,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * @author Jamalam
+ * Used to explicitly set the {@link net.minecraft.util.Identifier} of a registry entry registered via {@link io.github.jamalam360.jamlib.registry.JamLibRegistry}. If
+ * this annotation is not present, the value will be inferred via the field name.
  */
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WithIdentifier {
+
+    /**
+     * @return The {@link net.minecraft.util.Identifier} in the form of {@code namespace:path}.
+     */
     String value();
 }

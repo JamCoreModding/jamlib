@@ -25,10 +25,9 @@
 package io.github.jamalam360.jamlib;
 
 import net.minecraft.client.util.Session;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
-/**
- * @author Jamalam
- */
+@Internal
 public class Ducks {
     public interface RunArgs$Network {
         void setSession(Session session);

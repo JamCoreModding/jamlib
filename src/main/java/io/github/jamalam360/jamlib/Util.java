@@ -26,22 +26,64 @@ package io.github.jamalam360.jamlib;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * @author Jamalam
+ * General utilities that aren't related to Minecraft.
  */
 public class Util {
-    public static <T> void ifNotNull(T value, Consumer<T> consumer) {
-        if (value != null) consumer.accept(value);
+
+    /**
+     * @param value    The nullable value.
+     * @param consumer The consumer to run if {@code value} is not null.
+     */
+    public static <T> void ifNotNull(@Nullable T value, Consumer<T> consumer) {
+        if (value != null) {
+            consumer.accept(value);
+        }
     }
 
-    public static <T> void ifNotNull(T value, Consumer<T> consumer, Callback elseConsumer) {
-        if (value != null) consumer.accept(value);
-        else elseConsumer.accept();
+    /**
+     * @param value        The nullable value.
+     * @param consumer     The consumer to run if {@code value} is not null.
+     * @param elseCallback The callback to run if {@code value} is null.
+     */
+    public static <T> void ifNotNull(@Nullable T value, Consumer<T> consumer, Runnable elseCallback) {
+        if (value != null) {
+            consumer.accept(value);
+        } else {
+            elseCallback.run();
+        }
     }
 
-    public static <T, R> R ifNotNull(T value, Function<T, R> function, R elseValue) {
-        if (value != null) return function.apply(value);
+    /**
+     * @param value     The nullable value.
+     * @param function  The function to run to calculate the return value if {@code value} is not null.
+     * @param elseValue The value to return if {@code value} is null.
+     * @param <T>       The value type.
+     * @param <R>       The result type.
+     */
+    public static <T, R> R ifNotNull(@Nullable T value, Function<T, R> function, R elseValue) {
+        if (value != null) {
+            return function.apply(value);
+        }
+
         return elseValue;
+    }
+
+    /**
+     * @param value     The nullable value.
+     * @param function  The function to run to calculate the return value if {@code value} is not null.
+     * @param elseFunction The function to run to calculate the return value if {@code value} is null.
+     * @param <T>       The value type.
+     * @param <R>       The result type.
+     */
+    public static <T, R> R ifNotNull(@Nullable T value, Function<T, R> function, Supplier<R> elseFunction) {
+        if (value != null) {
+            return function.apply(value);
+        }
+
+        return elseFunction.get();
     }
 }

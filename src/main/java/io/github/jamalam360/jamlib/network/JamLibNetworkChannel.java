@@ -28,12 +28,10 @@ import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
-/**
- * @author Jamalam
- */
+@Internal
 public abstract class JamLibNetworkChannel<T> {
-    private static final Map<String, JamLibNetworkChannel<?>> SERVER_CHANNELS = new HashMap<>();
     private final Identifier identifier;
     protected T handler;
 

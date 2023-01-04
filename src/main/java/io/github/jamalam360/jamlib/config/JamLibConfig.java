@@ -66,14 +66,14 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
- * MidnightConfig v2.1.0 by TeamMidnightDust & Motschen (adapted from Minenash/TinyConfig)
- * <p>
- * Adapted by Jamalam for use in JamLib.
+ * <p>MidnightConfig v2.1.0 by TeamMidnightDust & Motschen (adapted from Minenash/TinyConfig),
+ * adapted by Jamalam for use in JamLib</p>
+ *
+ * <p>Used to register config classes that are reflectively updated. Provides a ModMenu-based GUI.</p>
  */
-
 @SuppressWarnings({"unchecked", "unused"})
 public abstract class JamLibConfig {
-    public static final Map<String, Class<?>> configClass = new HashMap<>();
+    private static final Map<String, Class<?>> configClass = new HashMap<>();
     private static final Pattern INTEGER_ONLY = Pattern.compile("(-?\\d*)");
     private static final Pattern DECIMAL_ONLY = Pattern.compile("-?(\\d+\\.?\\d*|\\d*\\.?\\d+|\\.)");
     private static final Pattern HEXADECIMAL_ONLY = Pattern.compile("(-?[#\\da-fA-F]*)");
@@ -81,6 +81,13 @@ public abstract class JamLibConfig {
     private static final Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).excludeFieldsWithModifiers(Modifier.PRIVATE).addSerializationExclusionStrategy(new HiddenAnnotationExclusionStrategy()).setPrettyPrinting().create();
     private static Path path;
 
+    /**
+     * Initialize the config of your mod, and, if a file is present, load and update it.
+     *
+     * @param modid Your mods ID. The config file will be stored in {@code config/{modid}.json}.
+     * @param config Your mods config class, a normal class with public, static entry's annotated
+     *               by {@link Entry}.
+     */
     public static void init(String modid, Class<?> config) {
         path = FabricLoader.getInstance().getConfigDir().resolve(modid + ".json");
         configClass.put(modid, config);
@@ -219,6 +226,12 @@ public abstract class JamLibConfig {
         };
     }
 
+    /**
+     * Writes the current config to its file. You do not need to call this manually
+     * after updating the config, it is done automatically.
+     *
+     * @param modid Your mods ID.
+     */
     public static void write(String modid) {
         path = FabricLoader.getInstance().getConfigDir().resolve(modid + ".json");
         try {
@@ -232,6 +245,22 @@ public abstract class JamLibConfig {
         }
     }
 
+    /**
+     * Get a config screen, can be used by ModMenu:
+     *
+     * <pre>
+     * {@code @Override
+     * public ConfigScreenFactory<?> getModConfigScreenFactory() {
+     *     return (parent) -> JamLibConfig.getScreen(parent, "jamlib-test");
+     * }
+     * }
+     * </pre>
+     *
+     * @param parent The screens parent.
+     * @param modid Your mods ID.
+     *
+     * @return An {@link Screen} allowing the user to configure the config.
+     */
     @Environment(EnvType.CLIENT)
     public static Screen getScreen(Screen parent, String modid) {
         return new MidnightConfigScreen(parent, modid);
@@ -472,7 +501,7 @@ public abstract class JamLibConfig {
     }
 
     @Environment(EnvType.CLIENT)
-    public static class MidnightConfigListWidget extends ElementListWidget<ButtonEntry> {
+    private static class MidnightConfigListWidget extends ElementListWidget<ButtonEntry> {
         TextRenderer textRenderer;
 
         public MidnightConfigListWidget(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
@@ -506,7 +535,7 @@ public abstract class JamLibConfig {
         }
     }
 
-    public static class ButtonEntry extends ElementListWidget.Entry<ButtonEntry> {
+    private static class ButtonEntry extends ElementListWidget.Entry<ButtonEntry> {
         public static final Map<ClickableWidget, Text> buttonsWithText = new HashMap<>();
         private static final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         public final List<ClickableWidget> buttons;
@@ -545,7 +574,7 @@ public abstract class JamLibConfig {
         }
     }
 
-    public static class HiddenAnnotationExclusionStrategy implements ExclusionStrategy {
+    private static class HiddenAnnotationExclusionStrategy implements ExclusionStrategy {
         public boolean shouldSkipClass(Class<?> clazz) {
             return false;
         }

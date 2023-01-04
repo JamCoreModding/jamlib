@@ -28,7 +28,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * @author Jamalam
+ * <p>Used to mark methods as {@link net.minecraft.item.BlockItem} factories, which are used to construct items for blocks registered via
+ * {@link io.github.jamalam360.jamlib.registry.JamLibRegistry}, if they are not annotated by {@link WithoutBlockItem}.</p>
+ *
+ * <p>Methods annotated by {@link BlockItemFactory} must have the signature {@link net.minecraft.block.Block} -> {@link net.minecraft.item.Item}.</p>
  */
 
 @Retention(RetentionPolicy.RUNTIME)

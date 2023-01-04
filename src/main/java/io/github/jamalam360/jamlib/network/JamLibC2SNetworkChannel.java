@@ -24,35 +24,53 @@
 
 package io.github.jamalam360.jamlib.network;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
 /**
- * @author Jamalam
+ * <p>Represents a client-to-server channel in JamLib's networking system.</p>
  */
 public class JamLibC2SNetworkChannel extends JamLibNetworkChannel<ServerPlayNetworking.PlayChannelHandler> {
+
+    /**
+     * Create and register a new network channel.
+     *
+     * @param identifier The {@link Identifier} of this network channel.
+     */
     public JamLibC2SNetworkChannel(Identifier identifier) {
         super(identifier);
     }
 
+    /**
+     * Shorthand method for sending an empty packet to the server.
+     */
     public void send() {
         PacketByteBuf buf = PacketByteBufs.empty();
         ClientPlayNetworking.send(this.getIdentifier(), buf);
     }
 
+    /**
+     * Send a packet to the server.
+     *
+     * @param dataWriter A consumer of a {@link PacketByteBuf} which is used to write the data.
+     */
     public void send(Consumer<PacketByteBuf> dataWriter) {
         PacketByteBuf buf = PacketByteBufs.create();
         dataWriter.accept(buf);
         ClientPlayNetworking.send(this.getIdentifier(), buf);
     }
 
+    /**
+     * Sets the server-side handler that is called when the server receives this packet.
+     *
+     * @param handler A {@link net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.PlayChannelHandler} that is called when the packet is received server-side.
+     */
     public void setHandler(ServerPlayNetworking.PlayChannelHandler handler) {
         this.handler = handler;
         List<JamLibNetworkChannel<?>> list = JamLibServerNetworking.SERVER_CHANNELS.getOrDefault(this.getIdentifier().getNamespace(), new ArrayList<>());

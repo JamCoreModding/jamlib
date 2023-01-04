@@ -36,24 +36,42 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * @author Jamalam
+ * <p>Represents a server-to-client channel in JamLib's networking system.</p>
  */
 public class JamLibS2CNetworkChannel extends JamLibNetworkChannel<ClientPlayNetworking.PlayChannelHandler> {
+    /**
+     * Create and register a new network channel.
+     *
+     * @param identifier The {@link Identifier} of this network channel.
+     */
     public JamLibS2CNetworkChannel(Identifier identifier) {
         super(identifier);
     }
 
+    /**
+     * Shorthand method for sending an empty packet to the client.
+     */
     public void send(ServerPlayerEntity player) {
         PacketByteBuf buf = PacketByteBufs.empty();
         ServerPlayNetworking.send(player, this.getIdentifier(), buf);
     }
 
+    /**
+     * Send a packet to the client.
+     *
+     * @param dataWriter A consumer of a {@link PacketByteBuf} which is used to write the data.
+     */
     public void send(ServerPlayerEntity player, Consumer<PacketByteBuf> dataWriter) {
         PacketByteBuf buf = PacketByteBufs.create();
         dataWriter.accept(buf);
         ServerPlayNetworking.send(player, this.getIdentifier(), buf);
     }
 
+    /**
+     * Sets the client-side handler that is called when the client receives this packet.
+     *
+     * @param handler A {@link net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.PlayChannelHandler} that is called when the packet is received client-side.
+     */
     public void setHandler(ClientPlayNetworking.PlayChannelHandler handler) {
         this.handler = handler;
         List<JamLibNetworkChannel<?>> list = JamLibClientNetworking.CLIENT_CHANNELS.getOrDefault(this.getIdentifier().getNamespace(), new ArrayList<>());

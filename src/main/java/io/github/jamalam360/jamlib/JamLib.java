@@ -33,7 +33,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
+@Internal
 public class JamLib implements ModInitializer {
 
     public static final JamLibLogger LOGGER = JamLibLogger.getLogger("jamlib");

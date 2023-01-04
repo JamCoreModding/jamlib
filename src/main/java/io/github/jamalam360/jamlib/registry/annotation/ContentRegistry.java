@@ -28,10 +28,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * @author Jamalam
+ * Used to provide metadata about a registry class to {@link io.github.jamalam360.jamlib.registry.JamLibRegistry}.
  */
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ContentRegistry {
+
+    /**
+     * @return The mod ID.
+     */
     String value();
 }

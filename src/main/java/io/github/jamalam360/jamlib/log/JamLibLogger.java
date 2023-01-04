@@ -30,7 +30,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Jamalam
+ * <p>A wrapper for the SL4J {@link Logger} class that appends a mod ID when appropriate.</p>
+ *
+ * <p>This is necessary as in production mod ID's are often not included by the default logger, even
+ * if specified.</p>
  */
 @SuppressWarnings("unused")
 public class JamLibLogger {
@@ -45,10 +48,22 @@ public class JamLibLogger {
         this.developmentOnly = developmentOnly;
     }
 
+    /**
+     * @param modId Your mod's ID. Used as the loggers name.
+     *
+     * @return An instance of {@link JamLibLogger} you can store to use later.
+     */
     public static JamLibLogger getLogger(String modId) {
         return new JamLibLogger(modId, false);
     }
 
+    /**
+     * Get a logger that only logs in development environments.
+     *
+     * @param modId Your mod's ID. Used as the loggers name.
+     *
+     * @return An instance of {@link JamLibLogger} that only logs in development environments you can store to use later.
+     */
     public static JamLibLogger getDevelopmentOnlyLogger(String modId) {
         return new JamLibLogger(modId, true);
     }
@@ -61,32 +76,50 @@ public class JamLibLogger {
         return (this.developmentOnly ? "(Development Only) " : "") + String.join(" ", Arrays.stream(messages).map(Object::toString).toList());
     }
 
+    /**
+     * Logs an info level message.
+     */
     public void info(Object... messages) {
         if (this.isActive()) {
             logger.info(addModId(messages));
         }
     }
 
+    /**
+     * Logs a warning level message.
+     */
     public void warn(Object... messages) {
         if (this.isActive()) {
             logger.warn(addModId(messages));
         }
     }
 
+    /**
+     * Logs an error level message.
+     */
     public void error(Object... messages) {
         if (this.isActive()) {
             logger.error(addModId(messages));
         }
     }
 
+    /**
+     * Prints a generic {@code 'Mod initialized'} message, for consistency across mods.
+     */
     public void logInitialize() {
         this.info("Mod initialized!");
     }
 
+    /**
+     * @return The SL4J {@link Logger} that backs this {@link JamLibLogger}.
+     */
     public Logger getUnderlyingLogger() {
         return logger;
     }
 
+    /**
+     * @return Whether this logger is currently logging, or discarding messages.
+     */
     public boolean isActive() {
         return !this.developmentOnly || FabricLoader.getInstance().isDevelopmentEnvironment();
     }

@@ -28,10 +28,9 @@ import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
 import io.github.jamalam360.jamlib.tick.TickScheduling;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
-/**
- * @author Jamalam360
- */
+@Internal
 public class JamLibClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {

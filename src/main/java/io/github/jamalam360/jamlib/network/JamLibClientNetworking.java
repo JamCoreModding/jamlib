@@ -31,11 +31,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Jamalam
+ * Used to register client-side channels.
  */
 public class JamLibClientNetworking {
     protected static final Map<String, List<JamLibNetworkChannel<?>>> CLIENT_CHANNELS = new HashMap<>();
 
+    /**
+     * Register all client-side networking channels associated with this {@code modId}.
+     *
+     * @param modId Your mods ID.
+     */
     public static void registerHandlers(String modId) {
         for (JamLibNetworkChannel<?> channel : CLIENT_CHANNELS.getOrDefault(modId, List.of())) {
             ClientPlayNetworking.registerGlobalReceiver(channel.getIdentifier(), (ClientPlayNetworking.PlayChannelHandler) channel.getHandler());

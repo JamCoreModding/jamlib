@@ -99,22 +99,49 @@ import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
 import net.minecraft.world.poi.PointOfInterestType;
 
-@SuppressWarnings("unused")
+/**
+ * <p>Used to automatically register fields in a 'registry class' via reflection.</p>
+ *
+ * <p>All vanilla registries are supported by default, and custom registries can also be registered.</p>
+ */
+@SuppressWarnings({"unused", "unchecked"})
 public class JamLibRegistry {
 
     private static final Map<Class<?>, Registry<?>> REGISTRIES = new HashMap<>();
 
+    /**
+     * Registers a custom {@link Registry} so that it can be recognized when registering fields. All vanilla registries are supported by default.
+     *
+     * @param type     The type of the fields that should be registered to this {@link Registry} (e.g. {@code Block.class}).
+     * @param registry The {@link Registry} these fields should be registered to.
+     */
     public static void addRegistry(Class<?> type, Registry<?> registry) {
         REGISTRIES.put(type, registry);
     }
 
+    /**
+     * Shorthand for processing multiple registry classes.
+     *
+     * @param registries A list of registry classes to process.
+     */
     public static void register(Class<?>... registries) {
         for (Class<?> clazz : registries) {
             register(clazz);
         }
     }
 
-    @SuppressWarnings({"unchecked", "DataFlowIssue"})
+    /**
+     * <p>Processes a registry class, registering all valid fields in it. This should be called at mod initialization.</p>
+     *
+     * <p>Fields may have additional processing outside of just registering them, for example {@link Block}s can have items registered (via {@link BlockItemFactory}),
+     * and
+     * {@link EntityType}'s can have their attributes automatically registered if they define a method that takes no parameters and returns an
+     * {@link DefaultAttributeContainer.Builder}.</p>
+     *
+     * <p>The {@code registry} must be annotated with {@link ContentRegistry}.</p>
+     *
+     * @param registry The registry class to process.
+     */
     public static void register(Class<?> registry) {
         if (!registry.isAnnotationPresent(ContentRegistry.class)) {
             JamLib.LOGGER.warn("@ContentRegistry annotation not present on registry class", registry.getName());

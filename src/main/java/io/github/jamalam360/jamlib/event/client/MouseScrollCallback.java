@@ -30,12 +30,11 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
 /**
- * Called on the client-side when the player scrolls their mouse wheel, if
- * they do not have a screen currently open.
+ * <p>This event is called on the client-side when the user scrolls their
+ * mouse wheel, <bold>if</bold> they <bold>don't</bold> have a screen open.</p>
  *
- * @author Jamalam
+ * <p>Use custom packets if this event is required on the server-side.</p>
  */
-
 @Environment(EnvType.CLIENT)
 public interface MouseScrollCallback {
     Event<MouseScrollCallback> EVENT = EventFactory.createArrayBacked(MouseScrollCallback.class, (listeners) -> (mouseX, mouseY, amount) -> {
@@ -56,7 +55,8 @@ public interface MouseScrollCallback {
      * @param mouseX The x-coordinate of the mouse.
      * @param mouseY The y-coordinate of the mouse.
      * @param amount The scroll amount.
-     * @return Whether the callback performed an action.
+     * @return Whether the callback performed an action. If {@code true},
+     *          other callbacks after this will not be called.
      */
     boolean onMouseScroll(double mouseX, double mouseY, double amount);
 }

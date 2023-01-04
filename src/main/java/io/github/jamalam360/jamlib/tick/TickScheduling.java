@@ -25,16 +25,21 @@
 package io.github.jamalam360.jamlib.tick;
 
 import com.mojang.datafixers.util.Pair;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
+/**
+ * @deprecated Old API yet to be revamped. It is recommended to not use this API as JamLib is still in the 0.x.x phase and this class could be removed in the next
+ * release.
+ */
 @SuppressWarnings("unused")
+@Deprecated
 public class TickScheduling {
+
     private static final int POLL_INTERVAL = 5;
     private static final List<Pair<Integer, Consumer<World>>> SERVER_EVENTS = new ArrayList<>();
     private static final List<Pair<Integer, Consumer<World>>> SERVER_EVENTS_REMOVE = new ArrayList<>();
