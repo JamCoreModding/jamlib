@@ -45,6 +45,11 @@ dependencies {
     modLocalRuntime(libs.bundles.runtime)
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 sourceSets {
     val main = this.getByName("main")
 
