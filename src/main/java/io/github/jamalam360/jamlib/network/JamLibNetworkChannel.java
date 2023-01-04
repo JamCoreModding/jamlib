@@ -37,10 +37,16 @@ public abstract class JamLibNetworkChannel<T> {
         this.identifier = identifier;
     }
 
+    /**
+     * @return The identifier of this channel.
+     */
     protected Identifier getIdentifier() {
         return identifier;
     }
 
+    /**
+     * @return The handler that responds to packets on this channel.
+     */
     protected T getHandler() {
         return handler;
     }

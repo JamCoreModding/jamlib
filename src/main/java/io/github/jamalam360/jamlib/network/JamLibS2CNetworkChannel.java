@@ -50,6 +50,8 @@ public class JamLibS2CNetworkChannel extends JamLibNetworkChannel<ClientPlayNetw
 
     /**
      * Shorthand method for sending an empty packet to the client.
+     *
+     * @param player The player of the client the packet is to be sent to.
      */
     public void send(ServerPlayerEntity player) {
         PacketByteBuf buf = PacketByteBufs.empty();
@@ -59,6 +61,7 @@ public class JamLibS2CNetworkChannel extends JamLibNetworkChannel<ClientPlayNetw
     /**
      * Send a packet to the client.
      *
+     * @param player The player of the client the packet is to be sent to.
      * @param dataWriter A consumer of a {@link PacketByteBuf} which is used to write the data.
      */
     public void send(ServerPlayerEntity player, Consumer<PacketByteBuf> dataWriter) {

@@ -37,6 +37,7 @@ public class Util {
     /**
      * @param value    The nullable value.
      * @param consumer The consumer to run if {@code value} is not null.
+     * @param <T>      The return type.
      */
     public static <T> void ifNotNull(@Nullable T value, Consumer<T> consumer) {
         if (value != null) {
@@ -48,6 +49,7 @@ public class Util {
      * @param value        The nullable value.
      * @param consumer     The consumer to run if {@code value} is not null.
      * @param elseCallback The callback to run if {@code value} is null.
+     * @param <T>          The return type.
      */
     public static <T> void ifNotNull(@Nullable T value, Consumer<T> consumer, Runnable elseCallback) {
         if (value != null) {
@@ -62,7 +64,9 @@ public class Util {
      * @param function  The function to run to calculate the return value if {@code value} is not null.
      * @param elseValue The value to return if {@code value} is null.
      * @param <T>       The value type.
-     * @param <R>       The result type.
+     * @param <R>       The return type.
+     *
+     * @return The value computed by the {@code function} if {@code value} is not null, or else the {@code elseValue}.
      */
     public static <T, R> R ifNotNull(@Nullable T value, Function<T, R> function, R elseValue) {
         if (value != null) {
@@ -77,7 +81,9 @@ public class Util {
      * @param function     The function to run to calculate the return value if {@code value} is not null.
      * @param elseFunction The function to run to calculate the return value if {@code value} is null.
      * @param <T>          The value type.
-     * @param <R>          The result type.
+     * @param <R>          The return type.
+     *
+     * @return The value computed by the {@code function} if {@code value} is not null, or else the value computed by the {@code elseFunction}.
      */
     public static <T, R> R ifNotNull(@Nullable T value, Function<T, R> function, Supplier<R> elseFunction) {
         if (value != null) {

@@ -50,6 +50,10 @@ java {
     withJavadocJar()
 }
 
+tasks.withType(Javadoc::class.java) {
+    exclude("**/mixin/**")
+}
+
 sourceSets {
     val main = this.getByName("main")
 

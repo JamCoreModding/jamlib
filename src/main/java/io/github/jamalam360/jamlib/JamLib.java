@@ -27,10 +27,8 @@ package io.github.jamalam360.jamlib;
 import static net.minecraft.server.command.CommandManager.literal;
 
 import io.github.jamalam360.jamlib.log.JamLibLogger;
-import io.github.jamalam360.jamlib.tick.TickScheduling;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -43,8 +41,6 @@ public class JamLib implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ServerTickEvents.END_WORLD_TICK.register(TickScheduling::onEndTickServer);
-
         //noinspection CodeBlock2Expr
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, env) -> {
             dispatcher.register(

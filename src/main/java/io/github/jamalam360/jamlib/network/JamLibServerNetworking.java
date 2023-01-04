@@ -34,6 +34,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
  */
 public class JamLibServerNetworking {
 
+    /**
+     * An {@link Map} that maps mod ID's to a list of registered channels under that mod ID.
+     */
     protected static final Map<String, List<JamLibNetworkChannel<?>>> SERVER_CHANNELS = new HashMap<>();
 
     /**

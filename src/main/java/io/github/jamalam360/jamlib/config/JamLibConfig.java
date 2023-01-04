@@ -71,7 +71,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 /**
- * <p>MidnightConfig v2.1.0 by TeamMidnightDust & Motschen (adapted from Minenash/TinyConfig),
+ * <p>MidnightConfig v2.1.0 by TeamMidnightDust and Motschen (adapted from Minenash/TinyConfig),
  * adapted by Jamalam for use in JamLib</p>
  *
  * <p>Used to register config classes that are reflectively updated. Provides a ModMenu-based GUI.</p>
