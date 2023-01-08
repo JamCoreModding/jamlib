@@ -25,7 +25,6 @@
 package io.github.jamalam360.jamlib.registry;
 
 import io.github.jamalam360.jamlib.JamLib;
-import io.github.jamalam360.jamlib.registry.annotation.BlockItemFactory;
 import io.github.jamalam360.jamlib.registry.annotation.ContentRegistry;
 import io.github.jamalam360.jamlib.registry.annotation.WithIdentifier;
 import io.github.jamalam360.jamlib.registry.annotation.WithoutBlockItem;
@@ -33,8 +32,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BannerPattern;
@@ -53,14 +55,14 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.passive.CatType;
-import net.minecraft.entity.passive.FrogType;
+import net.minecraft.entity.passive.CatVariant;
+import net.minecraft.entity.passive.FrogVariant;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Instrument;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.loot.condition.LootConditionType;
 import net.minecraft.loot.entry.LootPoolEntryType;
-import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.loot.provider.nbt.LootNbtProviderType;
 import net.minecraft.loot.provider.number.LootNumberProviderType;
 import net.minecraft.loot.provider.score.LootScoreProviderType;
@@ -68,6 +70,8 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.potion.Potion;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
@@ -80,13 +84,11 @@ import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.floatprovider.FloatProviderType;
 import net.minecraft.util.math.intprovider.IntProviderType;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSourceType;
-import net.minecraft.world.gen.blockpredicate.BlockPredicateType;
 import net.minecraft.world.gen.carver.Carver;
 import net.minecraft.world.gen.decorator.PlacementModifierType;
 import net.minecraft.world.gen.feature.Feature;
@@ -108,66 +110,65 @@ import net.minecraft.world.poi.PointOfInterestType;
 public class JamLibRegistry {
 
     private static final Map<Class<?>, Registry<?>> REGISTRIES = new HashMap<>();
+    private static final Map<ItemGroup, List<Item>> ITEM_GROUP_REGISTRATION_QUEUE = new HashMap<>();
 
     static {
-        addRegistry(GameEvent.class, Registry.GAME_EVENT);
-        addRegistry(SoundEvent.class, Registry.SOUND_EVENT);
-        addRegistry(Fluid.class, Registry.FLUID);
-        addRegistry(StatusEffect.class, Registry.STATUS_EFFECT);
-        addRegistry(Block.class, Registry.BLOCK);
-        addRegistry(Enchantment.class, Registry.ENCHANTMENT);
-        addRegistry(EntityType.class, Registry.ENTITY_TYPE);
-        addRegistry(Item.class, Registry.ITEM);
-        addRegistry(Potion.class, Registry.POTION);
-        addRegistry(ParticleType.class, Registry.PARTICLE_TYPE);
-        addRegistry(BlockEntityType.class, Registry.BLOCK_ENTITY_TYPE);
-        addRegistry(PaintingVariant.class, Registry.PAINTING_VARIANT);
-        addRegistry(Identifier.class, Registry.CUSTOM_STAT);
-        addRegistry(ChunkStatus.class, Registry.CHUNK_STATUS);
-        addRegistry(RuleTest.class, Registry.RULE_TEST);
-        addRegistry(PosRuleTest.class, Registry.POS_RULE_TEST);
-        addRegistry(ScreenHandlerType.class, Registry.SCREEN_HANDLER);
-        addRegistry(RecipeType.class, Registry.RECIPE_TYPE);
-        addRegistry(RecipeSerializer.class, Registry.RECIPE_SERIALIZER);
-        addRegistry(EntityAttributes.class, Registry.ATTRIBUTE);
-        addRegistry(PositionSourceType.class, Registry.POSITION_SOURCE_TYPE);
-        addRegistry(ArgumentTypeInfo.class, Registry.COMMAND_ARGUMENT_TYPE);
-        addRegistry(StatType.class, Registry.STAT_TYPE);
-        addRegistry(VillagerType.class, Registry.VILLAGER_TYPE);
-        addRegistry(VillagerProfession.class, Registry.VILLAGER_PROFESSION);
-        addRegistry(PointOfInterestType.class, Registry.POINT_OF_INTEREST_TYPE);
-        addRegistry(MemoryModuleType.class, Registry.MEMORY_MODULE_TYPE);
-        addRegistry(SensorType.class, Registry.SENSOR_TYPE);
-        addRegistry(Schedule.class, Registry.SCHEDULE);
-        addRegistry(Activity.class, Registry.ACTIVITY);
-        addRegistry(LootPoolEntryType.class, Registry.LOOT_POOL_ENTRY_TYPE);
-        addRegistry(LootFunctionType.class, Registry.LOOT_FUNCTION_TYPE);
-        addRegistry(LootConditionType.class, Registry.LOOT_CONDITION_TYPE);
-        addRegistry(LootNumberProviderType.class, Registry.LOOT_NUMBER_PROVIDER_TYPE);
-        addRegistry(LootNbtProviderType.class, Registry.LOOT_NBT_PROVIDER_TYPE);
-        addRegistry(LootScoreProviderType.class, Registry.LOOT_SCORE_PROVIDER_TYPE);
-        addRegistry(FloatProviderType.class, Registry.FLOAT_PROVIDER_TYPE);
-        addRegistry(IntProviderType.class, Registry.INT_PROVIDER_TYPE);
-        addRegistry(HeightProviderType.class, Registry.HEIGHT_PROVIDER_TYPE);
-        addRegistry(BlockPredicateType.class, Registry.BLOCK_PREDICATE_TYPE);
-        addRegistry(Carver.class, Registry.CARVER);
-        addRegistry(Feature.class, Registry.FEATURE);
-        addRegistry(StructurePlacementType.class, Registry.STRUCTURE_PLACEMENT_TYPE);
-        addRegistry(StructurePieceType.class, Registry.STRUCTURE_PIECE);
-        addRegistry(StructureType.class, Registry.STRUCTURE_TYPE);
-        addRegistry(PlacementModifierType.class, Registry.PLACEMENT_MODIFIER_TYPE);
-        addRegistry(BlockStateProviderType.class, Registry.BLOCK_STATE_PROVIDER_TYPE);
-        addRegistry(FoliagePlacerType.class, Registry.FOLIAGE_PLACER_TYPE);
-        addRegistry(TrunkPlacerType.class, Registry.TRUNK_PLACER_TYPE);
-        addRegistry(RootPlacerType.class, Registry.ROOT_PLACER_TYPE);
-        addRegistry(TreeDecoratorType.class, Registry.TREE_DECORATOR_TYPE);
-        addRegistry(FeatureSizeType.class, Registry.FEATURE_SIZE_TYPE);
-        addRegistry(TreeDecoratorType.class, Registry.TREE_DECORATOR_TYPE);
-        addRegistry(StructurePoolElementType.class, Registry.STRUCTURE_POOL_ELEMENT);
-        addRegistry(CatType.class, Registry.CAT_VARIANT);
-        addRegistry(FrogType.class, Registry.FROG_VARIANT);
-        addRegistry(BannerPattern.class, Registry.BANNER_PATTERN);
-        addRegistry(Instrument.class, Registry.INSTRUMENT);
+        addRegistry(GameEvent.class, Registries.GAME_EVENT);
+        addRegistry(SoundEvent.class, Registries.SOUND_EVENT);
+        addRegistry(Fluid.class, Registries.FLUID);
+        addRegistry(StatusEffect.class, Registries.STATUS_EFFECT);
+        addRegistry(Block.class, Registries.BLOCK);
+        addRegistry(Enchantment.class, Registries.ENCHANTMENT);
+        addRegistry(EntityType.class, Registries.ENTITY_TYPE);
+        addRegistry(Item.class, Registries.ITEM);
+        addRegistry(Potion.class, Registries.POTION);
+        addRegistry(ParticleType.class, Registries.PARTICLE_TYPE);
+        addRegistry(BlockEntityType.class, Registries.BLOCK_ENTITY_TYPE);
+        addRegistry(PaintingVariant.class, Registries.PAINTING_VARIANT);
+        addRegistry(Identifier.class, Registries.CUSTOM_STAT);
+        addRegistry(ChunkStatus.class, Registries.CHUNK_STATUS);
+        addRegistry(RuleTest.class, Registries.RULE_TEST_TYPE);
+        addRegistry(PosRuleTest.class, Registries.POS_RULE_TEST_TYPE);
+        addRegistry(ScreenHandlerType.class, Registries.SCREEN_HANDLER_TYPE);
+        addRegistry(RecipeType.class, Registries.RECIPE_TYPE);
+        addRegistry(RecipeSerializer.class, Registries.RECIPE_SERIALIZER);
+        addRegistry(EntityAttributes.class, Registries.ENTITY_ATTRIBUTE);
+        addRegistry(PositionSourceType.class, Registries.POSITION_SOURCE_TYPE);
+        addRegistry(ArgumentTypeInfo.class, Registries.COMMAND_ARGUMENT_TYPE);
+        addRegistry(StatType.class, Registries.STAT_TYPE);
+        addRegistry(VillagerType.class, Registries.VILLAGER_TYPE);
+        addRegistry(VillagerProfession.class, Registries.VILLAGER_PROFESSION);
+        addRegistry(PointOfInterestType.class, Registries.POINT_OF_INTEREST_TYPE);
+        addRegistry(MemoryModuleType.class, Registries.MEMORY_MODULE_TYPE);
+        addRegistry(SensorType.class, Registries.SENSOR_TYPE);
+        addRegistry(Schedule.class, Registries.SCHEDULE);
+        addRegistry(Activity.class, Registries.ACTIVITY);
+        addRegistry(LootPoolEntryType.class, Registries.LOOT_POOL_ENTRY_TYPE);
+        addRegistry(LootConditionType.class, Registries.LOOT_CONDITION_TYPE);
+        addRegistry(LootNumberProviderType.class, Registries.LOOT_NUMBER_PROVIDER_TYPE);
+        addRegistry(LootNbtProviderType.class, Registries.LOOT_NBT_PROVIDER_TYPE);
+        addRegistry(LootScoreProviderType.class, Registries.LOOT_SCORE_PROVIDER_TYPE);
+        addRegistry(FloatProviderType.class, Registries.FLOAT_PROVIDER_TYPE);
+        addRegistry(IntProviderType.class, Registries.INT_PROVIDER_TYPE);
+        addRegistry(HeightProviderType.class, Registries.HEIGHT_PROVIDER_TYPE);
+        addRegistry(Carver.class, Registries.CARVER_WORLDGEN);
+        addRegistry(Feature.class, Registries.FEATURE_WORLDGEN);
+        addRegistry(StructurePlacementType.class, Registries.STRUCTURE_PLACEMENT_TYPE);
+        addRegistry(StructurePieceType.class, Registries.STRUCTURE_PIECE_TYPE);
+        addRegistry(StructureType.class, Registries.STRUCTURE_TYPE);
+        addRegistry(PlacementModifierType.class, Registries.PLACEMENT_MODIFIER_TYPE);
+        addRegistry(BlockStateProviderType.class, Registries.BLOCK_STATE_PROVIDER_TYPE);
+        addRegistry(FoliagePlacerType.class, Registries.FOLIAGE_PLACER_TYPE);
+        addRegistry(TrunkPlacerType.class, Registries.TRUNK_PLACER_TYPE);
+        addRegistry(RootPlacerType.class, Registries.ROOT_PLACER_TYPE);
+        addRegistry(TreeDecoratorType.class, Registries.TREE_DECORATOR_TYPE);
+        addRegistry(FeatureSizeType.class, Registries.FEATURE_SIZE_TYPE);
+        addRegistry(TreeDecoratorType.class, Registries.TREE_DECORATOR_TYPE);
+        addRegistry(StructurePoolElementType.class, Registries.STRUCTURE_POOL_ELEMENT_TYPE);
+        addRegistry(CatVariant.class, Registries.CAT_VARIANT);
+        addRegistry(FrogVariant.class, Registries.FROG_VARIANT);
+        addRegistry(BannerPattern.class, Registries.BANNER_PATTERN);
+        addRegistry(Instrument.class, Registries.INSTRUMENT);
     }
 
     /**
@@ -194,7 +195,7 @@ public class JamLibRegistry {
     /**
      * <p>Processes a registry class, registering all valid fields in it. This should be called at mod initialization.</p>
      *
-     * <p>Fields may have additional processing outside of just registering them, for example {@link Block}s can have items registered (via {@link BlockItemFactory}),
+     * <p>Fields may have additional processing outside of just registering them, for example {@link Block}s can have items registered (via {@link JamLibContentRegistry}),
      * and {@link EntityType}'s can have their attributes automatically registered if they define a method that takes no parameters and returns an
      * {@link DefaultAttributeContainer.Builder}.</p>
      *
@@ -209,8 +210,15 @@ public class JamLibRegistry {
         }
 
         String modId = registry.getAnnotation(ContentRegistry.class).value();
-        boolean checkedForBlockItemCreator = false;
-        Method blockItemCreator = null;
+        JamLibContentRegistry jlcr = null;
+
+        if (JamLibContentRegistry.class.isAssignableFrom(registry)) {
+            try {
+                jlcr = (JamLibContentRegistry) registry.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                JamLib.LOGGER.warn("Couldn't create instance of registry", registry.getName(), ", some features will not be available");
+            }
+        }
 
         for (Field f : registry.getFields()) {
             if (!f.canAccess(null)) {
@@ -235,31 +243,34 @@ public class JamLibRegistry {
                 }
             }
 
-            if (Block.class.isAssignableFrom(fClass)) {
-                if (!checkedForBlockItemCreator) {
-                    for (Method method : registry.getDeclaredMethods()) {
-                        if (method.isAnnotationPresent(BlockItemFactory.class)) {
-                            if (method.getParameterTypes().length != 1 || !Block.class.isAssignableFrom(method.getParameterTypes()[0]) || !Item.class.isAssignableFrom(method.getReturnType())) {
-                                throw new IllegalArgumentException("@BlockItemFactory method " + method.getName() + " in registry class " + registry.getName() + " has invalid parameters or return type.");
-                            }
-
-                            if (!method.canAccess(null)) {
-                                throw new IllegalArgumentException("Cannot access @BlockItemFactory method " + method.getName() + " in registry class " + registry.getName());
-                            }
-
-                            blockItemCreator = method;
-                            break;
-                        }
-                    }
-
-                    checkedForBlockItemCreator = true;
+            if (jlcr != null && Item.class.isAssignableFrom(fClass)) {
+                ItemGroup group = jlcr.getItemGroup((Item) fObj);
+                if (group == null) {
+                    continue;
                 }
 
-                if (blockItemCreator != null && !f.isAnnotationPresent(WithoutBlockItem.class)) {
-                    try {
-                        Registry.register(Registry.ITEM, fId, (Item) blockItemCreator.invoke(null, fObj));
-                    } catch (Exception ignored) {
+                List<Item> l = ITEM_GROUP_REGISTRATION_QUEUE.getOrDefault(group, new ArrayList<>());
+                l.add((Item) fObj);
+                ITEM_GROUP_REGISTRATION_QUEUE.put(group, l);
+            }
+
+            if (Block.class.isAssignableFrom(fClass)) {
+                if (jlcr != null && !f.isAnnotationPresent(WithoutBlockItem.class)) {
+                    Item item = jlcr.createBlockItem((Block) fObj);
+                    if (item == null) {
+                        continue;
                     }
+
+                    Registry.register(Registries.ITEM, fId, item);
+
+                    ItemGroup group = jlcr.getItemGroup(item);
+                    if (group == null) {
+                        continue;
+                    }
+
+                    List<Item> l = ITEM_GROUP_REGISTRATION_QUEUE.getOrDefault(group, new ArrayList<>());
+                    l.add(item);
+                    ITEM_GROUP_REGISTRATION_QUEUE.put(group, l);
                 }
             }
 
@@ -289,6 +300,14 @@ public class JamLibRegistry {
                     }
                 }
             }
+        }
+
+        for (ItemGroup group : ITEM_GROUP_REGISTRATION_QUEUE.keySet()) {
+            ItemGroupEvents.modifyEntriesEvent(group).register((content) -> {
+                for (Item item : ITEM_GROUP_REGISTRATION_QUEUE.get(group)) {
+                    content.addStack(item.getDefaultStack());
+                }
+            });
         }
     }
 

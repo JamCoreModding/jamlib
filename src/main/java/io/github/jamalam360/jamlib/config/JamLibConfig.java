@@ -378,12 +378,12 @@ public abstract class JamLibConfig {
                 loadValues();
             }
 
-            this.addDrawableChild(new ButtonWidget(this.width / 2 - 154, this.height - 28, 150, 20, ScreenTexts.CANCEL, button -> {
+            this.addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, button -> {
                 loadValues();
                 Objects.requireNonNull(client).setScreen(parent);
-            }));
+            }).position(this.width / 2 - 154, this.height - 28).size(150, 20).build());
 
-            ButtonWidget done = this.addDrawableChild(new ButtonWidget(this.width / 2 + 4, this.height - 28, 150, 20, ScreenTexts.DONE, (button) -> {
+            ButtonWidget done = this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> {
                 for (EntryInfo info : entries) {
                     if (info.id.equals(modid)) {
                         try {
@@ -395,7 +395,7 @@ public abstract class JamLibConfig {
 
                 write(modid);
                 Objects.requireNonNull(client).setScreen(parent);
-            }));
+            }).position(this.width / 2 + 4, this.height - 28).size(150, 20).build());
 
             this.list = new MidnightConfigListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
             if (this.client != null && this.client.world != null) {
@@ -406,7 +406,8 @@ public abstract class JamLibConfig {
             for (EntryInfo info : entries) {
                 if (info.id.equals(modid)) {
                     Text name = Objects.requireNonNullElseGet(info.name, () -> Text.translatable(translationPrefix + info.field.getName()));
-                    ButtonWidget resetButton = new ButtonWidget(width - 205, 0, 40, 20, Text.translatable("Reset").formatted(Formatting.RED), (button -> {
+
+                    ButtonWidget resetButton = ButtonWidget.builder(Text.literal("Reset").formatted(Formatting.RED), button -> {
                         info.value = info.defaultValue;
                         info.tempValue = info.defaultValue.toString();
                         info.index = 0;
@@ -414,7 +415,7 @@ public abstract class JamLibConfig {
                         this.reload = true;
                         Objects.requireNonNull(client).setScreen(this);
                         list.setScrollAmount(scrollAmount);
-                    }));
+                    }).size(40, 20).position(width - 205, 0).build();
 
                     if (info.widget instanceof Map.Entry) {
                         Map.Entry<ButtonWidget.PressAction, Function<Object, Text>> widget = (Map.Entry<ButtonWidget.PressAction, Function<Object, Text>>) info.widget;
@@ -423,7 +424,8 @@ public abstract class JamLibConfig {
                             widget.setValue(value -> Text.translatable(translationPrefix + "enum." + info.field.getType().getSimpleName() + "." + info.value.toString()));
                         }
 
-                        this.list.addButton(List.of(new ButtonWidget(width - 160, 0, 150, 20, widget.getValue().apply(info.value), widget.getKey()), resetButton), name);
+                        this.list.addButton(List.of(
+                              ButtonWidget.builder(widget.getValue().apply(info.value), widget.getKey()).position(width - 160, 0).size(150, 20).build()), name);
                     } else if (info.field.getType() == List.class) {
                         if (!reload) {
                             info.index = 0;
@@ -443,7 +445,7 @@ public abstract class JamLibConfig {
                         resetButton.setWidth(20);
                         resetButton.setMessage(Text.literal("R").formatted(Formatting.RED));
 
-                        ButtonWidget cycleButton = new ButtonWidget(width - 185, 0, 20, 20, Text.literal(String.valueOf(info.index)).formatted(Formatting.GOLD), (button -> {
+                        ButtonWidget cycleButton = ButtonWidget.builder( Text.literal(String.valueOf(info.index)).formatted(Formatting.GOLD), (button -> {
                             ((List<String>) info.value).remove("");
                             double scrollAmount = list.getScrollAmount();
                             this.reload = true;
@@ -453,7 +455,7 @@ public abstract class JamLibConfig {
                             }
                             Objects.requireNonNull(client).setScreen(this);
                             list.setScrollAmount(scrollAmount);
-                        }));
+                        })).position(width - 185, 0).size(20, 20).build();
 
                         this.list.addButton(List.of(widget, resetButton, cycleButton), name);
                     } else if (info.widget != null) {
@@ -466,8 +468,8 @@ public abstract class JamLibConfig {
                         if (info.field.getAnnotation(Entry.class).isColor()) {
                             resetButton.setWidth(20);
                             resetButton.setMessage(Text.literal("R").formatted(Formatting.RED));
-                            ButtonWidget colorButton = new ButtonWidget(width - 185, 0, 20, 20, Text.literal("⬛"), (button -> {
-                            }));
+
+                            ButtonWidget colorButton = ButtonWidget.builder(Text.literal("⬛"), button -> {}).position(width - 185, 0).size(20, 20).build();
 
                             try {
                                 colorButton.setMessage(Text.literal("⬛").setStyle(Style.EMPTY.withColor(Color.decode(info.tempValue).getRGB())));
@@ -579,7 +581,7 @@ public abstract class JamLibConfig {
 
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             buttons.forEach(b -> {
-                b.y = y;
+                b.setY(y);
                 b.render(matrices, mouseX, mouseY, tickDelta);
             });
 

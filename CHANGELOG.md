@@ -12,4 +12,4 @@ Support for 1.19-1.19.2 is back, along with 1.19.3 of course!
 - Add JavaDoc.
 - More overhauls.
 
-[Full Changelog](https://github.com/JamCoreModding/jam-lib/compare/0.5.0...0.6.0+1.19)
+[Full Changelog](https://github.com/JamCoreModding/jam-lib/compare/0.5.2...0.6.0+1.19.3)
