@@ -4,14 +4,15 @@ A general multipurpose library for JamCoreModding's mods.
 
 ## Features
 
-- Annotation based registration.
+- Reflection and annotation based registration.
 - Single class configuration.
 - General utilities.
-- NBT (de)serialization.
 - Networking.
 - Keybindings.
-- Scheduling.
-- Development environment 'auth' (use your username and skin in dev environments), as well as other utilities for development environments.
+- Development environment 'auth' (use your username in dev environments), as well as other utilities for development environments.
+- Logging.
+- Events.
+- Compatibility modules.
 
 ## Maven
 
@@ -33,8 +34,8 @@ dependencies {
 
 - `jamlib.dev.disable-eula-auto-agree`: Disable the EULA auto-agree in development environments.
 - `jamlib.dev.disable-offline-mode`: Disable using offline mode by default in development environments.
-- `jamlib.dev.session.uuid`: Set your username in development environments.
-- `jamlib.dev.session.skin`: Set your UUID in development environments.
+- `jamlib.dev.session.uuid`: Set your UUID in development environments.
+- `jamlib.dev.session.username`: Set your username in development environments.
 
 ## Links
 
