@@ -29,6 +29,8 @@ import java.util.Optional;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.VersionParsingException;
+import net.fabricmc.loader.api.metadata.version.VersionPredicate;
 
 /**
  * <p>Helper class to initialize 'compatibility modules' for a mod. A compatibility module is
@@ -50,6 +52,18 @@ import net.fabricmc.loader.api.ModContainer;
  * </pre>
  * <p>JamLib only loads these classes if the other mod is present, so as long as you are
  * careful, you shouldn't run into classloading issues.</p>
+ *
+ * <p>You can also optionally define a version(-range), which is parsed using {@link VersionPredicate#parse(String)}:</p>
+ * <pre>
+ * {@code
+ * "custom": {
+ *      "jamlib:compatibility_modules": {
+ *         "emi[>=0.3.0]": "io.github.jamalam360.test.EmiCompatibility",
+ *         "emi[<0.3.0]": "io.github.jamalam360.test.OldEmiCompatibility",
+ *      }
+ * }
+ * }
+ * </pre>
  */
 public class JamLibCompatibilityModuleHandler {
 
@@ -72,8 +86,22 @@ public class JamLibCompatibilityModuleHandler {
         }
 
         mod.get().getMetadata().getCustomValue("jamlib:compatibility_modules").getAsObject().forEach(((e -> {
-            if (FabricLoader.getInstance().isModLoaded(e.getKey())) {
-                JamLib.LOGGER.info("Initializing", modId, "compatibility module for", e.getKey());
+            String compatId = e.getKey();
+            VersionPredicate versionPredicate = null;
+
+            if (compatId.contains("[") && compatId.endsWith("]")) {
+                String version = compatId.substring(compatId.indexOf("[") + 1, compatId.length() - 1);
+                compatId = compatId.substring(0, compatId.indexOf("["));
+
+                try {
+                    versionPredicate = VersionPredicate.parse(version);
+                } catch (VersionParsingException ex) {
+                    JamLib.LOGGER.warn("Encountered invalid version range", version, "from compatibility modules of mod", modId);
+                }
+            }
+
+            if (FabricLoader.getInstance().isModLoaded(compatId) && (versionPredicate == null || versionPredicate.test(FabricLoader.getInstance().getModContainer(compatId).get().getMetadata().getVersion()))) {
+                JamLib.LOGGER.info("Initializing", modId, "compatibility module for", compatId);
 
                 try {
                     Class<?> clazz = Class.forName(e.getValue().getAsString());

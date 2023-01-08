@@ -34,7 +34,9 @@
   },
   "custom": {
     "jamlib:compatibility_modules": {
-      "fabric": "io.github.jamalam360.jamlib.test.TestCompatibilityModule"
+      "fabric": "io.github.jamalam360.jamlib.test.TestCompatibilityModule",
+      "fabricloader[<0.12.5]": "io.github.jamalam360.jamlib.test.TestCompatibilityModule",
+      "emi": "io.github.jamalam360.jamlib.test.TestCompatibilityModule"
     }
   }
 }
