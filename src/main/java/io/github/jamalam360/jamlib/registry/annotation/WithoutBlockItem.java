@@ -29,7 +29,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * {@link net.minecraft.block.Block} fields annotated with {@link WithoutBlockItem} will not have an {@link net.minecraft.item.Item} created for them via the
- * {@link BlockItemFactory}.
+ * {@link io.github.jamalam360.jamlib.registry.JamLibContentRegistry}.
  */
 
 @Retention(RetentionPolicy.RUNTIME)
