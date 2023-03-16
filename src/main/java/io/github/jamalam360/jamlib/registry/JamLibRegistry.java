@@ -151,8 +151,8 @@ public class JamLibRegistry {
         addRegistry(FloatProviderType.class, Registries.FLOAT_PROVIDER_TYPE);
         addRegistry(IntProviderType.class, Registries.INT_PROVIDER_TYPE);
         addRegistry(HeightProviderType.class, Registries.HEIGHT_PROVIDER_TYPE);
-        addRegistry(Carver.class, Registries.CARVER_WORLDGEN);
-        addRegistry(Feature.class, Registries.FEATURE_WORLDGEN);
+        addRegistry(Carver.class, Registries.CARVER);
+        addRegistry(Feature.class, Registries.FEATURE);
         addRegistry(StructurePlacementType.class, Registries.STRUCTURE_PLACEMENT_TYPE);
         addRegistry(StructurePieceType.class, Registries.STRUCTURE_PIECE_TYPE);
         addRegistry(StructureType.class, Registries.STRUCTURE_TYPE);

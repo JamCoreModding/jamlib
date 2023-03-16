@@ -1,12 +1,12 @@
 plugins {
-    id("fabric-loom") version "1.0-SNAPSHOT"
+    id("fabric-loom") version "1.1-SNAPSHOT"
     id("io.github.juuxel.loom-quiltflower") version "1.+"
     id("io.github.p03w.machete") version "1.+"
-    id("org.cadixdev.licenser") version "0.6.1"
+    id("org.cadixdev.licenser") version "0.6.+"
 }
 
-apply(from = "https://raw.githubusercontent.com/JamCoreModding/Gronk/main/publishing.gradle.kts")
-apply(from = "https://raw.githubusercontent.com/JamCoreModding/Gronk/main/misc.gradle.kts")
+apply(from = "https://raw.githubusercontent.com/JamCoreModding/Gronk/01c1aa38aa288e02f099130a998628883076ff88/publishing.gradle.kts")
+apply(from = "https://raw.githubusercontent.com/JamCoreModding/Gronk/01c1aa38aa288e02f099130a998628883076ff88/misc.gradle.kts")
 
 val mod_version: String by project
 

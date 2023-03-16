@@ -39,7 +39,7 @@ public class TestEntity extends LivingEntity {
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return LivingEntity.createLivingAttributes();
+        return LivingEntity.createAttributes();
     }
 
     @Override
