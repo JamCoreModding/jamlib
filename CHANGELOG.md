@@ -1,3 +1,9 @@
 ## Changelog
 
-Update to `1.19.4`.
+### Features
+
+### Fixes
+
+Closed issues: None.
+
+[Full Changelog](https://github.com/JamCoreModding/jam-lib/compare/...)
