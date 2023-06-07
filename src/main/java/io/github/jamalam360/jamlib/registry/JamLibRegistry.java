@@ -72,6 +72,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatType;
@@ -82,8 +83,8 @@ import net.minecraft.structure.pool.StructurePoolElementType;
 import net.minecraft.structure.rule.PosRuleTest;
 import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.floatprovider.FloatProviderType;
-import net.minecraft.util.math.intprovider.IntProviderType;
+import net.minecraft.util.math.float_provider.FloatProviderType;
+import net.minecraft.util.math.int_provider.IntProviderType;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.chunk.ChunkStatus;
@@ -110,7 +111,7 @@ import net.minecraft.world.poi.PointOfInterestType;
 public class JamLibRegistry {
 
     private static final Map<Class<?>, Registry<?>> REGISTRIES = new HashMap<>();
-    private static final Map<ItemGroup, List<Item>> ITEM_GROUP_REGISTRATION_QUEUE = new HashMap<>();
+    private static final Map<RegistryKey<ItemGroup>, List<Item>> ITEM_GROUP_REGISTRATION_QUEUE = new HashMap<>();
 
     static {
         addRegistry(GameEvent.class, Registries.GAME_EVENT);
@@ -244,7 +245,7 @@ public class JamLibRegistry {
             }
 
             if (jlcr != null && Item.class.isAssignableFrom(fClass)) {
-                ItemGroup group = jlcr.getItemGroup((Item) fObj);
+                RegistryKey<ItemGroup> group = jlcr.getItemGroup((Item) fObj);
                 if (group == null) {
                     continue;
                 }
@@ -263,7 +264,7 @@ public class JamLibRegistry {
 
                     Registry.register(Registries.ITEM, fId, item);
 
-                    ItemGroup group = jlcr.getItemGroup(item);
+                    RegistryKey<ItemGroup> group = jlcr.getItemGroup(item);
                     if (group == null) {
                         continue;
                     }
@@ -302,7 +303,7 @@ public class JamLibRegistry {
             }
         }
 
-        for (ItemGroup group : ITEM_GROUP_REGISTRATION_QUEUE.keySet()) {
+        for (RegistryKey<ItemGroup> group : ITEM_GROUP_REGISTRATION_QUEUE.keySet()) {
             ItemGroupEvents.modifyEntriesEvent(group).register((content) -> {
                 for (Item item : ITEM_GROUP_REGISTRATION_QUEUE.get(group)) {
                     content.addStack(item.getDefaultStack());

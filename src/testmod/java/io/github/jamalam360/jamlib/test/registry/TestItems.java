@@ -30,6 +30,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.registry.RegistryKey;
 
 /**
  * @author Jamalam
@@ -41,7 +42,7 @@ public class TestItems implements JamLibContentRegistry {
     public static final Item TEST_ITEM = new Item(new FabricItemSettings());
 
     @Override
-    public ItemGroup getItemGroup(Item item) {
+    public RegistryKey<ItemGroup> getItemGroup(Item item) {
         return ItemGroups.COMBAT;
     }
 }

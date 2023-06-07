@@ -49,14 +49,14 @@ public class JamLibTest implements ModInitializer {
 
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS.setHandler(((server, player, handler, buf, responseSender) -> {
             int i = buf.readInt();
-            player.sendMessage(Text.literal("Random number: " + i + "; Client: " + player.world.isClient()), false);
+            player.sendMessage(Text.literal("Random number: " + i + "; Client: " + player.getWorld().isClient()), false);
             JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.send(player, (resBuf) -> resBuf.writeInt(i + 1));
         }));
 
         JamLibServerNetworking.registerHandlers("jamlib-test");
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("jamlib-test").then(literal("config").executes(context -> {
-            context.getSource().sendFeedback(Text.literal(String.valueOf(Config.testInt)), false);
+            context.getSource().sendFeedback(() -> Text.literal(String.valueOf(Config.testInt)), false);
             return 1;
         }))));
 

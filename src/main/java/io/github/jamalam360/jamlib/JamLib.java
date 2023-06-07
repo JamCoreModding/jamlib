@@ -47,7 +47,7 @@ public class JamLib implements ModInitializer {
                   literal("jamlib").then(
                         literal("version").executes(context -> {
                             //noinspection OptionalGetWithoutIsPresent
-                            context.getSource().sendFeedback(Text.literal("JamLib " + FabricLoader.getInstance().getModContainer("jamlib").get().getMetadata().getVersion()), false);
+                            context.getSource().sendFeedback(() -> Text.literal("JamLib " + FabricLoader.getInstance().getModContainer("jamlib").get().getMetadata().getVersion()), false);
                             return 1;
                         })
                   )

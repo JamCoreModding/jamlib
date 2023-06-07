@@ -1,9 +1,9 @@
 ## Changelog
 
-### Features
+JamLib has been updated to 1.20-rc1. This release will most likely work on
+the 1.20 release when it comes.
 
-### Fixes
+## Breaking Changes
 
-Closed issues: None.
-
-[Full Changelog](https://github.com/JamCoreModding/jam-lib/compare/...)
+- `JamLibContentRegistry` now uses `RegistryKey<ItemGroup>` rather than
+  `ItemGroup`, in line with Minecraft and Fabric API changes.

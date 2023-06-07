@@ -28,6 +28,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.RegistryKey;
 
 /**
  * <p>Used to provide additional functionality for {@link io.github.jamalam360.jamlib.registry.annotation.ContentRegistry} classes.</p>
@@ -48,9 +49,9 @@ public interface JamLibContentRegistry {
     /**
      * @param item The {@link Item}.
      *
-     * @return The {@link ItemGroup} to use.
+     * @return The {@link RegistryKey} of the {@link ItemGroup} to use.
      */
-    default ItemGroup getItemGroup(Item item) {
+    default RegistryKey<ItemGroup> getItemGroup(Item item) {
         return null;
     }
 }

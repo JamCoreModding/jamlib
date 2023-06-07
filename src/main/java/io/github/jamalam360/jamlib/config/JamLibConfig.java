@@ -55,8 +55,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -65,7 +65,7 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.ScreenTexts;
+import net.minecraft.text.CommonTexts;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -378,12 +378,12 @@ public abstract class JamLibConfig {
                 loadValues();
             }
 
-            this.addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, button -> {
+            this.addDrawableChild(ButtonWidget.builder(CommonTexts.CANCEL, button -> {
                 loadValues();
                 Objects.requireNonNull(client).setScreen(parent);
             }).position(this.width / 2 - 154, this.height - 28).size(150, 20).build());
 
-            ButtonWidget done = this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> {
+            ButtonWidget done = this.addDrawableChild(ButtonWidget.builder(CommonTexts.DONE, button -> {
                 for (EntryInfo info : entries) {
                     if (info.id.equals(modid)) {
                         try {
@@ -490,10 +490,10 @@ public abstract class JamLibConfig {
         }
 
         @Override
-        public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-            this.renderBackground(matrices);
-            this.list.render(matrices, mouseX, mouseY, delta);
-            drawCenteredText(matrices, textRenderer, title, width / 2, 15, 0xFFFFFF);
+        public void render(GuiGraphics ctx, int mouseX, int mouseY, float delta) {
+            this.renderBackground(ctx);
+            this.list.render(ctx, mouseX, mouseY, delta);
+            ctx.drawCenteredShadowedText(textRenderer, title, width / 2, 15, 0xFFFFFF);
 
             for (EntryInfo info : entries) {
                 if (info.id.equals(modid)) {
@@ -504,20 +504,20 @@ public abstract class JamLibConfig {
                         String key = translationPrefix + info.field.getName() + ".tooltip";
 
                         if (info.error != null && text.equals(name)) {
-                            renderTooltip(matrices, info.error.getValue(), mouseX, mouseY);
+                            ctx.drawTooltip(MinecraftClient.getInstance().textRenderer, info.error.getValue(), mouseX, mouseY);
                         } else if (I18n.hasTranslation(key) && text.equals(name)) {
                             List<Text> list = new ArrayList<>();
                             for (String str : I18n.translate(key).split("\n")) {
                                 list.add(Text.literal(str));
                             }
 
-                            renderTooltip(matrices, list, mouseX, mouseY);
+                            ctx.drawTooltip(MinecraftClient.getInstance().textRenderer, list, mouseX, mouseY);
                         }
                     }
                 }
             }
 
-            super.render(matrices, mouseX, mouseY, delta);
+            super.render(ctx, mouseX, mouseY, delta);
         }
     }
 
@@ -579,14 +579,14 @@ public abstract class JamLibConfig {
             return new ButtonEntry(buttons, text);
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(GuiGraphics ctx, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             buttons.forEach(b -> {
                 b.setY(y);
-                b.render(matrices, mouseX, mouseY, tickDelta);
+                b.render(ctx, mouseX, mouseY, tickDelta);
             });
 
             if (text != null && (!text.getString().contains("spacer") || !buttons.isEmpty())) {
-                DrawableHelper.drawTextWithShadow(matrices, textRenderer, text, 12, y + 5, 0xFFFFFF);
+                ctx.drawShadowedText(textRenderer, text, 12, y + 5, 0xFFFFFF);
             }
         }
 

@@ -28,10 +28,11 @@ import io.github.jamalam360.jamlib.registry.JamLibContentRegistry;
 import io.github.jamalam360.jamlib.registry.annotation.ContentRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.registry.RegistryKey;
 
 /**
  * @author Jamalam
@@ -40,10 +41,10 @@ import net.minecraft.item.ItemGroups;
 @ContentRegistry("jamlib-test")
 public class TestBlocks implements JamLibContentRegistry {
 
-    public static final Block TEST_BLOCK = new Block(FabricBlockSettings.of(Material.STONE));
+    public static final Block TEST_BLOCK = new Block(FabricBlockSettings.copy(Blocks.STONE));
 
     @Override
-    public ItemGroup getItemGroup(Item item) {
+    public RegistryKey<ItemGroup> getItemGroup(Item item) {
         return ItemGroups.COMBAT;
     }
 }
