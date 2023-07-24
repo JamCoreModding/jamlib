@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.block.Block;
@@ -298,7 +299,7 @@ public class JamLibRegistry {
         if (f.isAnnotationPresent(WithIdentifier.class)) {
             path = f.getAnnotation(WithIdentifier.class).value();
         } else {
-            path = f.getName().toLowerCase();
+            path = f.getName().toLowerCase(Locale.ROOT);
         }
 
         return new Identifier(modId, path);
