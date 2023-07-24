@@ -1,9 +1,5 @@
 ## Changelog
 
-### Features
+- Fix a crash on Turkish locales.
 
-### Fixes
-
-Closed issues: None.
-
-[Full Changelog](https://github.com/JamCoreModding/jam-lib/compare/...)
+[Full Changelog](https://github.com/JamCoreModding/jam-lib/compare/0.6.0+1.19.4...0.6.1+1.19.4)
