@@ -54,6 +54,14 @@ tasks.withType(Javadoc::class.java) {
     exclude("**/mixin/**")
 }
 
+tasks.named("modrinth") {
+    dependsOn("optimizeOutputsOfRemapJar")
+}
+
+tasks.named("generateMetadataFileForMavenPublication") {
+    dependsOn("optimizeOutputsOfRemapJar")
+}
+
 sourceSets {
     val main = this.getByName("main")
 
