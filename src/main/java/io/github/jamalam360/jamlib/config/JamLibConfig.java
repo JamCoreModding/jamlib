@@ -491,7 +491,7 @@ public abstract class JamLibConfig {
 
         @Override
         public void render(GuiGraphics ctx, int mouseX, int mouseY, float delta) {
-            this.renderBackground(ctx);
+            this.renderBackground(ctx, mouseX, mouseY, delta);
             this.list.render(ctx, mouseX, mouseY, delta);
             ctx.drawCenteredShadowedText(textRenderer, title, width / 2, 15, 0xFFFFFF);
 

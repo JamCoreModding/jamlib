@@ -29,6 +29,8 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import io.github.jamalam360.jamlib.Ducks;
 import io.github.jamalam360.jamlib.JamLib;
 import java.util.Optional;
+import java.util.UUID;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.util.Session;
@@ -58,7 +60,7 @@ public class MinecraftClientMixin {
             if (idString != null) {
                 uuid = idString;
             }
-            return Optional.of(new Session(username, uuid, previous.getAccessToken(), previous.getXuid(), previous.getClientId(), previous.getAccountType()));
+            return Optional.of(new Session(username, UUID.fromString(uuid), previous.getAccessToken(), previous.getXuid(), previous.getClientId(), previous.getAccountType()));
         }
 
         return Optional.empty();

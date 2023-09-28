@@ -28,6 +28,7 @@ import com.mojang.blaze3d.platform.InputUtil;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import io.github.jamalam360.jamlib.config.JamLibConfig;
+import io.github.jamalam360.jamlib.event.client.MouseScrollCallback;
 import io.github.jamalam360.jamlib.keybind.JamLibKeybinds;
 import io.github.jamalam360.jamlib.network.JamLibClientNetworking;
 import java.util.Random;
@@ -61,6 +62,11 @@ public class JamLibTestClient implements ClientModInitializer, ModMenuApi {
         JamLibTestNetwork.NETWORK_KEYBIND_PRESS_RESPONSE.setHandler(((client, handler, buf, responseSender) -> client.player.sendMessage(Text.literal("Response: " + buf.readInt()), false)));
 
         JamLibClientNetworking.registerHandlers("jamlib-test");
+
+        MouseScrollCallback.EVENT.register(((mouseX, mouseY, amount) -> {
+            System.out.println("Mouse Scroll: " + mouseX + ", " + mouseY + ", " + amount);
+            return false;
+        }));
     }
 
     @Override

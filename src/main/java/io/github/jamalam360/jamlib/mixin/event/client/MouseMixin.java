@@ -62,7 +62,8 @@ public class MouseMixin {
           locals = LocalCapture.CAPTURE_FAILEXCEPTION,
           cancellable = true
     )
-    private void jamlib$callMouseScrollEvent(long window, double scrollDeltaX, double scrollDeltaY, CallbackInfo ci, double amount) {
+//    private void jamlib$callMouseScrollEvent(long window, double scrollDeltaX, double scrollDeltaY, CallbackInfo ci, boolean ignored1, double ignored2, double ignored3, double amount) {
+    private void jamlib$callMouseScrollEvent(long window, double scrollDeltaX, double scrollDeltaY, CallbackInfo ci, boolean bl, double d, double e, double amount) {
         double mouseX = this.x * (double) this.client.getWindow().getScaledWidth() / (double) this.client.getWindow().getWidth();
         double mouseY = this.y * (double) this.client.getWindow().getScaledHeight() / (double) this.client.getWindow().getHeight();
 
