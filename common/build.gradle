@@ -1,0 +1,14 @@
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/jamlib.accesswidener")
+}
+
+dependencies {
+    modImplementation libs.fabric.loader
+    modApi libs.architectury.common
+    implementation libs.mixin.extras.common
+    annotationProcessor libs.mixin.extras.common
+}

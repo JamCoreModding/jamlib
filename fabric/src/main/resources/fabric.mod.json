@@ -1,0 +1,35 @@
+{
+    "schemaVersion": 1,
+    "id": "jamlib",
+    "version": "${version}",
+    "name": "JamLib",
+    "description": "A multi-loader, multi-purpose library for JamCoreModding&#x27;s mods",
+    "authors": [
+        "Jamalam"
+    ],
+    "contact": {
+        "homepage": "https://github.com/JamCoreModding/jamlib",
+        "sources": "https://github.com/JamCoreModding/jamlib",
+        "issues": "https://github.com/JamCoreModding/jamlib/issues"
+    },
+    "license": "MIT",
+    "icon": "assets/jamlib/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "io.github.jamalam360.jamlib.fabric.JamLibFabric"
+        ]
+    },
+    "mixins": [
+        "jamlib.mixins.json",
+        "jamlib.fabriclike.mixins.json",
+        "jamlib.fabric.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.14",
+        "fabric": "*",
+        "minecraft": ">=1.20",
+        "java": ">=17",
+        "architectury": ">=9.1.12"
+    }
+}

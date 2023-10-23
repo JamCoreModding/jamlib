@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "MIT"
+issueTrackerURL="https://github.com/JamCoreModding/jamlib/issues"
+
+[[mods]]
+modId = "jamlib"
+version = "${file.jarVersion}"
+displayName = "JamLib"
+displayURL="https://github.com/JamCoreModding/jamlib"
+logoFile = "icon.png"
+authors = "Jamalam"
+description = '''
+A multi-loader, multi-purpose library for JamCoreModding&#x27;s mods
+'''
+
+[[dependencies.jamlib]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.jamlib]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20,1.21)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.jamlib]]
+modId = "architectury"
+mandatory = true
+versionRange = "[9.1.12,)"
+ordering = "AFTER"
+side = "BOTH"

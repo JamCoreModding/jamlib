@@ -1,46 +1,25 @@
-# JamLib
+# JamCore Multi-loader Template Mod
 
-A general multipurpose library for JamCoreModding's mods.
+<p align="center">
+    <img alt="forge" height="25" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/supported/forge_vector.svg">
+    <img alt="fabric" height="25" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/supported/fabric_vector.svg">
+</p>
 
-## Features
+This repository uses a system I created called
+[easytemplate](https://github.com/Jamalam360/easytemplate) to initialize the
+template automatically. After following the easytemplate prompt, you shouldn't
+have to make any changes before starting programming.
 
-- Reflection and annotation based registration.
-- Single class configuration.
-- General utilities.
-- Networking.
-- Keybindings.
-- Development environment 'auth' (use your username in dev environments), as well as other utilities for development environments.
-- Logging.
-- Events.
-- Compatibility modules.
+1. Install [Deno](https://deno.land/)
+2. Click `Use This Template`
+3. Clone the repository.
+4. Run `deno run --allow-read --allow-write https://raw.githubusercontent.com/Jamalam360/easytemplate/main/easytemplate.ts` in
+   the repository directory.
+5. Follow the instructions.
 
-## Maven
+## License
 
-JamLib is available at [Jamalam's maven](https://maven.jamalam.tech):
+This repository contains the MIT license for ease of use, but you can change it
+to whatever you want.
 
-```groovy
-repositories {
-    maven {
-        url = "https://maven.jamalam.tech/releases"
-    }
-}
-
-dependencies {
-    modImplementation("io.github.jamalam360:jamlib:{VERSION}")
-}
-```
-
-## System Properties
-
-- `jamlib.dev.disable-eula-auto-agree`: Disable the EULA auto-agree in development environments.
-- `jamlib.dev.disable-offline-mode`: Disable using offline mode by default in development environments.
-- `jamlib.dev.session.uuid`: Set your UUID in development environments.
-- `jamlib.dev.session.username`: Set your username in development environments.
-
-## Links
-
-- [Curseforge](https://www.curseforge.com/minecraft/mc-mods/jamlib)
-- [Modrinth](https://modrinth.com/mod/jamlib)
-- [Discord](https://discord.jamalam.tech)
-
-[![Need a server? Use code JAMALAM at Bisect Hosting for 25% off, and support me as well!](https://www.bisecthosting.com/partners/custom-banners/bed9e0dd-9142-4d6e-8683-b593593c11ff.webp)](https://bisecthosting.com/jamalam)
+This template is based off of [this repository](https://github.com/jaredlll08/MultiLoader-Template).

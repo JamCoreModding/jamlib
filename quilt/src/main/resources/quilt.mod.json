@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "mixin": [
+    "jamlib.mixins.json",
+    "jamlib.fabriclike.mixins.json",
+    "jamlib.quilt.mixins.json"
+  ],
+  "quilt_loader": {
+    "group": "io.github.jamalam360",
+    "id": "jamlib",
+    "version": "${version}",
+    "metadata": {
+      "name": "JamLib",
+      "description": "A multi-loader, multi-purpose library for JamCoreModding&#x27;s mods",
+      "contributors": {
+        "Jamalam": "Owner"
+      },
+      "contact": {
+        "sources": "https://github.com/JamCoreModding/jamlib"
+      },
+      "icon": "assets/jamlib/icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "init": ["io.github.jamalam360.jamlib.quilt.JamLibQuilt"]
+    },
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "version": "*"
+      },
+      {
+        "id": "quilt_base",
+        "version": "*"
+      },
+      {
+        "id": "minecraft",
+        "version": ">=1.20.1"
+      },
+      {
+        "id": "architectury",
+        "version": ">=9.1.12"
+      }
+    ]
+  },
+  "minecraft": {
+    "environment": "*"
+  }
+}
