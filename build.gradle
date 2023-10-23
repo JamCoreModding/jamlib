@@ -68,6 +68,8 @@ allprojects {
         options.release = 17
     }
 
+    tasks.create("prepareWorkspace") {}
+
     java {
         withSourcesJar()
     }

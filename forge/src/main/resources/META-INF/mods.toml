@@ -11,7 +11,7 @@ displayURL="https://github.com/JamCoreModding/jamlib"
 logoFile = "icon.png"
 authors = "Jamalam"
 description = '''
-A multi-loader, multi-purpose library for JamCoreModding&#x27;s mods
+A multi-loader, multi-purpose library for JamCoreModding's mods
 '''
 
 [[dependencies.jamlib]]

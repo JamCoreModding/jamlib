@@ -11,7 +11,7 @@
     "version": "${version}",
     "metadata": {
       "name": "JamLib",
-      "description": "A multi-loader, multi-purpose library for JamCoreModding&#x27;s mods",
+      "description": "A multi-loader, multi-purpose library for JamCoreModding's mods",
       "contributors": {
         "Jamalam": "Owner"
       },

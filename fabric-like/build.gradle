@@ -13,7 +13,6 @@ dependencies {
     annotationProcessor libs.mixin.extras.fabric
     implementation libs.mixin.extras.fabric
     include libs.mixin.extras.fabric
-    modImplementation libs.modmenu
 
     compileOnly(project(path: ":common", configuration: "namedElements")) { transitive false }
 }
