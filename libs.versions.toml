@@ -19,6 +19,9 @@ quilted-fabric-api = "7.4.0+0.90.0-1.20.1"
 # https://modrinth.com/mod/modmenu/versions
 modmenu = "8.0.0"
 
+# https://github.com/falkreon/Jankson/releases/latest
+jankson = "1.2.3"
+
 [libraries]
 architectury-common = { module = "dev.architectury:architectury", version.ref = "architectury" }
 architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
@@ -36,3 +39,5 @@ quilt-loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt-loade
 quilted-fabric-api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "quilted-fabric-api" }
 
 modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
+
+jankson = { module = "blue.endless:jankson", version.ref = "jankson" }

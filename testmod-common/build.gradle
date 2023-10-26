@@ -1,0 +1,12 @@
+loom {
+    accessWidenerPath = project(':common').file("src/main/resources/jamlib.accesswidener")
+}
+
+dependencies {
+    modImplementation libs.fabric.loader
+    implementation project(path: ":common", configuration: "namedElements")
+}
+
+architectury {
+    common(["fabric", "forge"])
+}

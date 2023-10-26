@@ -39,9 +39,12 @@ dependencies {
     implementation libs.mixin.extras.common
     implementation libs.mixin.extras.forge
     include libs.mixin.extras.forge
+    api libs.jankson
+    include libs.jankson
+    forgeRuntimeLibrary libs.jankson
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
 
 if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_KEY") != null) {

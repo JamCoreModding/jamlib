@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "testmod",
+  "version": "${version}",
+  "name": "JamLib Test Mod",
+  "description": "Test mod for JamLib",
+  "authors": [
+    "Jamalam"
+  ],
+  "contact": {
+    "homepage": "https://github.com/JamCoreModding/jamlib",
+    "sources": "https://github.com/JamCoreModding/jamlib",
+    "issues": "https://github.com/JamCoreModding/jamlib/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/testmod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.jamalam360.testmod.fabric.TestModFabric"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabricloader": ">=0.14",
+    "fabric": "*",
+    "minecraft": ">=1.20",
+    "java": ">=17",
+    "architectury": ">=9.1.12"
+  }
+}

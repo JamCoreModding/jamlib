@@ -1,0 +1,53 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    mixin { useLegacyMixinAp = true }
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+}
+
+dependencies {
+    modImplementation libs.fabric.loader
+    modImplementation libs.fabric.api
+    modRuntimeOnly libs.modmenu
+
+    implementation project(path: ":fabric", configuration: "namedElements")
+    implementation project(path: ":fabric-like", configuration: "namedElements")
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":testmod-common", configuration: "transformProductionFabric")) { transitive false }
+}
+
+shadowJar {
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = "dev-shadow"
+}
+
+remapJar {
+    injectAccessWidener = true
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}

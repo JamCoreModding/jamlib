@@ -22,7 +22,12 @@
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": ["io.github.jamalam360.jamlib.quilt.JamLibQuilt"]
+      "init": [
+        "io.github.jamalam360.jamlib.quilt.JamLibQuilt"
+      ],
+      "modmenu": [
+        "io.github.jamalam360.jamlib.fabriclike.config.ModMenuCompatibility"
+      ]
     },
     "depends": [
       {

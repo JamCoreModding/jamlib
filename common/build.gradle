@@ -11,4 +11,5 @@ dependencies {
     modApi libs.architectury.common
     implementation libs.mixin.extras.common
     annotationProcessor libs.mixin.extras.common
+    api libs.jankson
 }

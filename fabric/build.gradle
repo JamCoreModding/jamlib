@@ -18,7 +18,7 @@ loom {
 
 configurations {
     common
-    shadowCommon 
+    shadowCommon
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
@@ -29,6 +29,8 @@ dependencies {
     modApi libs.fabric.api
     modApi libs.architectury.fabric
     modRuntimeOnly libs.modmenu
+    api libs.jankson
+    include libs.jankson
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
