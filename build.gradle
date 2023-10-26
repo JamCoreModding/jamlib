@@ -2,6 +2,7 @@ plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
     id "com.github.breadmoirai.github-release" version "2.4.1"
+    id "maven-publish"
 }
 
 if (System.getenv("GITHUB_TOKEN") != null) {
@@ -73,17 +74,12 @@ allprojects {
     java {
         withSourcesJar()
     }
+}
 
-    processResources {
-        filesMatching(["pack.mcmeta", "fabric.mod.json", "mods.toml", "*.mixins.json", "quilt.mod.json"]) {
-            expand project.properties
-        }
-    }
-
-    tasks.publish {
-        dependsOn("githubRelease")
-        dependsOn("fabric:publishUnified")
-        dependsOn("quilt:publishUnified")
-        dependsOn("forge:publishUnified")
-    }
+tasks.publish {
+    dependsOn(":githubRelease")
+    dependsOn(":publishAllPublicationsToMavenRepository")
+    dependsOn("fabric:publishUnified")
+    dependsOn("quilt:publishUnified")
+    dependsOn("forge:publishUnified")
 }

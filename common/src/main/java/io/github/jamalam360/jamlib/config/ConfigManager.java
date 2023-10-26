@@ -58,6 +58,8 @@ public class ConfigManager<T> {
 		this.modId = modId;
 		this.configClass = configClass;
 
+		this.validateConfigClass();
+
 		if (!Files.exists(this.configPath)) {
 			this.config = this.createDefaultConfig();
 			this.save();
@@ -133,6 +135,20 @@ public class ConfigManager<T> {
 			}
 
 			this.config = this.createDefaultConfig();
+		}
+	}
+
+	private void validateConfigClass() {
+		T defaultConfig = this.createDefaultConfig();
+
+		try {
+			for (Field field : this.configClass.getFields()) {
+				if (field.get(defaultConfig) == null) {
+					throw new IllegalArgumentException("Config field " + field.getName() + " is null by default. Config fields cannot be null by default.");
+				}
+			}
+		} catch (Exception e) {
+			JamLib.LOGGER.error("Failed to validate config class " + this.configClass.getName(), e);
 		}
 	}
 

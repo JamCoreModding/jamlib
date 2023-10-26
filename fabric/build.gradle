@@ -63,6 +63,35 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
 //    }
 }
 
+publishing {
+    publications {
+        mavenFabric(MavenPublication) {
+            artifactId = rootProject.archivesBaseName + "-fabric"
+            from components.java
+        }
+    }
+
+    repositories {
+        if (System.getenv("MAVEN_USERNAME") != null && System.getenv("MAVEN_PASSWORD") != null) {
+            maven {
+                url = "https://maven.jamalam.tech/releases"
+                credentials {
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_PASSWORD")
+                }
+            }
+        }
+    }
+}
+
+processResources {
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+
+    inputs.property "version", project.version
+}
+
 shadowJar {
     exclude "architectury.common.json"
 

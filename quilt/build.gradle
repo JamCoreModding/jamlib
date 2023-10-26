@@ -73,6 +73,35 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
 //    }
 }
 
+publishing {
+    publications {
+        mavenQuilt(MavenPublication) {
+            artifactId = rootProject.archivesBaseName + "-quilt"
+            from components.java
+        }
+    }
+
+    repositories {
+        if (System.getenv("MAVEN_USERNAME") != null && System.getenv("MAVEN_PASSWORD") != null) {
+            maven {
+                url = "https://maven.jamalam.tech/releases"
+                credentials {
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_PASSWORD")
+                }
+            }
+        }
+    }
+}
+
+processResources {
+    filesMatching("quilt.mod.json") {
+        expand "version": project.version
+    }
+
+    inputs.property "version", project.version
+}
+
 shadowJar {
     exclude "architectury.common.json"
 
