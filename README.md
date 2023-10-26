@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Jamalam360/JamLib/1.20.2-multiloader/common/src/main/resources/assets/jamlib/icon.png" align="center" width="128px"/>
+<p align="center"><img src="https://raw.githubusercontent.com/JamCoreModding/JamLib/1.20.2-multiloader/common/src/main/resources/assets/jamlib/icon.png" align="center" width="128px"/></p>
 
 <h1 align="center">JamLib</h1>
 
