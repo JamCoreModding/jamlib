@@ -10,15 +10,23 @@
 
 JamLib is the platform-agnostic, Architectury based library used in all of our mods.
 
+### A Note on Versions
+
+As I undertake the process of updating all of my mods to support Forge, JamLib versions will be a bit confusing.
+
+- Using Forge? Use the latest version.
+- Using Fabric and a mod that doesn't yet have a Forge version? Use `V0.6.2`.
+
 ## Features
 
 - [x] Config using JSON5
 
 ## Developers
 
-<a href="https://docs.jamalam.tech"><img alt="forge" height="25" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/documentation/generic_vector.svg"></a>
+<p align="center"><a href="https://docs.jamalam.tech"><img alt="forge" height="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/documentation/generic_vector.svg"></a></p>
 
 You are free to use JamLib in any mod you wish. API breaking changes will only be made between Minecraft versions - I
 can't guarantee it will only be with sem-ver minor Minecraft versions though, as Mojang is making a lot of changes in 'patch'
 versions at the moment.  
 
+<p align="center"><a href="https://bisecthosting.com/jamalam"><img src="https://www.bisecthosting.com/partners/custom-banners/982884df-e307-4b8d-b8c2-9f1868a1f13a.webp" height="120"></a></p>
