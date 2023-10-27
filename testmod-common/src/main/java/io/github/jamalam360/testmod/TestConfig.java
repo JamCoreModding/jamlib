@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public class TestConfig implements ConfigExtensions<TestConfig> {
+//public class TestConfig {
 	@Comment("This is a boolean")
 	@RequiresRestart
 	public boolean testBoolean = true;
@@ -38,4 +39,5 @@ public class TestConfig implements ConfigExtensions<TestConfig> {
 				new Link(Link.GITHUB, "https://github.com/Jamalam360", Component.literal("GitHub")),
 				new Link(Link.DISCORD, "https://discord.com", Component.literal("Discord"))
 		);
-	}}
+	}
+}

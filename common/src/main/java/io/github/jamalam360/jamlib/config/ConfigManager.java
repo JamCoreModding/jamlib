@@ -144,10 +144,10 @@ public class ConfigManager<T> {
 		try {
 			for (Field field : this.configClass.getFields()) {
 				if (field.get(defaultConfig) == null) {
-					throw new IllegalArgumentException("Config field " + field.getName() + " is null by default. Config fields cannot be null by default.");
+					throw new RuntimeException("Config field " + field.getName() + " is null by default. Config fields cannot be null by default.");
 				}
 			}
-		} catch (Exception e) {
+		} catch (IllegalArgumentException | IllegalAccessException e) {
 			JamLib.LOGGER.error("Failed to validate config class " + this.configClass.getName(), e);
 		}
 	}
@@ -186,6 +186,10 @@ public class ConfigManager<T> {
 
 					Object defaultValue = field.get(defaults);
 					if (defaultValue != null) {
+						if (defaultValue instanceof String s) {
+							defaultValue = "\"" + s + "\"";
+						}
+
 						comment.append("- default: ").append(defaultValue);
 					}
 

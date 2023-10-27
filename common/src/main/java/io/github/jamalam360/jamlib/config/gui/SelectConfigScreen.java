@@ -53,6 +53,11 @@ public class SelectConfigScreen extends Screen {
 		graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFF);
 	}
 
+	@Override
+	public void renderBackground(GuiGraphics graphics, int i, int j, float f) {
+		this.renderDirtBackground(graphics);
+	}
+
 	private static class ConfigSelectionList extends SelectionList {
 		public ConfigSelectionList(Minecraft minecraft, int i, int j, int k, int l, int m) {
 			super(minecraft, i, j, k, l, m);

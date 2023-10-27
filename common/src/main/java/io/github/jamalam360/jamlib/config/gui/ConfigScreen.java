@@ -139,6 +139,11 @@ public class ConfigScreen<T> extends Screen {
 		graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFF);
 	}
 
+	@Override
+	public void renderBackground(GuiGraphics graphics, int i, int j, float f) {
+		this.renderDirtBackground(graphics);
+	}
+
 	private boolean canExit() {
 		return this.entries.stream().allMatch(GuiEntry::isValid);
 	}
@@ -240,8 +245,9 @@ public class ConfigScreen<T> extends Screen {
 		protected java.util.List<AbstractWidget> createWidget(ConfigManager<T> manager, int width) {
 			java.util.List<AbstractWidget> widgets = new ArrayList<>();
 
-			TextureWidget validationIcon = new TextureWidget(width - 212, 0, 20, 20, JamLib.id("textures/gui/warning.png"));
+			TextureWidget validationIcon = new TextureWidget(width - 212, 0, 20, 20, JamLib.id("textures/gui/validation_warning.png"));
 			validationIcon.setTooltip(Tooltip.create(Component.translatable("config.jamlib.requires_restart_tooltip")));
+			validationIcon.visible = false;
 			widgets.add(validationIcon);
 
 			switch (this.type) {
