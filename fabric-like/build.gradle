@@ -11,9 +11,6 @@ dependencies {
     modApi libs.fabric.api
     modApi libs.architectury.fabric
     modApi libs.modmenu
-    annotationProcessor libs.mixin.extras.fabric
-    implementation libs.mixin.extras.fabric
-    include libs.mixin.extras.fabric
 
     compileOnly(project(path: ":common", configuration: "namedElements")) { transitive false }
 }

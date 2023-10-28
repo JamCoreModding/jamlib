@@ -24,9 +24,7 @@
     ]
   },
   "mixins": [
-    "jamlib.mixins.json",
-    "jamlib.fabriclike.mixins.json",
-    "jamlib.fabric.mixins.json"
+    "jamlib.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14",

@@ -1,7 +1,4 @@
 [versions]
-# https://github.com/LlamaLad7/MixinExtras/releases
-mixin-extras = "0.2.0"
-
 # https://modrinth.com/mod/architectury-api/versions
 architectury = "10.0.8"
 
@@ -26,9 +23,6 @@ jankson = "1.2.3"
 architectury-common = { module = "dev.architectury:architectury", version.ref = "architectury" }
 architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
 architectury-forge = { module = "dev.architectury:architectury-forge", version.ref = "architectury" }
-mixin-extras-common = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixin-extras" }
-mixin-extras-fabric = { module = "io.github.llamalad7:mixinextras-fabric", version.ref = "mixin-extras" }
-mixin-extras-forge = { module = "io.github.llamalad7:mixinextras-forge", version.ref = "mixin-extras" }
 
 forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
 

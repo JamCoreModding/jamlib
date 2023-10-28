@@ -1,9 +1,7 @@
 {
   "schema_version": 1,
   "mixin": [
-    "jamlib.mixins.json",
-    "jamlib.fabriclike.mixins.json",
-    "jamlib.quilt.mixins.json"
+    "jamlib.mixins.json"
   ],
   "quilt_loader": {
     "group": "io.github.jamalam360",

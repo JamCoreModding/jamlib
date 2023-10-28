@@ -187,7 +187,7 @@ public class ConfigManager<T> {
 					Object defaultValue = field.get(defaults);
 					if (defaultValue != null) {
 						if (defaultValue instanceof String s) {
-							defaultValue = "\"" + s + "\"";
+							defaultValue = "\\\"" + s + "\\\"";
 						}
 
 						comment.append("- default: ").append(defaultValue);

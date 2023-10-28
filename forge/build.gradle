@@ -19,7 +19,6 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
-        mixinConfig "jamlib.forge.mixins.json"
         mixinConfig "jamlib.mixins.json"
     }
 }
@@ -35,10 +34,6 @@ configurations {
 dependencies {
     forge libs.forge
     modApi libs.architectury.forge
-    annotationProcessor libs.mixin.extras.common
-    implementation libs.mixin.extras.common
-    implementation libs.mixin.extras.forge
-    include libs.mixin.extras.forge
     api libs.jankson
     include libs.jankson
     forgeRuntimeLibrary libs.jankson
