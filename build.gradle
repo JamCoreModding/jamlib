@@ -62,6 +62,11 @@ allprojects {
             name = "Modrinth"
             url = "https://api.modrinth.com/maven"
         }
+
+        maven {
+            name = "Jamalam's Maven"
+            url = "https://maven.jamalam.tech/releases"
+        }
     }
 
     tasks.withType(JavaCompile) {
@@ -78,7 +83,6 @@ allprojects {
 
 tasks.publish {
     dependsOn(":githubRelease")
-    dependsOn(":publishAllPublicationsToMavenRepository")
     dependsOn("fabric:publishUnified")
     dependsOn("quilt:publishUnified")
     dependsOn("forge:publishUnified")

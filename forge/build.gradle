@@ -20,6 +20,7 @@ loom {
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
         mixinConfig "jamlib.mixins.json"
+        mixinConfig "jamlib.forge.mixins.json"
     }
 }
 
@@ -51,7 +52,15 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
             gameVersions = [project.minecraft_version]
             gameLoaders = ["forge"]
 
-            mainPublication tasks.jar
+            mainPublication tasks.remapJar
+
+            relations {
+                depends {
+                    curseforge = "architectury-api"
+                    modrinth = "architectury-api"
+                }
+            }
+
 
             curseforge {
                 token = System.getenv("CURSEFORGE_API_KEY")

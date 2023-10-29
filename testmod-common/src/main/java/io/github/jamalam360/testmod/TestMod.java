@@ -1,5 +1,7 @@
 package io.github.jamalam360.testmod;
 
+import blue.endless.jankson.Jankson;
+import blue.endless.jankson.api.SyntaxError;
 import io.github.jamalam360.jamlib.JamLibPlatform;
 import io.github.jamalam360.jamlib.config.ConfigManager;
 import org.slf4j.Logger;
@@ -11,9 +13,12 @@ public class TestMod {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 	public static final ConfigManager<TestConfig> CONFIG_MANAGER = new ConfigManager<>(MOD_ID, "first_config", TestConfig.class);
 	public static final ConfigManager<TestConfig> CONFIG_MANAGER_2 = new ConfigManager<>(MOD_ID, "second_config", TestConfig.class);
+	public static final ConfigManager<QuickerConnectButtonTestConfig> QCB_CONFIG = new ConfigManager<>(MOD_ID, "quickerconnectbutton", QuickerConnectButtonTestConfig.class);
+
 
 	public static void init() {
 		LOGGER.info("Initializing JamLib Test Mod on " + JamLibPlatform.getPlatform());
 		System.out.println(CONFIG_MANAGER.get());
+		System.out.println(QCB_CONFIG.get());
 	}
 }

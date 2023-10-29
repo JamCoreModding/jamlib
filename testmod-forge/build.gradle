@@ -29,6 +29,7 @@ configurations {
 
 dependencies {
     forge libs.forge
+    forgeRuntimeLibrary libs.jankson
 
     implementation project(path: ":forge", configuration: "namedElements")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

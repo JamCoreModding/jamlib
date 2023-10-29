@@ -2,6 +2,7 @@ package io.github.jamalam360.jamlib.config;
 
 import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonElement;
+import blue.endless.jankson.JsonGrammar;
 import blue.endless.jankson.JsonObject;
 import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.JamLib;
@@ -106,7 +107,8 @@ public class ConfigManager<T> {
 		File f = this.configPath.toFile();
 		JsonElement json = JANKSON.toJson(this.config);
 		transformJsonBeforeSave(json);
-		String stringifiedJson = json.toJson(true, true);
+		JsonGrammar grammar = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
+		String stringifiedJson = json.toJson(grammar);
 
 		try {
 			f.createNewFile();
@@ -122,8 +124,10 @@ public class ConfigManager<T> {
 	 */
 	public void reloadFromDisk() {
 		try {
-			this.config = JANKSON.fromJsonCarefully(
-					Files.readString(this.configPath), this.configClass);
+			String json = Files.readString(this.configPath);
+			System.out.println(json);
+			System.out.println(JANKSON.load(json));
+			this.config = JANKSON.fromJson(json, this.configClass);
 		} catch (Exception e) {
 			JamLib.LOGGER.error("Failed to read config file at " + configPath, e);
 			JamLib.LOGGER.error("Resetting to defaults; a backup will be written to " + configPath + ".broken");

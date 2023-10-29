@@ -1,5 +1,7 @@
 package io.github.jamalam360.jamlib;
 
+import blue.endless.jankson.Jankson;
+import blue.endless.jankson.api.SyntaxError;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;

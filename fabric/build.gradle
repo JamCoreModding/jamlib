@@ -49,6 +49,19 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
 
             mainPublication tasks.remapJar
 
+            relations {
+                depends {
+                    curseforge = "fabric-api"
+                    modrinth = "fabric-api"
+                }
+
+                depends {
+                    curseforge = "architectury-api"
+                    modrinth = "architectury-api"
+                }
+            }
+
+
             curseforge {
                 token = System.getenv("CURSEFORGE_API_KEY")
                 id = "623764"
