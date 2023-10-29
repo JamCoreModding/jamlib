@@ -124,10 +124,8 @@ public class ConfigManager<T> {
 	 */
 	public void reloadFromDisk() {
 		try {
-			String json = Files.readString(this.configPath);
-			System.out.println(json);
-			System.out.println(JANKSON.load(json));
-			this.config = JANKSON.fromJson(json, this.configClass);
+			JsonObject json = JANKSON.load(Files.readAllLines(this.configPath).stream().reduce((a, b) -> a + "\n" + b).orElse(""));
+			this.config = JANKSON.fromJsonCarefully(json, this.configClass);
 		} catch (Exception e) {
 			JamLib.LOGGER.error("Failed to read config file at " + configPath, e);
 			JamLib.LOGGER.error("Resetting to defaults; a backup will be written to " + configPath + ".broken");
