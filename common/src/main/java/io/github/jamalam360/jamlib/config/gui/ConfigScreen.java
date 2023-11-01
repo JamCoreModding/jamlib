@@ -290,8 +290,7 @@ public class ConfigScreen<T> extends Screen {
 
 					break;
 				case STRING:
-					Pattern pattern = this.field.isAnnotationPresent(MatchesRegex.class) ? Pattern.compile(this.field.getAnnotation(MatchesRegex.class).value()) : null;
-					widgets.add(this.createEditBox(widgets, pattern, Function.identity()));
+					widgets.add(this.createEditBox(widgets, null, Function.identity()));
 					break;
 				case ENUM:
 					@SuppressWarnings("unchecked") EnumButton<?> button = new EnumButton<>(

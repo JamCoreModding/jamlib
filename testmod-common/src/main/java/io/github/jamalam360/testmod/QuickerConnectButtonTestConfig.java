@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public class QuickerConnectButtonTestConfig implements ConfigExtensions<QuickerConnectButtonTestConfig> {
-	@MatchesRegex("^((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^[a-zA-Z0-9.-]+)?$")
+	@MatchesRegex("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$")
 	@Comment("Leave empty to disable the quick connect button")
 	public String ip = "";
 	@WithinRange(min = 0, max = 65535)

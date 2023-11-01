@@ -25,6 +25,7 @@ public class TestConfig implements ConfigExtensions<TestConfig> {
 	public String lowercase = "lowercase";
 
 	public ConfigEnum testEnum = ConfigEnum.SECOND;
+	public int testInt = 3;
 
 	public static enum ConfigEnum {
 		FIRST,
@@ -39,5 +40,16 @@ public class TestConfig implements ConfigExtensions<TestConfig> {
 				new Link(Link.GITHUB, "https://github.com/Jamalam360", Component.literal("GitHub")),
 				new Link(Link.DISCORD, "https://discord.com", Component.literal("Discord"))
 		);
+	}
+
+	@Override
+	public List<ValidationError> getValidationErrors(ConfigManager<TestConfig> manager, FieldValidationInfo info) {
+		List<ValidationError> errors = ConfigExtensions.super.getValidationErrors(manager, info);
+
+		if (info.name().equals("testInt") && (Integer) info.value() == 4) {
+			errors.add(new ValidationError(ValidationError.Type.ERROR, info, Component.translatable("config.testmod.i_dont_like_4")));
+		}
+
+		return errors;
 	}
 }
