@@ -10,7 +10,7 @@ if (System.getenv("GITHUB_TOKEN") != null) {
         token(System.getenv("GITHUB_TOKEN"))
         owner("JamCoreModding")
         repo("jamlib")
-        tagName(project.version)
+        tagName("${project.version}+${minecraft_version}")
         releaseName("V${project.version} [${minecraft_version}]")
         body(project.rootProject.file("CHANGELOG.md").text)
         draft(false)
