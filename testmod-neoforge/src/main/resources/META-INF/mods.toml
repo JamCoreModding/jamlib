@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/JamCoreModding/jamlib/issues"
+
+[[mods]]
+modId = "testmod"
+version = "${file.jarVersion}"
+displayName = "JamLib Test Mod"
+displayURL = "https://github.com/JamCoreModding/jamlib"
+logoFile = "icon.png"
+authors = "Jamalam"
+description = '''
+Test Mod for JamLib
+'''
+
+[[dependencies.testmod]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[20.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.testmod]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.testmod]]
+modId = "architectury"
+mandatory = true
+versionRange = "[9.1.12,)"
+ordering = "AFTER"
+side = "BOTH"

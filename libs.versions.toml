@@ -1,9 +1,12 @@
 [versions]
 # https://modrinth.com/mod/architectury-api/versions
-architectury = "10.0.8"
+architectury = "10.0.17"
 
 # https://files.minecraftforge.net/net/minecraftforge/forge/
 forge = "1.20.2-48.0.33"
+
+# https://neoforged.net/
+neoforge = "20.2.86"
 
 # https://fabricmc.net/develop
 fabric-loader = "0.14.23"
@@ -23,8 +26,11 @@ jankson = "1.2.3"
 architectury-common = { module = "dev.architectury:architectury", version.ref = "architectury" }
 architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
 architectury-forge = { module = "dev.architectury:architectury-forge", version.ref = "architectury" }
+architectury-neoforge = { module = "dev.architectury:architectury-neoforge", version.ref = "architectury" }
 
 forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
+
+neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
