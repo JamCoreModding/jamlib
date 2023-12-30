@@ -9,7 +9,7 @@ architectury {
 }
 
 base {
-    archivesName = "jamlib-quilt-${minecraft_version}"
+    archivesName = "jamlib-quilt"
 }
 
 loom {

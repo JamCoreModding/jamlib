@@ -9,7 +9,7 @@ architectury {
 }
 
 base {
-    archivesName = "jamlib-fabric-${minecraft_version}"
+    archivesName = "jamlib-fabric"
 }
 
 loom {

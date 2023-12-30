@@ -9,7 +9,7 @@ architectury {
 }
 
 base {
-    archivesName = "jamlib-neoforge-${minecraft_version}"
+    archivesName = "jamlib-neoforge"
 }
 
 loom {

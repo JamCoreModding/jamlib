@@ -9,7 +9,7 @@ architectury {
 }
 
 base {
-    archivesName = "jamlib-forge-${minecraft_version}"
+    archivesName = "jamlib-forge"
 }
 
 loom {
