@@ -104,7 +104,7 @@ public class ConfigScreen<T> extends Screen {
 				)
 		);
 
-		ConfigEntryList list = new ConfigEntryList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
+		ConfigEntryList list = new ConfigEntryList(this.minecraft, this.width, this.height - 64, 32, 25);
 
 		if (this.entries.size() == 0) {
 			for (Field field : this.manager.getConfigClass().getDeclaredFields()) {
@@ -523,8 +523,8 @@ public class ConfigScreen<T> extends Screen {
 	}
 
 	private class ConfigEntryList extends SelectionList {
-		public ConfigEntryList(Minecraft minecraft, int i, int j, int k, int l, int m) {
-			super(minecraft, i, j, k, l, m);
+		public ConfigEntryList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
+			super(minecraft, width, height, y, itemHeight);
 		}
 
 		protected void addEntry(GuiEntry entry) {

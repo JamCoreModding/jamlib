@@ -14,13 +14,6 @@
 
 JamLib is the platform-agnostic, Architectury based library used in all of our mods.
 
-### A Note on Versions
-
-As I undertake the process of updating all of my mods to support Forge, JamLib versions will be a bit confusing.
-
-- Using Forge? Use the latest version.
-- Using Fabric and a mod that doesn't yet have a Forge version? Use `V0.6.2`.
-
 ## Features
 
 - [x] Config using JSON5

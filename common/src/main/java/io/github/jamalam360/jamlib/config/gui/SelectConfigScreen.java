@@ -42,7 +42,7 @@ public class SelectConfigScreen extends Screen {
 
 		this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> Objects.requireNonNull(this.minecraft).setScreen(this.parent)).pos(this.width / 2 - 75, this.height - 28).size(150, 20).build());
 
-		ConfigSelectionList list = new ConfigSelectionList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
+		ConfigSelectionList list = new ConfigSelectionList(this.minecraft, this.width, this.height - 64, 32, 25);
 		ConfigManager.MANAGERS.values().stream().filter(m -> m.getModId().equals(this.modId)).forEach(list::addEntry);
 		this.addRenderableWidget(list);
 	}
@@ -59,8 +59,8 @@ public class SelectConfigScreen extends Screen {
 	}
 
 	private static class ConfigSelectionList extends SelectionList {
-		public ConfigSelectionList(Minecraft minecraft, int i, int j, int k, int l, int m) {
-			super(minecraft, i, j, k, l, m);
+		public ConfigSelectionList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
+			super(minecraft, width, height, y, itemHeight);
 		}
 
 		private void addEntry(ConfigManager<?> manager) {

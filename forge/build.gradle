@@ -65,13 +65,11 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
             curseforge {
                 token = System.getenv("CURSEFORGE_API_KEY")
                 id = "623764"
-                gameLoaders.add("NeoForge")
             }
 
             modrinth {
                 token = System.getenv("MODRINTH_API_KEY")
                 id = "IYY9Siz8"
-                gameLoaders.add("neoforge")
             }
         }
     }

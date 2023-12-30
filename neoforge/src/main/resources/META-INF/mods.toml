@@ -21,21 +21,21 @@ config = "jamlib.neoforge.mixins.json"
 
 [[dependencies.jamlib]]
 modId = "neoforge"
-mandatory = true
-versionRange = "[20.2,)"
+type = "required"
+versionRange = "[20.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.jamlib]]
 modId = "minecraft"
-mandatory = true
-versionRange = "[1.20.2,)"
+type = "required"
+versionRange = "[1.20.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.jamlib]]
 modId = "architectury"
-mandatory = true
-versionRange = "[9.1.12,)"
+type = "required"
+versionRange = "[11.0.9,)"
 ordering = "AFTER"
 side = "BOTH"

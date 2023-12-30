@@ -86,4 +86,5 @@ tasks.publish {
     dependsOn("fabric:publishUnified")
     dependsOn("quilt:publishUnified")
     dependsOn("forge:publishUnified")
+    dependsOn("neoforge:publishUnified")
 }

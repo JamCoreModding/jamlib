@@ -10,14 +10,28 @@ import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
 public class SelectionList extends ContainerObjectSelectionList<SelectionListEntry> {
-	public SelectionList(Minecraft minecraft, int i, int j, int k, int l, int m) {
-		super(minecraft, i, j, k, l, m);
+	public SelectionList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
+		super(minecraft, width, height, y, itemHeight);
 		this.centerListVertically = false;
 	}
+//
+//	@Override
+//	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+//		super.render(graphics, mouseX, mouseY, delta);
+//		SelectionListEntry hovered = this.getHoveredEntry(mouseX, mouseY);
+//
+//		if (hovered != null) {
+//			if (hovered.getTooltip() != null) {
+//				graphics.renderTooltip(Minecraft.getInstance().font, hovered.getTooltip(), mouseX, mouseY);
+//			}
+//		}
+//	}
+
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.render(graphics, mouseX, mouseY, delta);
+	public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		super.renderWidget(graphics, mouseX, mouseY, delta);
+
 		SelectionListEntry hovered = this.getHoveredEntry(mouseX, mouseY);
 
 		if (hovered != null) {

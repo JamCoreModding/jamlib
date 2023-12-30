@@ -77,7 +77,7 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            artifactId = rootProject.archivesBaseName + "-forge"
+            artifactId = rootProject.archivesBaseName + "-neoforge"
             from components.java
         }
     }
