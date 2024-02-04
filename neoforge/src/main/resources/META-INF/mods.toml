@@ -15,8 +15,6 @@ A multi-loader, multi-purpose library for JamCoreModding's mods
 '''
 
 [[mixins]]
-config = "jamlib.mixins.json"
-[[mixins]]
 config = "jamlib.neoforge.mixins.json"
 
 [[dependencies.jamlib]]

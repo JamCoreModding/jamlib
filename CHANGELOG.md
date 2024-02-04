@@ -1,1 +1,1 @@
-1.20.4 support with no further API changes.
+- Functionality to notify the user if we suspect the mod has been downloaded from a repost site such as 9minecraft. See the [docs]().

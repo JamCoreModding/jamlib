@@ -24,7 +24,6 @@
     ]
   },
   "mixins": [
-    "jamlib.mixins.json"
   ],
   "depends": {
     "fabric": "*",
