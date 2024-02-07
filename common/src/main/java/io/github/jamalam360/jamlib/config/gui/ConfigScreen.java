@@ -25,6 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -108,6 +109,7 @@ public class ConfigScreen<T> extends Screen {
 
 		if (this.entries.size() == 0) {
 			for (Field field : this.manager.getConfigClass().getDeclaredFields()) {
+				if (field.isAnnotationPresent(HiddenInGui.class)) continue;
 				this.entries.add(new GuiEntry(this.manager.getModId(), this.manager.getConfigName(), field));
 			}
 		}
@@ -344,12 +346,12 @@ public class ConfigScreen<T> extends Screen {
 
 			if (value instanceof Number number) {
 				box.setValue(DECIMAL_FORMAT.format(number.doubleValue()));
+			} else if (value instanceof String string) {
+					box.setValue(string);
+			} else if (value != null) {
+				box.setValue(value.toString());
 			} else {
-				if (value instanceof String) {
-					box.setValue((String) value);
-				} else {
-					box.setValue(value.toString());
-				}
+				box.setValue("");
 			}
 
 			if (filter != null) {
@@ -370,6 +372,11 @@ public class ConfigScreen<T> extends Screen {
 
 		private SliderButton createSlider(List<AbstractWidget> widgets) {
 			WithinRange rangeAnnot = this.field.getAnnotation(WithinRange.class);
+			Number current = this.getFieldValue(manager);
+
+			if (current == null) {
+				current = rangeAnnot.min();
+			}
 
 			SliderButton slider = new SliderButton(
 					width - 188,
@@ -379,7 +386,7 @@ public class ConfigScreen<T> extends Screen {
 					CommonComponents.EMPTY,
 					rangeAnnot.min(),
 					rangeAnnot.max(),
-					this.<Number>getFieldValue(manager).doubleValue(),
+					current.doubleValue(),
 					s -> {
 						this.setFieldValue(manager, (Number) s.getValue());
 						s.setMessage(handleUpdatesOnChange(manager, widgets, ConfigScreen.this.changedFields));
@@ -410,12 +417,14 @@ public class ConfigScreen<T> extends Screen {
 
 			if (newValue instanceof Number number) {
 				return Component.literal(DECIMAL_FORMAT.format(number.doubleValue()));
-			} else if (newValue instanceof Enum enumValue) {
+			} else if (newValue instanceof Enum<?> enumValue) {
 				return getEnumComponent(manager, this.field, enumValue);
 			} else if (newValue instanceof Boolean boolValue) {
 				return getBooleanComponent(boolValue);
-			} else  {
+			} else if (newValue != null) {
 				return Component.literal(newValue.toString());
+			} else {
+				return Component.literal("");
 			}
 		}
 
@@ -453,6 +462,7 @@ public class ConfigScreen<T> extends Screen {
 		}
 
 		@SuppressWarnings("unchecked")
+		@Nullable
 		private <V> V getFieldValue(ConfigManager<T> manager) {
 			try {
 				return (V) this.field.get(manager.get());
@@ -513,7 +523,7 @@ public class ConfigScreen<T> extends Screen {
 					return STRING;
 				} else if (c.isEnum()) {
 					return ENUM;
-				} else if (c == java.util.List.class) {
+				} else if (java.util.List.class.isAssignableFrom(c)) {
 					return LIST;
 				} else {
 					throw new IllegalArgumentException("Unsupported config type: " + c);
@@ -562,7 +572,7 @@ public class ConfigScreen<T> extends Screen {
 			return !this.isHovered && !this.canChangeValue ? SLIDER_HANDLE_SPRITE : SLIDER_HANDLE_HIGHLIGHTED_SPRITE;
 		}
 
-		protected MutableComponent createNarrationMessage() {
+		protected @NotNull MutableComponent createNarrationMessage() {
 			return Component.translatable("gui.narrate.slider", this.getMessage());
 		}
 

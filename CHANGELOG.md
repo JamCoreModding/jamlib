@@ -1,1 +1,3 @@
-- Functionality to notify the user if we suspect the mod has been downloaded from a repost site such as 9minecraft. See the [docs]().
+- Functionality to notify the user if we suspect the mod has been downloaded from a repost site such as 9minecraft. See the [docs](https://docs.jamalam.tech/jamlib/mod-reposts/).
+- `@HiddenInGui` annotation to hide config entries in auto-generated GUIs. See the [docs](https://docs.jamalam.tech/jamlib/config/).
+- Fix a few nullability issues in the config system. These were not known to cause any issues, but better to be safe than sorry.

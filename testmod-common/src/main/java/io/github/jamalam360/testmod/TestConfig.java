@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public class TestConfig implements ConfigExtensions<TestConfig> {
-//public class TestConfig {
+	//public class TestConfig {
 	@Comment("This is a boolean")
 	@RequiresRestart
 	public boolean testBoolean = true;
@@ -26,8 +26,10 @@ public class TestConfig implements ConfigExtensions<TestConfig> {
 
 	public ConfigEnum testEnum = ConfigEnum.SECOND;
 	public int testInt = 3;
+	@HiddenInGui
+	public String ifYouSeeThisInTheScreenSomethingIsWrong = "a";
 
-	public static enum ConfigEnum {
+	public enum ConfigEnum {
 		FIRST,
 		SECOND,
 		THIRD;
