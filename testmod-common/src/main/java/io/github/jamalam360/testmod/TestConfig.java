@@ -54,4 +54,18 @@ public class TestConfig implements ConfigExtensions<TestConfig> {
 
 		return errors;
 	}
+
+	@Override
+	public String toString() {
+		return "TestConfig{" +
+				"testBoolean=" + testBoolean +
+				", floatyValue=" + floatyValue +
+				", floatyValueWithSlider=" + floatyValueWithSlider +
+				", testString='" + testString + '\'' +
+				", lowercase='" + lowercase + '\'' +
+				", testEnum=" + testEnum +
+				", testInt=" + testInt +
+				", ifYouSeeThisInTheScreenSomethingIsWrong='" + ifYouSeeThisInTheScreenSomethingIsWrong + '\'' +
+				'}';
+	}
 }
