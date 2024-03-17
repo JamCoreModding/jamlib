@@ -83,6 +83,7 @@ allprojects {
 }
 
 tasks.publish {
+    dependsOn("clean")
     dependsOn(":githubRelease")
     dependsOn("common:publishAllPublicationsToMavenRepository")
     dependsOn("fabric:publishUnified")
