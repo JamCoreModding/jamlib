@@ -1,6 +1,7 @@
 package io.github.jamalam360.jamlib;
 
 import dev.architectury.event.events.client.ClientPlayerEvent;
+import dev.architectury.platform.Platform;
 import dev.architectury.utils.EnvExecutor;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
@@ -11,13 +12,13 @@ import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ApiStatus.Internal
 public class JamLib {
 	public static final String MOD_ID = "jamlib";
 	public static final String MOD_NAME = "JamLib";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 	private static final JarRenamingChecker JAR_RENAMING_CHECKER = new JarRenamingChecker();
 
+	@ApiStatus.Internal
 	public static void init() {
 		LOGGER.info("Initializing JamLib on " + JamLibPlatform.getPlatform());
 		checkForJarRenaming(JamLib.class);
@@ -26,7 +27,9 @@ public class JamLib {
 	}
 
 	public static void checkForJarRenaming(Class<?> anyModClass) {
-		JAR_RENAMING_CHECKER.checkJar(anyModClass);
+		if (!Platform.isDevelopmentEnvironment()) {
+			JAR_RENAMING_CHECKER.checkJar(anyModClass);
+		}
 	}
 
 	private static void onPlayerJoin(LocalPlayer player) {
@@ -50,6 +53,7 @@ public class JamLib {
 		JAR_RENAMING_CHECKER.afterNotify();
 	}
 
+	@ApiStatus.Internal
 	public static ResourceLocation id(String path) {
 		return new ResourceLocation(MOD_ID, path);
 	}

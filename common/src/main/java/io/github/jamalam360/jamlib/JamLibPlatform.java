@@ -31,6 +31,30 @@ public class JamLibPlatform {
 		NEOFORGE,
 		QUILT;
 
+		public boolean isFabric() {
+			return this == FABRIC;
+		}
+
+		public boolean isForge() {
+			return this == FORGE;
+		}
+
+		public boolean isNeoForge() {
+			return this == NEOFORGE;
+		}
+
+		public boolean isQuilt() {
+			return this == QUILT;
+		}
+
+		public boolean isFabricLike() {
+			return this == FABRIC || this == QUILT;
+		}
+
+		public boolean isForgeLike() {
+			return this == FORGE || this == NEOFORGE;
+		}
+
 		@Override
 		public String toString() {
 			return switch (this) {

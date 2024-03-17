@@ -27,13 +27,13 @@ side = "BOTH"
 [[dependencies.jamlib]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.20.4,)"
+versionRange = "[${minecraft_version},)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.jamlib]]
 modId = "architectury"
 type = "required"
-versionRange = "[11.0.9,)"
+versionRange = "[${architectury_version},)"
 ordering = "AFTER"
 side = "BOTH"
