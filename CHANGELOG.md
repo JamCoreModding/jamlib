@@ -1,5 +1,1 @@
-- Fix a typo in the mod renaming warning.
-- Add a few new methods to the `JamLibPlatform.Platform` enum.
-- `JamLib` is no longer entirely `ApiStatus.Internal` (there are some stable API methods in there. Non-stable public internal methods are annotated as such).
-- Build system improvements.
-- Update the icon again.
+- Fix an issue with configs being registered after the ModMenu entrypoint.

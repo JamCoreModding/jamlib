@@ -11,6 +11,7 @@ import org.jetbrains.annotations.ApiStatus;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -69,6 +70,23 @@ public class ConfigManager<T> {
 		this.reloadFromDisk();
 		// There is an extra save here in-case the config schema was updated.
 		this.save();
+		tryNotifyModMenuCompatibilityOfNewConfigManager();
+	}
+
+	// Slightly hacky but here we are
+	private static void tryNotifyModMenuCompatibilityOfNewConfigManager() {
+		try {
+			Class<?> clazz = Class.forName("io.github.jamalam360.jamlib.fabriclike.config.ModMenuCompatibility");
+			Method method = clazz.getDeclaredMethod("repopulateFactories");
+			method.setAccessible(true);
+			method.invoke(null);
+		} catch (Exception e) {
+			JamLib.LOGGER.warn("Failed to update ModMenu compatibility with new config manager; config may not show in ModMenu");
+
+			//if (Platform.isDevelopmentEnvironment()) {
+				e.printStackTrace();
+			//}
+		}
 	}
 
 	/**
