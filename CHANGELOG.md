@@ -1,1 +1,2 @@
-- Fix an issue with configs being registered after the ModMenu entrypoint.
+- Fix an issue with the previous modmenu fix (#5)
+- Update the jar renaming check message slightly
