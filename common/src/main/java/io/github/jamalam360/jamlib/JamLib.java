@@ -4,9 +4,6 @@ import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.utils.EnvExecutor;
 import net.fabricmc.api.EnvType;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
@@ -16,41 +13,27 @@ public class JamLib {
 	public static final String MOD_ID = "jamlib";
 	public static final String MOD_NAME = "JamLib";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-	private static final JarRenamingChecker JAR_RENAMING_CHECKER = new JarRenamingChecker();
+	protected static final JarRenamingChecker JAR_RENAMING_CHECKER = new JarRenamingChecker();
 
 	@ApiStatus.Internal
 	public static void init() {
 		LOGGER.info("Initializing JamLib on " + JamLibPlatform.getPlatform());
 		checkForJarRenaming(JamLib.class);
 
-		EnvExecutor.runInEnv(EnvType.CLIENT, () -> () -> ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(JamLib::onPlayerJoin));
+		EnvExecutor.runInEnv(EnvType.CLIENT, () -> () -> ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(JamLibClient::onPlayerJoin));
 	}
 
+	/**
+	 * Check that the jar that the given class is in has not been renamed (mod rehosting sites often do this).
+	 * If the jar has been renamed, a message will be displayed to the player when they join a world.
+	 *
+	 * @param anyModClass any class from the mod
+	 * @see JarRenamingChecker
+	 */
 	public static void checkForJarRenaming(Class<?> anyModClass) {
 		if (!Platform.isDevelopmentEnvironment()) {
 			JAR_RENAMING_CHECKER.checkJar(anyModClass);
 		}
-	}
-
-	private static void onPlayerJoin(LocalPlayer player) {
-		if (player != Minecraft.getInstance().player) {
-			return;
-		}
-
-		if (JAR_RENAMING_CHECKER.getSuspiciousJarsToNotifyAbout().isEmpty()) {
-			return;
-		}
-
-		player.displayClientMessage(Component.translatable("text.jamlib.renamed_1"), false);
-
-		for (String jar : JAR_RENAMING_CHECKER.getSuspiciousJarsToNotifyAbout()) {
-			player.displayClientMessage(Component.literal(" - " + jar), false);
-		}
-
-		player.displayClientMessage(Component.translatable("text.jamlib.renamed_2"), false);
-		player.displayClientMessage(Component.translatable("text.jamlib.renamed_3"), false);
-
-		JAR_RENAMING_CHECKER.afterNotify();
 	}
 
 	@ApiStatus.Internal
