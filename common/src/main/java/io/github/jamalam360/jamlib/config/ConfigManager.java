@@ -6,6 +6,7 @@ import blue.endless.jankson.JsonGrammar;
 import blue.endless.jankson.JsonObject;
 import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.JamLib;
+import io.github.jamalam360.jamlib.JamLibPlatform;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.io.File;
@@ -70,7 +71,10 @@ public class ConfigManager<T> {
 		this.reloadFromDisk();
 		// There is an extra save here in-case the config schema was updated.
 		this.save();
-		tryNotifyModMenuCompatibilityOfNewConfigManager();
+
+		if (JamLibPlatform.getPlatform().isFabricLike() && Platform.isModLoaded("modmenu")) {
+			tryNotifyModMenuCompatibilityOfNewConfigManager();
+		}
 	}
 
 	// Slightly hacky but here we are
@@ -82,10 +86,6 @@ public class ConfigManager<T> {
 			method.invoke(null);
 		} catch (Exception e) {
 			JamLib.LOGGER.warn("Failed to update ModMenu compatibility with new config manager; config may not show in ModMenu");
-
-			//if (Platform.isDevelopmentEnvironment()) {
-				e.printStackTrace();
-			//}
 		}
 	}
 
@@ -214,7 +214,7 @@ public class ConfigManager<T> {
 					}
 
 					if (field.isAnnotationPresent(RequiresRestart.class)) {
-						if (comment.length() > 0) {
+						if (!comment.isEmpty()) {
 							comment.append("\n");
 						}
 
@@ -224,7 +224,7 @@ public class ConfigManager<T> {
 					if (field.isAnnotationPresent(MatchesRegex.class)) {
 						MatchesRegex annotation = field.getAnnotation(MatchesRegex.class);
 
-						if (comment.length() > 0) {
+						if (!comment.isEmpty()) {
 							comment.append("\n");
 						}
 
@@ -234,7 +234,7 @@ public class ConfigManager<T> {
 					if (field.isAnnotationPresent(WithinRange.class)) {
 						WithinRange annotation = field.getAnnotation(WithinRange.class);
 
-						if (comment.length() > 0) {
+						if (!comment.isEmpty()) {
 							comment.append("\n");
 						}
 
@@ -242,7 +242,7 @@ public class ConfigManager<T> {
 					}
 
 					if (Enum.class.isAssignableFrom(field.getType())) {
-						if (comment.length() > 0) {
+						if (!comment.isEmpty()) {
 							comment.append("\n");
 						}
 
