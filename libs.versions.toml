@@ -17,7 +17,7 @@ quilt-loader = "0.21.1"
 quilted-fabric-api = "7.4.0+0.90.0-1.20.1"
 
 # https://modrinth.com/mod/modmenu/versions
-modmenu = "9.0.0"
+modmenu = "9.2.0-beta.2"
 
 # https://github.com/falkreon/Jankson/releases/latest
 jankson = "1.2.3"
