@@ -56,6 +56,10 @@ allprojects {
     version = rootProject.version
     group = rootProject.group
 
+    base {
+        archivesName = "jamlib"
+    }
+
     repositories {
         mavenCentral()
 
