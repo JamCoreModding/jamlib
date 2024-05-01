@@ -1,23 +1,16 @@
 [versions]
 # https://modrinth.com/mod/architectury-api/versions
-architectury = "11.0.9"
-
-# https://files.minecraftforge.net/net/minecraftforge/forge/
-forge = "1.20.4-49.0.12"
+architectury = "12.0.27"
 
 # https://projects.neoforged.net/neoforged/neoforge
-neoforge = "20.4.69-beta"
+neoforge = "20.6.2-beta" # TODO: update to 20.6.5-beta when architectury-loom#207 is merged
 
 # https://fabricmc.net/develop
-fabric-loader = "0.15.3"
-fabric-api = "0.92.0+1.20.4"
-
-# https://lambdaurora.dev/tools/import_quilt.html
-quilt-loader = "0.21.1"
-quilted-fabric-api = "7.4.0+0.90.0-1.20.1"
+fabric-loader = "0.15.10"
+fabric-api = "0.97.8+1.20.6"
 
 # https://modrinth.com/mod/modmenu/versions
-modmenu = "9.2.0-beta.2"
+modmenu = "10.0.0-beta.1"
 
 # https://github.com/falkreon/Jankson/releases/latest
 jankson = "1.2.3"
@@ -25,18 +18,12 @@ jankson = "1.2.3"
 [libraries]
 architectury-common = { module = "dev.architectury:architectury", version.ref = "architectury" }
 architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
-architectury-forge = { module = "dev.architectury:architectury-forge", version.ref = "architectury" }
 architectury-neoforge = { module = "dev.architectury:architectury-neoforge", version.ref = "architectury" }
-
-forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
 
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
-
-quilt-loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt-loader" }
-quilted-fabric-api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "quilted-fabric-api" }
 
 modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
 

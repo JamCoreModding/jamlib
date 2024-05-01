@@ -31,12 +31,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "jamlib"
 include("common")
-include("fabric-like")
 include("fabric")
-include("quilt")
-include("forge")
 include("neoforge")
 include("testmod-common")
 include("testmod-fabric")
-include("testmod-forge")
 include("testmod-neoforge")

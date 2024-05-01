@@ -27,7 +27,6 @@ dependencies {
     modRuntimeOnly libs.modmenu
 
     implementation project(path: ":fabric", configuration: "namedElements")
-    implementation project(path: ":fabric-like", configuration: "namedElements")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":testmod-common", configuration: "transformProductionFabric")) { transitive false }

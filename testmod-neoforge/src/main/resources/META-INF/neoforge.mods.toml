@@ -10,9 +10,7 @@ displayName = "JamLib Test Mod"
 displayURL = "https://github.com/JamCoreModding/jamlib"
 logoFile = "icon.png"
 authors = "Jamalam"
-description = '''
-Test Mod for JamLib
-'''
+description = '''Test Mod for JamLib'''
 
 [[dependencies.testmod]]
 modId = "neoforge"

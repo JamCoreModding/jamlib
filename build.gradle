@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.5-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
     id "com.github.breadmoirai.github-release" version "2.4.1"
     id "maven-publish"
 }
@@ -67,16 +67,11 @@ allprojects {
             name = "Modrinth"
             url = "https://api.modrinth.com/maven"
         }
-
-        maven {
-            name = "Jamalam's Maven"
-            url = "https://maven.jamalam.tech/releases"
-        }
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     tasks.create("prepareWorkspace") {}
@@ -92,10 +87,6 @@ tasks.publish {
     dependsOn("common:publishAllPublicationsToMavenRepository")
     dependsOn("fabric:publishUnified")
     dependsOn("fabric:publishAllPublicationsToMavenRepository")
-    dependsOn("quilt:publishUnified")
-    dependsOn("quilt:publishAllPublicationsToMavenRepository")
-    dependsOn("forge:publishUnified")
-    dependsOn("forge:publishAllPublicationsToMavenRepository")
     dependsOn("neoforge:publishUnified")
     dependsOn("neoforge:publishAllPublicationsToMavenRepository")
 }

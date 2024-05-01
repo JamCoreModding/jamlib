@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.fabriclike.config;
+package io.github.jamalam360.jamlib.fabric.config;
 
 import com.mojang.datafixers.util.Pair;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;

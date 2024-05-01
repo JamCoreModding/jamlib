@@ -3,7 +3,7 @@
   "id": "jamlib",
   "version": "${version}",
   "name": "JamLib",
-  "description": "A multi-loader, multi-purpose library for JamCoreModding's mods",
+  "description": "The platform-agnostic library used in all of JamCore's mods",
   "authors": [
     "Jamalam"
   ],
@@ -20,7 +20,7 @@
       "io.github.jamalam360.jamlib.fabric.JamLibFabric"
     ],
     "modmenu": [
-      "io.github.jamalam360.jamlib.fabriclike.config.ModMenuCompatibility"
+      "io.github.jamalam360.jamlib.fabric.config.ModMenuCompatibility"
     ]
   },
   "mixins": [

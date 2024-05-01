@@ -6,7 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "ConfigScreenHandlerMixin"
+    "IConfigScreenFactoryMixin"
   ],
   "server": [
   ],

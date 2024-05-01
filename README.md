@@ -1,30 +1,17 @@
-<center><img src="https://raw.githubusercontent.com/JamCoreModding/JamLib/1.20.2-multiloader/common/src/main/resources/assets/jamlib/icon.png" align="center" width="128px"/></center>
+![JamLib: The platform-agnostic library used in all of JamCore's mods](https://cdn.jamalam.tech/mod-assets/jamlib-banner.png)
 
-<center>
+<div align="center">
 
-# JamLib
+[Report Issues](https://github.com/JamCoreModding/jamlib) • [Chat on Discord](https://discord.jamalam.tech) • [CurseForge](https://curseforge.com/minecraft/mc-mods/jamlib) • [Modrinth](https://modrinth.com/mod/jamlib)
 
-</center>
+</div>
 
-<center>
-    <img alt="forge" height="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/supported/forge_vector.svg">
-    <img alt="fabric" height="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/supported/fabric_vector.svg">
-    <img alt="quilt" height="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/supported/quilt_vector.svg">
-</center>
+JamLib provides:
 
-JamLib is the platform-agnostic, Architectury based library used in all of our mods.
+- Platform abstractions
+- A JSON5 config API
+- A mod repost (9minecraft etc.) checker
 
-## Features
+Comprehensive documentation can be found [here](https://docs.jamalam.tech/jamlib/getting-started/).
 
-- [x] Config using JSON5
-
-## Developers
-
-<center><a href="https://docs.jamalam.tech"><img alt="forge" height="20" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/documentation/generic_vector.svg"></a></center>
-
-You are free to use JamLib in any mod you wish. API breaking changes will only be made between Minecraft versions - I
-can't guarantee it will only be with sem-ver minor Minecraft versions though, as Mojang is making a lot of changes in '
-patch'
-versions at the moment.
-
-<center><a href="https://bisecthosting.com/jamalam"><img src="https://www.bisecthosting.com/partners/custom-banners/982884df-e307-4b8d-b8c2-9f1868a1f13a.webp" height="120"></a></center>
+[![Rent a server with Bisect Hosting: Use Code jamalam to get 25% off](https://www.bisecthosting.com/partners/custom-banners/e0cc6668-0d29-40ff-9820-4d4f5433198a.webp)](https://bisecthosting.com/jamalam)
