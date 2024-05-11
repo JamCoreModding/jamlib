@@ -3,11 +3,11 @@
 architectury = "12.0.27"
 
 # https://projects.neoforged.net/neoforged/neoforge
-neoforge = "20.6.2-beta" # TODO: update to 20.6.5-beta when architectury-loom#207 is merged
+neoforge = "20.6.57-beta"
 
 # https://fabricmc.net/develop
-fabric-loader = "0.15.10"
-fabric-api = "0.97.8+1.20.6"
+fabric-loader = "0.15.11"
+fabric-api = "0.98.0+1.20.6"
 
 # https://modrinth.com/mod/modmenu/versions
 modmenu = "10.0.0-beta.1"
