@@ -33,7 +33,7 @@ repositories {
 
 dependencies {
     neoForge libs.neoforge
-    modApi libs.architectury.neoforge
+    modImplementation libs.architectury.neoforge
     api libs.jankson
     include libs.jankson
     forgeRuntimeLibrary libs.jankson
