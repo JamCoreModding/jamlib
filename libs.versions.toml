@@ -1,16 +1,16 @@
 [versions]
 # https://modrinth.com/mod/architectury-api/versions
-architectury = "12.0.27"
+architectury = "13.0.1"
 
 # https://projects.neoforged.net/neoforged/neoforge
-neoforge = "20.6.57-beta"
+neoforge = "21.0.4-beta"
 
 # https://fabricmc.net/develop
 fabric-loader = "0.15.11"
-fabric-api = "0.98.0+1.20.6"
+fabric-api = "0.100.1+1.21"
 
 # https://modrinth.com/mod/modmenu/versions
-modmenu = "10.0.0-beta.1"
+modmenu = "11.0.0-beta.1"
 
 # https://github.com/falkreon/Jankson/releases/latest
 jankson = "1.2.3"

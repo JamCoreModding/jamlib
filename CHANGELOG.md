@@ -1,2 +1,1 @@
-- Port to 1.20.6
-- Remove Forge and Quilt support
+- Port 1.0.9 to Minecraft 1.21

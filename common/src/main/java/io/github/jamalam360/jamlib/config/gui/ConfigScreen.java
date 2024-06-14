@@ -102,7 +102,7 @@ public class ConfigScreen<T> extends Screen {
 
         this.addRenderableWidget(
               new ButtonWithTextureWidget(
-                    7, 7, 20, 20, Component.translatable("config.jamlib.edit_manually"), new ResourceLocation("textures/item/writable_book.png"), 16, 16,
+                    7, 7, 20, 20, Component.translatable("config.jamlib.edit_manually"), ResourceLocation.withDefaultNamespace("textures/item/writable_book.png"), 16, 16,
                     button -> {
                         if (this.changedFields.size() > 0) {
                             this.manager.save();
@@ -118,9 +118,9 @@ public class ConfigScreen<T> extends Screen {
 
         if (this.entries.size() == 0) {
             for (Field field : this.manager.getConfigClass().getDeclaredFields()) {
-				if (field.isAnnotationPresent(HiddenInGui.class)) {
-					continue;
-				}
+                if (field.isAnnotationPresent(HiddenInGui.class)) {
+                    continue;
+                }
                 this.entries.add(new GuiEntry(this.manager.getModId(), this.manager.getConfigName(), field));
             }
         }
@@ -139,8 +139,13 @@ public class ConfigScreen<T> extends Screen {
                 this.addRenderableWidget(
                       new ButtonWithTextureWidget(
                             this.width - 30 - (28 * i), 5, 20, 20, (MutableComponent) link.getTooltip(), link.getTexture(), 16, 16,
-                            button -> Util.getPlatform().openUrl(link.getUrl())
-                      )
+                            button -> {
+                                try {
+                                    Util.getPlatform().openUri(link.getUrl().toURI());
+                                } catch (Exception e) {
+                                    JamLib.LOGGER.error("Failed to open link", e);
+                                }
+                            })
                 );
             }
         }
@@ -217,10 +222,10 @@ public class ConfigScreen<T> extends Screen {
      */
     private static class SliderButton extends AbstractWidget {
 
-        private static final ResourceLocation SLIDER_SPRITE = new ResourceLocation("widget/slider");
-        private static final ResourceLocation HIGHLIGHTED_SPRITE = new ResourceLocation("widget/slider_highlighted");
-        private static final ResourceLocation SLIDER_HANDLE_SPRITE = new ResourceLocation("widget/slider_handle");
-        private static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE = new ResourceLocation("widget/slider_handle_highlighted");
+        private static final ResourceLocation SLIDER_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider");
+        private static final ResourceLocation HIGHLIGHTED_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider_highlighted");
+        private static final ResourceLocation SLIDER_HANDLE_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider_handle");
+        private static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider_handle_highlighted");
         private final double min;
         private final double max;
         private final Consumer<SliderButton> onChange;
