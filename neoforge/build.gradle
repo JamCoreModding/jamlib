@@ -96,7 +96,7 @@ publishing {
 }
 
 processResources {
-    filesMatching("mods.toml") {
+    filesMatching("neoforge.mods.toml") {
         expand "minecraft_version": project.minecraft_version,
                 "architectury_version": libs.versions.architectury.get()
     }

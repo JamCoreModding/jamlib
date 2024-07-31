@@ -34,6 +34,7 @@ repositories {
 
 dependencies {
     neoForge libs.neoforge
+    modImplementation libs.architectury.neoforge
     forgeRuntimeLibrary libs.jankson
 
     implementation project(path: ":neoforge", configuration: "namedElements")

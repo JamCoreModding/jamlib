@@ -12,13 +12,10 @@ logoFile = "icon.png"
 authors = "Jamalam"
 description = '''The platform-agnostic library used in all of JamCore's mods'''
 
-[[mixins]]
-config = "jamlib.neoforge.mixins.json"
-
 [[dependencies.jamlib]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.4,)"
+versionRange = "[21,)"
 ordering = "NONE"
 side = "BOTH"
 

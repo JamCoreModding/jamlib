@@ -5,8 +5,7 @@ import net.neoforged.fml.common.Mod;
 
 @Mod(JamLib.MOD_ID)
 public class JamLibNeoForge {
-
-    public JamLibNeoForge() {
-        JamLib.init();
-    }
+	public JamLibNeoForge() {
+		JamLib.init();
+	}
 }
