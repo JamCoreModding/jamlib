@@ -18,7 +18,7 @@ public class JamLib {
 
     @ApiStatus.Internal
     public static void init() {
-        LOGGER.info("Initializing JamLib on " + JamLibPlatform.getPlatform());
+	    LOGGER.info("Initializing JamLib on {}", JamLibPlatform.getPlatform());
         checkForJarRenaming(JamLib.class);
 
         EnvExecutor.runInEnv(EnvType.CLIENT, () -> () -> ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(JamLibClient::onPlayerJoin));

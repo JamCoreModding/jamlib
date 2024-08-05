@@ -44,7 +44,10 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.officialMojangMappings()
+        mappings loom.layered() {
+            officialMojangMappings()
+            parchment "org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${libs.versions.parchment.get()}@zip"
+        }
     }
 }
 
@@ -66,6 +69,11 @@ allprojects {
         maven {
             name = "Modrinth"
             url = "https://api.modrinth.com/maven"
+        }
+
+        maven {
+            name = "ParchmentMC"
+            url = "https://maven.parchmentmc.org"
         }
     }
 

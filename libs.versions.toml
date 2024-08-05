@@ -2,6 +2,9 @@
 # https://modrinth.com/mod/architectury-api/versions
 architectury = "13.0.6"
 
+# https://parchmentmc.org/docs/getting-started
+parchment = "2024.07.28"
+
 # https://projects.neoforged.net/neoforged/neoforge
 neoforge = "21.0.144"
 

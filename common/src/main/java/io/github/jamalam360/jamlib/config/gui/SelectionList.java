@@ -15,19 +15,6 @@ public class SelectionList extends ContainerObjectSelectionList<SelectionListEnt
         super(minecraft, width, height, y, itemHeight);
         this.centerListVertically = false;
     }
-//
-//	@Override
-//	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-//		super.render(graphics, mouseX, mouseY, delta);
-//		SelectionListEntry hovered = this.getHoveredEntry(mouseX, mouseY);
-//
-//		if (hovered != null) {
-//			if (hovered.getTooltip() != null) {
-//				graphics.renderTooltip(Minecraft.getInstance().font, hovered.getTooltip(), mouseX, mouseY);
-//			}
-//		}
-//	}
-
 
     @Override
     public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {

@@ -1,3 +1,3 @@
-- Update versions.
-- Modify how config screens are registered on Neoforge.
-
+- (feat) config options with long names will now render in the screen as scrolling strings.
+- (chore) various code cleanups
+- (chore) use parchment mappings

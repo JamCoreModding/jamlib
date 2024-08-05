@@ -93,7 +93,7 @@ public class ConfigScreen<T> extends Screen {
         }).pos(this.width / 2 - 154, this.height - 28).size(150, 20).build());
 
         this.doneButton = this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> {
-            if (this.changedFields.size() > 0) {
+            if (!this.changedFields.isEmpty()) {
                 this.manager.save();
             }
 
@@ -104,7 +104,7 @@ public class ConfigScreen<T> extends Screen {
               new ButtonWithTextureWidget(
                     7, 7, 20, 20, Component.translatable("config.jamlib.edit_manually"), ResourceLocation.withDefaultNamespace("textures/item/writable_book.png"), 16, 16,
                     button -> {
-                        if (this.changedFields.size() > 0) {
+                        if (!this.changedFields.isEmpty()) {
                             this.manager.save();
                         }
 
@@ -116,7 +116,7 @@ public class ConfigScreen<T> extends Screen {
 
         ConfigEntryList list = new ConfigEntryList(this.minecraft, this.width, this.height - 64, 32, 25);
 
-        if (this.entries.size() == 0) {
+        if (this.entries.isEmpty()) {
             for (Field field : this.manager.getConfigClass().getDeclaredFields()) {
                 if (field.isAnnotationPresent(HiddenInGui.class)) {
                     continue;
@@ -610,12 +610,12 @@ public class ConfigScreen<T> extends Screen {
                 List<ConfigExtensions.ValidationError> errors = ((ConfigExtensions<T>) ext).getValidationErrors(manager, new ConfigExtensions.FieldValidationInfo(this.field.getName(), newValue, this.initialValue, this.field));
                 errors.sort((o1, o2) -> o2.type().ordinal() - o1.type().ordinal());
 
-                TextureWidget validationIcon = (TextureWidget) widgets.get(0);
-                if (errors.size() > 0) {
-                    this.isValid = errors.get(0).type() != ConfigExtensions.ValidationError.Type.ERROR;
+                TextureWidget validationIcon = (TextureWidget) widgets.getFirst();
+                if (!errors.isEmpty()) {
+                    this.isValid = errors.getFirst().type() != ConfigExtensions.ValidationError.Type.ERROR;
                     validationIcon.visible = true;
-                    validationIcon.setTexture(errors.get(0).type().getTexture());
-                    validationIcon.setTooltip(Tooltip.create(errors.get(0).message()));
+                    validationIcon.setTexture(errors.getFirst().type().getTexture());
+                    validationIcon.setTooltip(Tooltip.create(errors.getFirst().message()));
                 } else {
                     this.isValid = true;
                     validationIcon.visible = false;
@@ -641,7 +641,7 @@ public class ConfigScreen<T> extends Screen {
             try {
                 return (V) this.field.get(manager.get());
             } catch (IllegalAccessException e) {
-                JamLib.LOGGER.error("Failed to access field for config " + manager.getConfigName(), e);
+                JamLib.LOGGER.error("Failed to access field for config {}", manager.getConfigName(), e);
                 return null;
             }
         }
@@ -666,7 +666,7 @@ public class ConfigScreen<T> extends Screen {
             try {
                 this.field.set(manager.get(), realValue);
             } catch (IllegalAccessException e) {
-                JamLib.LOGGER.error("Failed to access field for config " + manager.getConfigName(), e);
+                JamLib.LOGGER.error("Failed to access field for config {}", manager.getConfigName(), e);
             }
         }
 
