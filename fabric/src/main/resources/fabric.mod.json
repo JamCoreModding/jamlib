@@ -24,6 +24,7 @@
     ]
   },
   "mixins": [
+    "jamlib.mixins.json"
   ],
   "depends": {
     "fabric": ">=${fabric_api_version}",

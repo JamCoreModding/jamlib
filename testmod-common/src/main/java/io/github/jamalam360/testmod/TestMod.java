@@ -2,6 +2,7 @@ package io.github.jamalam360.testmod;
 
 import io.github.jamalam360.jamlib.JamLibPlatform;
 import io.github.jamalam360.jamlib.config.ConfigManager;
+import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +17,11 @@ public class TestMod {
 
 
     public static void init() {
-        LOGGER.info("Initializing JamLib Test Mod on " + JamLibPlatform.getPlatform());
+        LOGGER.info("Initializing JamLib Test Mod on {}", JamLibPlatform.getPlatform());
         System.out.println(CONFIG_MANAGER.get());
         System.out.println(QCB_CONFIG.get());
+
+        ClientPlayLifecycleEvents.JOIN.register(client -> LOGGER.info("Joined server!"));
+        ClientPlayLifecycleEvents.DISCONNECT.register(client -> LOGGER.info("Left server!"));
     }
 }

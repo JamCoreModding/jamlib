@@ -1,3 +1,1 @@
-- (feat) config options with long names will now render in the screen as scrolling strings.
-- (chore) various code cleanups
-- (chore) use parchment mappings
+- Add `ClientPlayLifecycleEvents`.
