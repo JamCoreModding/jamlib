@@ -97,11 +97,11 @@ publishing {
 
 processResources {
     filesMatching("neoforge.mods.toml") {
-        expand "minecraft_version": project.minecraft_version,
+        expand "minecraft_version": project.minimum_minecraft_version,
                 "architectury_version": libs.versions.architectury.get()
     }
 
-    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "minecraft_version", project.minimum_minecraft_version
     inputs.property "architectury_version", libs.versions.architectury.get()
 }
 

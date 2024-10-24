@@ -33,6 +33,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.CommonInputs;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
@@ -194,7 +195,7 @@ public class ConfigScreen<T> extends Screen {
 
         @Override
         public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-            graphics.blit(this.texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0.0F, 0.0F, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
+            graphics.blit(RenderType::guiTextured, this.texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
         }
 
         @Override
@@ -266,15 +267,13 @@ public class ConfigScreen<T> extends Screen {
 
         public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
             Minecraft minecraft = Minecraft.getInstance();
-            guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            guiGraphics.blitSprite(this.getSprite(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            guiGraphics.blitSprite(RenderType::guiTextured, this.getSprite(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
             double position = (this.value) / (this.max - this.min);
             double handleX = this.getX() + position * (this.getWidth() - 8);
-            guiGraphics.blitSprite(this.getHandleSprite(), (int) handleX, this.getY(), 8, this.getHeight());
-            guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+            guiGraphics.blitSprite(RenderType::guiTextured, this.getHandleSprite(), (int) handleX, this.getY(), 8, this.getHeight());
             int k = this.active ? 16777215 : 10526880;
             this.renderScrollingString(guiGraphics, minecraft.font, 2, k | Mth.ceil(this.alpha * 255.0F) << 24);
         }
