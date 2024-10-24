@@ -3,14 +3,15 @@
 architectury = "13.0.6"
 
 # https://parchmentmc.org/docs/getting-started
+parchment-minecraft = "1.21"
 parchment = "2024.07.28"
 
 # https://projects.neoforged.net/neoforged/neoforge
-neoforge = "21.0.144"
+neoforge = "21.1.72"
 
 # https://fabricmc.net/develop
-fabric-loader = "0.15.11"
-fabric-api = "0.100.1+1.21"
+fabric-loader = "0.16.7"
+fabric-api = "0.106.0+1.21.1"
 
 # https://modrinth.com/mod/modmenu/versions
 modmenu = "11.0.1"
