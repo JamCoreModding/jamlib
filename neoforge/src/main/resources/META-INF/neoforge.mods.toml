@@ -5,7 +5,7 @@ issueTrackerURL = "https://github.com/JamCoreModding/jamlib/issues"
 
 [[mods]]
 modId = "jamlib"
-version = "${file.jarVersion}"
+version = "${version}"
 displayName = "JamLib"
 displayURL = "https://github.com/JamCoreModding/jamlib"
 logoFile = "icon.png"
@@ -15,7 +15,7 @@ description = '''The platform-agnostic library used in all of JamCore's mods'''
 [[dependencies.jamlib]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21,)"
+versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "BOTH"
 
