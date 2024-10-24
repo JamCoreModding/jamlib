@@ -1,1 +1,1 @@
-- Add `ClientPlayLifecycleEvents`.
+- Update to 1.21.3/2
