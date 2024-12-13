@@ -49,7 +49,7 @@ public class SelectionList extends ContainerObjectSelectionList<SelectionListEnt
     }
 
     @Override
-    protected int getScrollbarPosition() {
+    protected int scrollBarX() {
         return this.width - 7;
     }
 

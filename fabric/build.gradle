@@ -95,17 +95,18 @@ publishing {
 }
 
 processResources {
+    def substitutions = [
+            "version"             : project.version,
+            "minecraft_version"   : project.minimum_minecraft_version,
+            "fabric_api_version"  : project.minimum_fabric_api_version,
+            "architectury_version": project.minimum_architectury_api_version
+    ]
+
     filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minimum_minecraft_version,
-                "fabric_api_version": libs.versions.fabric.api.get(),
-                "architectury_version": libs.versions.architectury.get()
+        expand substitutions
     }
 
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minimum_minecraft_version
-    inputs.property "fabric_api_version", libs.versions.fabric.api.get()
-    inputs.property "architectury_version", libs.versions.architectury.get()
+    substitutions.each { inputs.property it.key, it.value }
 }
 
 shadowJar {
