@@ -1,1 +1,1 @@
-- Fix issue with not being able to launch on 1.21.
+Fix dependency logic
