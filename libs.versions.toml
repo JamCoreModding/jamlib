@@ -1,6 +1,6 @@
 [versions]
 # https://modrinth.com/mod/architectury-api/versions
-architectury = "14.0.3"
+architectury = "14.0.4"
 
 # https://parchmentmc.org/docs/getting-started
 parchment-minecraft = "1.21"

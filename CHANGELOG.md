@@ -1,1 +1,1 @@
-- Add `ClientPlayLifecycleEvents`.
+- Change dependency logic (closes #8)
