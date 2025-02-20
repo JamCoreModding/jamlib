@@ -1,12 +1,10 @@
-package io.github.jamalam360.jamlib.events.client;
+package io.github.jamalam360.jamlib.client.events.client;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import dev.architectury.event.Event;
 import dev.architectury.event.EventFactory;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
 
 /**
  * Events for client-side player lifecycle events.

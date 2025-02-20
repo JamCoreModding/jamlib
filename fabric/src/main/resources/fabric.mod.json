@@ -19,12 +19,16 @@
     "main": [
       "io.github.jamalam360.jamlib.fabric.JamLibFabric"
     ],
+    "client": [
+      "io.github.jamalam360.jamlib.fabric.JamLibClientFabric"
+    ],
     "modmenu": [
       "io.github.jamalam360.jamlib.fabric.config.ModMenuCompatibility"
     ]
   },
   "mixins": [
-    "jamlib.mixins.json"
+    "jamlib.mixins.json",
+    "jamlib.client.mixins.json"
   ],
   "depends": {
     "fabric-api": ">=${fabric_api_version}",

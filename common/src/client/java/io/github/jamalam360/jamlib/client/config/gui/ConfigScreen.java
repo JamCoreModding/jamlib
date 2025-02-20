@@ -1,13 +1,13 @@
-package io.github.jamalam360.jamlib.config.gui;
+package io.github.jamalam360.jamlib.client.config.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.JamLib;
-import io.github.jamalam360.jamlib.config.ConfigExtensions;
-import io.github.jamalam360.jamlib.config.ConfigManager;
-import io.github.jamalam360.jamlib.config.HiddenInGui;
-import io.github.jamalam360.jamlib.config.Slider;
-import io.github.jamalam360.jamlib.config.WithinRange;
+import io.github.jamalam360.jamlib.client.config.ConfigExtensions;
+import io.github.jamalam360.jamlib.client.config.ConfigManager;
+import io.github.jamalam360.jamlib.client.config.HiddenInGui;
+import io.github.jamalam360.jamlib.client.config.Slider;
+import io.github.jamalam360.jamlib.client.config.WithinRange;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;

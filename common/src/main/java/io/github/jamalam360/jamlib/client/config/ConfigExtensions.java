@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.config;
+package io.github.jamalam360.jamlib.client.config;
 
 import io.github.jamalam360.jamlib.JamLib;
 import net.minecraft.network.chat.Component;

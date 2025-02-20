@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.config.gui;
+package io.github.jamalam360.jamlib.client.config.gui;
 
 import java.util.List;
 

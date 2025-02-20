@@ -3,7 +3,14 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/jamlib.accesswidener")
+    splitEnvironmentSourceSets()
+
+    mods {
+        jamlib {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
 }
 
 dependencies {

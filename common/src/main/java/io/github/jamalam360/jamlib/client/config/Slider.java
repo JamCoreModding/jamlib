@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.config;
+package io.github.jamalam360.jamlib.client.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

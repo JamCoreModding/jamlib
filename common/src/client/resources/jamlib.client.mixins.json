@@ -6,6 +6,8 @@
   "mixins": [
   ],
   "client": [
+    "event.ClientPacketListenerMixin",
+    "event.ConnectionMixin"
   ],
   "server": [
   ],

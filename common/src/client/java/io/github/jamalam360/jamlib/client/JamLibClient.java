@@ -1,18 +1,21 @@
-package io.github.jamalam360.jamlib;
+package io.github.jamalam360.jamlib.client;
 
 import static io.github.jamalam360.jamlib.JamLib.JAR_RENAMING_CHECKER;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import dev.architectury.event.events.client.ClientPlayerEvent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.ApiStatus;
 
-@Environment(EnvType.CLIENT)
 public class JamLibClient {
+    @ApiStatus.Internal
+    public static void init() {
+        ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(JamLibClient::onPlayerJoin);
+    }
 
-    public static void onPlayerJoin(LocalPlayer player) {
+    private static void onPlayerJoin(LocalPlayer player) {
         if (player != Minecraft.getInstance().player) {
             return;
         }

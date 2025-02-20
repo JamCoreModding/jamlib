@@ -1,7 +1,7 @@
-package io.github.jamalam360.jamlib.config.gui;
+package io.github.jamalam360.jamlib.client.config.gui;
 
 import dev.architectury.platform.Platform;
-import io.github.jamalam360.jamlib.config.ConfigManager;
+import io.github.jamalam360.jamlib.client.config.ConfigManager;
 import java.util.List;
 import java.util.Objects;
 import net.minecraft.client.Minecraft;

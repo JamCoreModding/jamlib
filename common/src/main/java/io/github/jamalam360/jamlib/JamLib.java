@@ -14,14 +14,13 @@ public class JamLib {
     public static final String MOD_ID = "jamlib";
     public static final String MOD_NAME = "JamLib";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-    protected static final JarRenamingChecker JAR_RENAMING_CHECKER = new JarRenamingChecker();
+    @ApiStatus.Internal
+    public static final JarRenamingChecker JAR_RENAMING_CHECKER = new JarRenamingChecker();
 
     @ApiStatus.Internal
     public static void init() {
 	    LOGGER.info("Initializing JamLib on {}", JamLibPlatform.getPlatform());
         checkForJarRenaming(JamLib.class);
-
-        EnvExecutor.runInEnv(EnvType.CLIENT, () -> () -> ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(JamLibClient::onPlayerJoin));
     }
 
     /**
