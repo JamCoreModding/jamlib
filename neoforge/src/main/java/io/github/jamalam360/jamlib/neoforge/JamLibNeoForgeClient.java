@@ -2,7 +2,7 @@ package io.github.jamalam360.jamlib.neoforge;
 
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.client.JamLibClient;
-import io.github.jamalam360.jamlib.client.config.ConfigManager;
+import io.github.jamalam360.jamlib.config.ConfigManager;
 import io.github.jamalam360.jamlib.client.config.gui.ConfigScreen;
 import io.github.jamalam360.jamlib.client.config.gui.SelectConfigScreen;
 import net.neoforged.api.distmarker.Dist;

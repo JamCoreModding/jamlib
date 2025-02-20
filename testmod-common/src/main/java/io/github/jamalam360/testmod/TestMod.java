@@ -1,7 +1,7 @@
 package io.github.jamalam360.testmod;
 
 import io.github.jamalam360.jamlib.JamLibPlatform;
-import io.github.jamalam360.jamlib.client.config.ConfigManager;
+import io.github.jamalam360.jamlib.config.ConfigManager;
 import io.github.jamalam360.jamlib.client.events.client.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.config.NestedConfigChild;
 import io.github.jamalam360.testmod.config.QuickerConnectButtonTestConfig;

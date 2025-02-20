@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.client.config;
+package io.github.jamalam360.jamlib.config;
 
 import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonElement;

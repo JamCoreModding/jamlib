@@ -1,13 +1,13 @@
 package io.github.jamalam360.testmod.config;
 
 import blue.endless.jankson.Comment;
-import io.github.jamalam360.jamlib.client.config.ConfigExtensions;
-import io.github.jamalam360.jamlib.client.config.ConfigManager;
-import io.github.jamalam360.jamlib.client.config.HiddenInGui;
-import io.github.jamalam360.jamlib.client.config.MatchesRegex;
-import io.github.jamalam360.jamlib.client.config.RequiresRestart;
-import io.github.jamalam360.jamlib.client.config.Slider;
-import io.github.jamalam360.jamlib.client.config.WithinRange;
+import io.github.jamalam360.jamlib.config.ConfigExtensions;
+import io.github.jamalam360.jamlib.config.ConfigManager;
+import io.github.jamalam360.jamlib.config.HiddenInGui;
+import io.github.jamalam360.jamlib.config.MatchesRegex;
+import io.github.jamalam360.jamlib.config.RequiresRestart;
+import io.github.jamalam360.jamlib.config.Slider;
+import io.github.jamalam360.jamlib.config.WithinRange;
 import java.util.List;
 import net.minecraft.network.chat.Component;
 

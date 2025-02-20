@@ -3,7 +3,7 @@ package io.github.jamalam360.jamlib.fabric.config;
 import com.mojang.datafixers.util.Pair;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import io.github.jamalam360.jamlib.client.config.ConfigManager;
+import io.github.jamalam360.jamlib.config.ConfigManager;
 import io.github.jamalam360.jamlib.client.config.gui.ConfigScreen;
 import io.github.jamalam360.jamlib.client.config.gui.SelectConfigScreen;
 import java.util.HashMap;
