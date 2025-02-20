@@ -54,7 +54,13 @@ public class ConfigManager<T> {
 	 */
 	public ConfigManager(String modId, String configName, Class<T> configClass) {
 		MANAGERS.put(configName, this);
-		this.configPath = Platform.getConfigFolder().resolve(configName + ".json5");
+
+		if (modId.equals(configName)) {
+			this.configPath = Platform.getConfigFolder().resolve(configName + ".json5");
+		} else {
+			this.configPath = Platform.getConfigFolder().resolve(modId).resolve(configName + ".json5");
+		}
+
 		this.configName = configName;
 		this.modId = modId;
 		this.configClass = configClass;
@@ -110,6 +116,10 @@ public class ConfigManager<T> {
 		String stringifiedJson = json.toJson(grammar);
 
 		try {
+			if (!Files.exists(this.configPath.getParent())) {
+				Files.createDirectories(this.configPath.getParent());
+			}
+
 			Files.writeString(this.configPath, stringifiedJson);
 			JamLib.LOGGER.info("Updated config file at {}", this.configPath);
 		} catch (IOException e) {
