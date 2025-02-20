@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 @ApiStatus.Internal
 public class SelectionListEntry extends ContainerObjectSelectionList.Entry<SelectionListEntry> {
-
     private final Component title;
     private final List<FormattedCharSequence> tooltip;
     private final List<AbstractWidget> widgets;

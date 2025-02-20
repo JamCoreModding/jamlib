@@ -1,50 +1,29 @@
 package io.github.jamalam360.jamlib.client.config.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.JamLib;
-import io.github.jamalam360.jamlib.config.ConfigExtensions;
-import io.github.jamalam360.jamlib.config.ConfigManager;
-import io.github.jamalam360.jamlib.config.HiddenInGui;
-import io.github.jamalam360.jamlib.config.Slider;
-import io.github.jamalam360.jamlib.config.WithinRange;
+import io.github.jamalam360.jamlib.client.mixinsupport.MutableSpriteImageWidget$Sprite;
+import io.github.jamalam360.jamlib.config.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
-import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
-import net.minecraft.client.InputType;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ComponentPath;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractSliderButton;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.ImageWidget;
-import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.narration.NarratedElementType;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.navigation.CommonInputs;
-import net.minecraft.client.gui.navigation.FocusNavigationEvent;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.util.Mth;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A screen for editing a config managed through a {@link ConfigManager}.
@@ -101,19 +80,18 @@ public class ConfigScreen<T> extends Screen {
             Objects.requireNonNull(this.minecraft).setScreen(this.parent);
         }).pos(this.width / 2 + 4, this.height - 28).size(150, 20).build());
 
-        this.addRenderableWidget(
-              new ButtonWithTextureWidget(
-                    7, 7, 20, 20, Component.translatable("config.jamlib.edit_manually"), ResourceLocation.withDefaultNamespace("textures/item/writable_book.png"), 16, 16,
-                    button -> {
+        SpriteIconButton editManuallyButton = this.addRenderableWidget(
+                SpriteIconButton.builder(Component.translatable("config.jamlib.edit_manually"), button -> {
                         if (!this.changedFields.isEmpty()) {
                             this.manager.save();
                         }
 
                         Util.getPlatform().openFile(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5").toFile());
                         Objects.requireNonNull(this.minecraft).setScreen(this.parent);
-                    }
-              )
+                }, true).sprite(JamLib.id("writable_book"), 16, 16).size(20, 20).build()
         );
+        editManuallyButton.setX(7);
+        editManuallyButton.setY(7);
 
         ConfigEntryList list = new ConfigEntryList(this.minecraft, this.width, this.height - 64, 32, 25);
 
@@ -137,17 +115,18 @@ public class ConfigScreen<T> extends Screen {
 
             for (int i = 0; i < links.size(); i++) {
                 ConfigExtensions.Link link = links.get(i);
-                this.addRenderableWidget(
-                      new ButtonWithTextureWidget(
-                            this.width - 30 - (28 * i), 5, 20, 20, (MutableComponent) link.getTooltip(), link.getTexture(), 16, 16,
-                            button -> {
-                                try {
-                                    Util.getPlatform().openUri(link.getUrl().toURI());
-                                } catch (Exception e) {
-                                    JamLib.LOGGER.error("Failed to open link", e);
-                                }
-                            })
+                SpriteIconButton linkButton = this.addRenderableWidget(
+                        SpriteIconButton.builder(link.getTooltip(), button -> {
+                            try {
+                                Util.getPlatform().openUri(link.getUrl().toURI());
+                            } catch (Exception e) {
+                                JamLib.LOGGER.error("Failed to open link", e);
+                            }
+                        }, true).sprite(link.getTexture(), 16, 16).size(20, 20).build()
+
                 );
+                linkButton.setX(this.width - 30 - (28 * i));
+                linkButton.setY(5);
             }
         }
     }
@@ -172,213 +151,7 @@ public class ConfigScreen<T> extends Screen {
         }
     }
 
-    /**
-     * A copy of {@link ImageWidget}{@code .Texture} that allows you to pass in an x and y value
-     */
-    private static class TextureWidget extends AbstractWidget {
-
-        private ResourceLocation texture;
-
-        public TextureWidget(int x, int y, int width, int height, ResourceLocation texture) {
-            super(x, y, width, height, CommonComponents.EMPTY);
-            this.texture = texture;
-        }
-
-        @Override
-        public boolean isMouseOver(double d, double e) {
-            return this.visible && d >= (double) this.getX() && e >= (double) this.getY() && d < (double) (this.getX() + this.width) && e < (double) (this.getY() + this.height);
-        }
-
-        public void setTexture(ResourceLocation texture) {
-            this.texture = texture;
-        }
-
-        @Override
-        public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-            graphics.blit(RenderType::guiTextured, this.texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
-        }
-
-        @Override
-        protected void updateWidgetNarration(NarrationElementOutput _ignored) {
-        }
-
-        @Override
-        public void playDownSound(SoundManager _ignored) {
-        }
-
-        @Override
-        public boolean isActive() {
-            return false;
-        }
-
-        @Override
-        @Nullable
-        public ComponentPath nextFocusPath(FocusNavigationEvent _ignored) {
-            return null;
-        }
-    }
-
-    /**
-     * Had to be copied from {@link AbstractSliderButton} because that was too private to extend properly
-     */
-    private static class SliderButton extends AbstractWidget {
-
-        private static final ResourceLocation SLIDER_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider");
-        private static final ResourceLocation HIGHLIGHTED_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider_highlighted");
-        private static final ResourceLocation SLIDER_HANDLE_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider_handle");
-        private static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider_handle_highlighted");
-        private final double min;
-        private final double max;
-        private final Consumer<SliderButton> onChange;
-        protected double value;
-        private boolean canChangeValue;
-
-        public SliderButton(int x, int y, int width, int height, Component message, double min, double max, double current, Consumer<SliderButton> onChange) {
-            super(x, y, width, height, message);
-            this.value = current;
-            this.min = min;
-            this.max = max;
-            this.onChange = onChange;
-        }
-
-        private ResourceLocation getSprite() {
-            return this.isFocused() && !this.canChangeValue ? HIGHLIGHTED_SPRITE : SLIDER_SPRITE;
-        }
-
-        private ResourceLocation getHandleSprite() {
-            return !this.isHovered && !this.canChangeValue ? SLIDER_HANDLE_SPRITE : SLIDER_HANDLE_HIGHLIGHTED_SPRITE;
-        }
-
-        protected @NotNull MutableComponent createNarrationMessage() {
-            return Component.translatable("gui.narrate.slider", this.getMessage());
-        }
-
-        public void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
-            narrationElementOutput.add(NarratedElementType.TITLE, this.createNarrationMessage());
-
-            if (this.active) {
-                if (this.isFocused()) {
-                    narrationElementOutput.add(NarratedElementType.USAGE, Component.translatable("narration.slider.usage.focused"));
-                } else {
-                    narrationElementOutput.add(NarratedElementType.USAGE, Component.translatable("narration.slider.usage.hovered"));
-                }
-            }
-        }
-
-        public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
-            Minecraft minecraft = Minecraft.getInstance();
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.enableDepthTest();
-            guiGraphics.blitSprite(RenderType::guiTextured, this.getSprite(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-            double position = (this.value) / (this.max - this.min);
-            double handleX = this.getX() + position * (this.getWidth() - 8);
-            guiGraphics.blitSprite(RenderType::guiTextured, this.getHandleSprite(), (int) handleX, this.getY(), 8, this.getHeight());
-            int k = this.active ? 16777215 : 10526880;
-            this.renderScrollingString(guiGraphics, minecraft.font, 2, k | Mth.ceil(this.alpha * 255.0F) << 24);
-        }
-
-        public void onClick(double d, double e) {
-            this.setValueFromMouse(d);
-        }
-
-        public void setFocused(boolean bl) {
-            super.setFocused(bl);
-
-            if (!bl) {
-                this.canChangeValue = false;
-            } else {
-                InputType inputType = Minecraft.getInstance().getLastInputType();
-
-                if (inputType == InputType.MOUSE || inputType == InputType.KEYBOARD_TAB) {
-                    this.canChangeValue = true;
-                }
-            }
-        }
-
-        public boolean keyPressed(int i, int j, int k) {
-            if (CommonInputs.selected(i)) {
-                this.canChangeValue = !this.canChangeValue;
-                return true;
-            } else {
-                if (this.canChangeValue) {
-                    boolean bl = i == 263;
-                    if (bl || i == 262) {
-                        float f = bl ? -1.0F : 1.0F;
-                        double step = (this.max - this.min) / (this.width / 8F);
-                        this.setValue(Mth.clamp(this.value + step * f, this.min, this.max));
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
-        private void setValueFromMouse(double d) {
-            double position = (d - (double) (this.getX() + 4)) / (double) (this.width - 8);
-            this.setValue(Mth.clamp(position * (this.max - this.min) + this.min, this.min, this.max));
-        }
-
-        protected void onDrag(double d, double e, double f, double g) {
-            this.setValueFromMouse(d);
-            super.onDrag(d, e, f, g);
-        }
-
-        @Override
-        public void playDownSound(SoundManager soundManager) {
-        }
-
-        @Override
-        public void onRelease(double d, double e) {
-            super.playDownSound(Minecraft.getInstance().getSoundManager());
-        }
-
-        protected double getValue() {
-            return this.value;
-        }
-
-        private void setValue(double d) {
-            double e = this.value;
-            this.value = Mth.clamp(d, this.min, this.max);
-            if (e != this.value) {
-                this.onChange.accept(this);
-            }
-        }
-    }
-
-    private static class EnumButton<E extends Enum<E>> extends Button {
-
-        private final Class<E> enumClass;
-        private final Consumer<EnumButton<E>> onChange;
-        private int index;
-
-        @SuppressWarnings("unchecked")
-        protected EnumButton(int x, int y, int width, int height, MutableComponent description, Class<Enum<?>> enumClass, Consumer<EnumButton<E>> onChange) {
-            super(x, y, width, height, CommonComponents.EMPTY, b -> {
-                ((EnumButton<E>) b).setIndex((((EnumButton<E>) b).index + 1) % ((EnumButton<E>) b).enumClass.getEnumConstants().length);
-                ((EnumButton<E>) b).onChange.accept(((EnumButton<E>) b));
-            }, s -> description);
-            this.enumClass = (Class<E>) enumClass;
-            this.onChange = onChange;
-            this.index = 0;
-        }
-
-        private E getValue() {
-            return this.enumClass.getEnumConstants()[this.index];
-        }
-
-        private void setValue(E value) {
-            this.setIndex(value.ordinal());
-        }
-
-        private void setIndex(int index) {
-            this.index = index;
-        }
-    }
-
     private class GuiEntry {
-
         private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
         private final Type type;
         private final String translationKey;
@@ -420,7 +193,9 @@ public class ConfigScreen<T> extends Screen {
         protected java.util.List<AbstractWidget> createWidget(ConfigManager<T> manager, int width) {
             java.util.List<AbstractWidget> widgets = new ArrayList<>();
 
-            TextureWidget validationIcon = new TextureWidget(width - 212, 0, 20, 20, JamLib.id("textures/gui/validation_warning.png"));
+            ImageWidget validationIcon = ImageWidget.sprite(20, 20, JamLib.id("validation_warning"));
+            validationIcon.setX(width - 212);
+            validationIcon.setY(0);
             validationIcon.setTooltip(Tooltip.create(Component.translatable("config.jamlib.requires_restart_tooltip")));
             validationIcon.visible = false;
             widgets.add(validationIcon);
@@ -489,7 +264,7 @@ public class ConfigScreen<T> extends Screen {
                     break;
             }
 
-            widgets.add(new ButtonWithTextureWidget(width - 30, 0, 20, 20, Component.translatable("config.jamlib.reset"), JamLib.id("textures/gui/reset.png"), 16, 16, button -> {
+            SpriteIconButton resetButton = SpriteIconButton.builder(Component.translatable("config.jamlib.reset"), (button) -> {
                 this.setFieldValue(manager, this.initialValue);
                 widgets.get(1).setMessage(handleUpdatesOnChange(manager, widgets, ConfigScreen.this.changedFields));
 
@@ -498,7 +273,10 @@ public class ConfigScreen<T> extends Screen {
                 } else if (widgets.get(1) instanceof SliderButton slider) {
                     slider.setValue(((Number) this.initialValue).doubleValue());
                 }
-            }));
+            }, true).sprite(JamLib.id("reset"), 16, 16).size(20, 20).build();
+            resetButton.setX(width - 30);
+            resetButton.setY(0);
+            widgets.add(resetButton);
 
             validate(manager, widgets);
 
@@ -551,24 +329,20 @@ public class ConfigScreen<T> extends Screen {
                 current = rangeAnnot.min();
             }
 
-            SliderButton slider = new SliderButton(
-                  width - 188,
-                  0,
-                  150,
-                  20,
-                  CommonComponents.EMPTY,
-                  rangeAnnot.min(),
-                  rangeAnnot.max(),
-                  current.doubleValue(),
-                  s -> {
-                      this.setFieldValue(manager, (Number) s.getValue());
-                      s.setMessage(handleUpdatesOnChange(manager, widgets, ConfigScreen.this.changedFields));
-                  }
-            );
-
-            slider.setMessage(Component.literal(DECIMAL_FORMAT.format(slider.getValue())));
-
-            return slider;
+	        return new SliderButton(
+	              width - 188,
+	              0,
+	              150,
+	              20,
+                    Component.literal(DECIMAL_FORMAT.format(current.doubleValue())),
+	              rangeAnnot.min(),
+	              rangeAnnot.max(),
+	              current.doubleValue(),
+	                value -> {
+	                    this.setFieldValue(manager, (Number) value);
+	                    return handleUpdatesOnChange(manager, widgets, ConfigScreen.this.changedFields);
+	              }
+	        );
         }
 
         private Component handleUpdatesOnChange(ConfigManager<T> manager, List<AbstractWidget> widgets, List<GuiEntry> changedFields) {
@@ -609,11 +383,12 @@ public class ConfigScreen<T> extends Screen {
                 List<ConfigExtensions.ValidationError> errors = ((ConfigExtensions<T>) ext).getValidationErrors(manager, new ConfigExtensions.FieldValidationInfo(this.field.getName(), newValue, this.initialValue, this.field));
                 errors.sort((o1, o2) -> o2.type().ordinal() - o1.type().ordinal());
 
-                TextureWidget validationIcon = (TextureWidget) widgets.getFirst();
+                ImageWidget validationIcon = (ImageWidget) widgets.getFirst();
                 if (!errors.isEmpty()) {
                     this.isValid = errors.getFirst().type() != ConfigExtensions.ValidationError.Type.ERROR;
                     validationIcon.visible = true;
-                    validationIcon.setTexture(errors.getFirst().type().getTexture());
+
+                    ((MutableSpriteImageWidget$Sprite) validationIcon).setSprite(errors.getFirst().type().getTexture());
                     validationIcon.setTooltip(Tooltip.create(errors.getFirst().message()));
                 } else {
                     this.isValid = true;
@@ -706,7 +481,6 @@ public class ConfigScreen<T> extends Screen {
     }
 
     private class ConfigEntryList extends SelectionList {
-
         public ConfigEntryList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
             super(minecraft, width, height, y, itemHeight);
         }

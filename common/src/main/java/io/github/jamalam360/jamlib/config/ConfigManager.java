@@ -24,10 +24,10 @@ import java.util.Map;
  * @see RequiresRestart
  */
 public class ConfigManager<T> {
-
 	@ApiStatus.Internal
 	public static final Map<String, ConfigManager<?>> MANAGERS = new HashMap<>();
 	private static final Jankson JANKSON = Jankson.builder().build();
+	private static final JsonGrammar JSON_GRAMMER = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
 	private final Path configPath;
 	private final String modId;
 	private final String configName;
@@ -112,8 +112,7 @@ public class ConfigManager<T> {
 	public void save() {
 		JsonElement json = JANKSON.toJson(this.config);
 		transformJsonBeforeSave(json);
-		JsonGrammar grammar = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
-		String stringifiedJson = json.toJson(grammar);
+		String stringifiedJson = json.toJson(JSON_GRAMMER);
 
 		try {
 			if (!Files.exists(this.configPath.getParent())) {
@@ -124,6 +123,10 @@ public class ConfigManager<T> {
 			JamLib.LOGGER.info("Updated config file at {}", this.configPath);
 		} catch (IOException e) {
 			JamLib.LOGGER.error("Failed to write config file at {}", this.configPath, e);
+		}
+
+		if (this.config instanceof ConfigExtensions<?> ext) {
+			ext.afterSave();
 		}
 	}
 
@@ -158,7 +161,7 @@ public class ConfigManager<T> {
 				}
 			}
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			JamLib.LOGGER.error("Failed to validate config class " + this.configClass.getName(), e);
+			JamLib.LOGGER.error("Failed to validate config class {}", this.configClass.getName(), e);
 		}
 	}
 
@@ -166,7 +169,7 @@ public class ConfigManager<T> {
 		try {
 			return this.configClass.getConstructor().newInstance();
 		} catch (Exception e) {
-			JamLib.LOGGER.error("Failed to create default config for " + this.configClass.getName(), e);
+			JamLib.LOGGER.error("Failed to create default config for {}", this.configClass.getName(), e);
 		}
 
 		return null;
@@ -183,7 +186,7 @@ public class ConfigManager<T> {
 		}
 	}
 
-	private void attachDefaultComments(Class<?> clazz, Object defaults, JsonObject obj) {
+	private void attachDefaultComments(Class<?> clazz, T defaults, JsonObject obj) {
 		for (String key : obj.keySet()) {
 			JsonElement e = obj.get(key);
 			if (e instanceof JsonObject) {

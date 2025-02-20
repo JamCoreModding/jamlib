@@ -27,6 +27,12 @@ public interface ConfigExtensions<T> {
 	}
 
 	/**
+	 * Called after {@link ConfigManager#save()} has been called.
+	 * This is a good place to manually perform syncing, if that is necessary for your config.
+	 */
+	default void afterSave() { }
+
+	/**
 	 * Can be used to validate your config fields after they have been edited in the config screen. Remember that this function is only called when the user is using a
 	 * config screen - if they are editing the file directly they are on their own.
 	 *
@@ -77,9 +83,9 @@ public interface ConfigExtensions<T> {
 	class Link {
 
 		// I am not an artist but these are recognizable at least.
-		public static final ResourceLocation DISCORD = JamLib.id("textures/gui/link_discord.png");
-		public static final ResourceLocation GENERIC_LINK = JamLib.id("textures/gui/link_generic.png");
-		public static final ResourceLocation GITHUB = JamLib.id("textures/gui/link_github.png");
+		public static final ResourceLocation DISCORD = JamLib.id("link_discord");
+		public static final ResourceLocation GENERIC_LINK = JamLib.id("link_generic");
+		public static final ResourceLocation GITHUB = JamLib.id("link_github");
 
 		private final ResourceLocation texture;
 		private final URL url;
@@ -144,7 +150,7 @@ public interface ConfigExtensions<T> {
 			private final ResourceLocation texture;
 
 			Type() {
-				this.texture = JamLib.id("textures/gui/validation_" + this.name().toLowerCase() + ".png");
+				this.texture = JamLib.id("validation_" + this.name().toLowerCase());
 			}
 
 			public ResourceLocation getTexture() {

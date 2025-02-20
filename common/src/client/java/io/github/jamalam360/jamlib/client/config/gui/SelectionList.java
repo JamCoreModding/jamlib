@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
 public class SelectionList extends ContainerObjectSelectionList<SelectionListEntry> {
-
     public SelectionList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
         super(minecraft, width, height, y, itemHeight);
         this.centerListVertically = false;

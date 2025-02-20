@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.jamalam360.jamlib.client.mixin",
+  "package": "io.github.jamalam360.jamlib.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],

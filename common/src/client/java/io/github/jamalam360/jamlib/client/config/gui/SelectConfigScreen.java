@@ -16,17 +16,16 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public class SelectConfigScreen extends Screen {
-
     private final String modId;
     private final Screen parent;
 
     public SelectConfigScreen(Screen parent, String modId) {
-        super(getTitleComponent(modId));
+        super(createTitle(modId));
         this.parent = parent;
         this.modId = modId;
     }
 
-    private static Component getTitleComponent(String modId) {
+    private static Component createTitle(String modId) {
         String translationKey = "config." + modId + ".title";
 
         if (I18n.exists(translationKey)) {
@@ -54,7 +53,6 @@ public class SelectConfigScreen extends Screen {
     }
 
     private static class ConfigSelectionList extends SelectionList {
-
         public ConfigSelectionList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
             super(minecraft, width, height, y, itemHeight);
         }
