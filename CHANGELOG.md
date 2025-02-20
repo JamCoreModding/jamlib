@@ -1,3 +1,4 @@
 - Ensure inherited fields are present in config GUIs (closes #13).
 - When both a mod ID and config file name are specified, the config file is now saved under `config/{mod id}/{config name}.json5` (closes #12).
   - This should not be a breaking change as I am not aware of any mods registering multiple configs currently.
+- Switch to fabric-api mod ID in dependencies block (closes #10)
