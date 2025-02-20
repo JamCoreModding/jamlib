@@ -1,4 +1,4 @@
-package io.github.jamalam360.testmod;
+package io.github.jamalam360.testmod.config;
 
 import blue.endless.jankson.Comment;
 import io.github.jamalam360.jamlib.config.ConfigExtensions;

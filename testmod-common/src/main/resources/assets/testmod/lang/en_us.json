@@ -1,6 +1,7 @@
 {
   "config.testmod.first_config.title": "First config",
   "config.testmod.second_config.title": "Second config",
+  "config.testmod.nested.title": "Nested",
   "config.testmod.first_config.tooltip": "Tooltip for the first config. It goes onto multiple lines as it is quite a long tooltip.",
   "config.testmod.second_config.tooltip": "Tooltip for the second config",
   "config.testmod.first_config.testBoolean": "Test boolean (it has quite a long name, so the text should scroll)",

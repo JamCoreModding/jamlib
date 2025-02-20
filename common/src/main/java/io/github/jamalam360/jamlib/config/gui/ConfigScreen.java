@@ -118,7 +118,7 @@ public class ConfigScreen<T> extends Screen {
         ConfigEntryList list = new ConfigEntryList(this.minecraft, this.width, this.height - 64, 32, 25);
 
         if (this.entries.isEmpty()) {
-            for (Field field : this.manager.getConfigClass().getDeclaredFields()) {
+            for (Field field : this.manager.getConfigClass().getFields()) {
                 if (field.isAnnotationPresent(HiddenInGui.class)) {
                     continue;
                 }

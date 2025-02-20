@@ -1,1 +1,1 @@
-Update to 1.21.4
+- Ensure inherited fields are present in config GUIs (closes #13).
