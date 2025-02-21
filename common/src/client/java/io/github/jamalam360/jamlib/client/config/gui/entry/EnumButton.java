@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.client.config.gui;
+package io.github.jamalam360.jamlib.client.config.gui.entry;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.CommonComponents;

@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.client.config.gui;
+package io.github.jamalam360.jamlib.client.config.gui.entry;
 
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
@@ -19,7 +19,7 @@ public class SliderButton extends AbstractSliderButton {
 		this.value = ((Mth.clamp((float) value, this.min, this.max) - this.min) / (this.max - this.min));
 	}
 
-	protected void setValue(double value) {
+	public void setValue(double value) {
 		this.value = ((Mth.clamp((float) value, this.min, this.max) - this.min) / (this.max - this.min));
 	}
 

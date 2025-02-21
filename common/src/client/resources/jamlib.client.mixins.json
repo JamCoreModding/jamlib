@@ -9,6 +9,7 @@
     "event.ConnectionMixin"
   ],
   "client": [
+    "AbstractSelectionListMixin"
   ],
   "server": [
   ],

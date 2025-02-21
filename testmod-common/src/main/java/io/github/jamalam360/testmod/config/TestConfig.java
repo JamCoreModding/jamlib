@@ -13,7 +13,8 @@ import net.minecraft.network.chat.Component;
 
 public class TestConfig implements ConfigExtensions<TestConfig> {
 
-    //public class TestConfig {
+    public List<Integer> listOfInts = List.of(1, 2, 3);
+
     @Comment("This is a boolean")
     @RequiresRestart
     public boolean testBoolean = true;
