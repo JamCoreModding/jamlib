@@ -8,14 +8,16 @@ import io.github.jamalam360.jamlib.client.mixinsupport.MutableSpriteImageWidget$
 import io.github.jamalam360.jamlib.config.ConfigExtensions;
 import io.github.jamalam360.jamlib.config.ConfigManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.ImageWidget;
+import net.minecraft.client.gui.components.SpriteIconButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.FormattedCharSequence;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -86,9 +88,10 @@ public abstract class ConfigEntry<T, V> {
 
 		widgets.addAll(this.createElementWidgets(width - 188, 150));
 
-		SpriteIconButton resetButton = SpriteIconButton.builder(Component.translatable("config.jamlib.reset"), (button) -> this.setFieldValue(this.originalValue), true).sprite(JamLib.id("reset"), 16, 16).size(20, 20).build();
+		SpriteIconButton resetButton = SpriteIconButton.builder(Component.translatable("config.jamlib.reset"), (button) -> this.setFieldValue(this.getDefaultValue()), true).sprite(JamLib.id("reset"), 16, 16).size(20, 20).build();
 		resetButton.setX(width - 30);
 		resetButton.setY(0);
+		resetButton.setTooltip(Tooltip.create(Component.translatable("config.jamlib.reset_tooltip")));
 		widgets.add(resetButton);
 
 		return widgets;
@@ -173,6 +176,17 @@ public abstract class ConfigEntry<T, V> {
 		//noinspection unchecked
 		this.field.setValue(this.configManager, (V) realValue);
 		this.onChange();
+	}
+
+	private V getDefaultValue() {
+		try {
+			T defaultConfig = this.configManager.getConfigClass().getConstructor().newInstance();
+			//noinspection unchecked
+			return (V) this.field.getBackingField().get(defaultConfig);
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+		         NoSuchMethodException e) {
+			throw new RuntimeException("Failed to get default config for config " + this.configManager.getConfigClass(), e);
+		}
 	}
 
 	private V cloneObject(V object) {
