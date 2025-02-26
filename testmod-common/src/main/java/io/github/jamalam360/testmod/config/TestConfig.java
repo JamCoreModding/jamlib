@@ -59,7 +59,7 @@ public class TestConfig implements ConfigExtensions<TestConfig> {
             errors.add(new ValidationError(ValidationError.Type.ERROR, info, Component.translatable("config.testmod.i_dont_like_4")));
         }
 
-        if (info.name().equals("listOfInts") && ((List) info.value()).size() == 3) {
+        if (info.name().equals("listOfInts") && ((List) info.value()).size() != 3) {
             errors.add(new ValidationError(ValidationError.Type.ERROR, info, Component.literal("Length must be 3")));
         }
 

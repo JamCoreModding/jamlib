@@ -94,7 +94,6 @@ public class ListConfigEntry<T, E> extends ConfigEntry<T, List<E>> {
 			}
 
 			this.errors.sort((o1, o2) -> o2.type().ordinal() - o1.type().ordinal());
-			System.out.println(this.errors);
 			this.updateValidationIcon();
 		}
 	}

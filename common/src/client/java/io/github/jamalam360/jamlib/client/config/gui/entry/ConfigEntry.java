@@ -26,7 +26,7 @@ public abstract class ConfigEntry<T, V> {
 	protected final V originalValue;
 	private final String translationKey;
 	@Nullable
-	private final List<FormattedCharSequence> tooltip;
+	private final Component tooltip;
 	protected ImageWidget validationIcon;
 	@Nullable
 	protected List<ConfigExtensions.ValidationError> errors;
@@ -54,12 +54,12 @@ public abstract class ConfigEntry<T, V> {
 	public ConfigEntry(String modId, String configName, ConfigField<T, V> field) {
 		this.field = field;
 		//noinspection unchecked
-		this.configManager = (ConfigManager<T>) ConfigManager.MANAGERS.get(configName);
+		this.configManager = (ConfigManager<T>) ConfigManager.MANAGERS.get(new ConfigManager.Key(modId, configName));
 		this.originalValue = this.cloneObject(this.getFieldValue());
 		this.translationKey = ConfigScreen.createTranslationKey(modId, configName, field.getName());
 
 		if (I18n.exists(this.translationKey + ".tooltip")) {
-			this.tooltip = Minecraft.getInstance().font.split(Component.translatable(this.translationKey + ".tooltip"), 200);
+			this.tooltip = Component.translatable(this.translationKey + ".tooltip");
 		} else {
 			this.tooltip = null;
 		}
@@ -68,7 +68,13 @@ public abstract class ConfigEntry<T, V> {
 	public List<AbstractWidget> createWidgets(int width) {
 		List<AbstractWidget> widgets = new ArrayList<>();
 
-		widgets.add(new ScrollingStringWidget(12, Minecraft.getInstance().font.lineHeight / 2 + 1, width / 2 - 10, Minecraft.getInstance().font.lineHeight, Component.translatable(this.translationKey), Minecraft.getInstance().font));
+		ScrollingStringWidget title = new ScrollingStringWidget(12, Minecraft.getInstance().font.lineHeight / 2 + 1, width / 2 - 10, Minecraft.getInstance().font.lineHeight, Component.translatable(this.translationKey), Minecraft.getInstance().font);
+
+		if (this.tooltip != null) {
+			title.setTooltip(Tooltip.create(this.tooltip));
+		}
+
+		widgets.add(title);
 
 		this.validationIcon = ImageWidget.sprite(20, 20, JamLib.id("validation_warning"));
 		this.validationIcon.setX(width - 212);
@@ -140,11 +146,6 @@ public abstract class ConfigEntry<T, V> {
 
 	public Component getName() {
 		return Component.translatable(this.translationKey);
-	}
-
-	// TODO: tooltips
-	public @Nullable List<FormattedCharSequence> getTooltip() {
-		return this.tooltip;
 	}
 
 	protected V getFieldValue() {
