@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Applying this to a config field will cause it to not show in the {@link io.github.jamalam360.jamlib.config.gui.ConfigScreen}.
+ * Applying this to a config field will cause it to not show in the {@link io.github.jamalam360.jamlib.client.config.gui.ConfigScreen}.
  *
  * @see ConfigManager
  */

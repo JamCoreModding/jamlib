@@ -35,3 +35,6 @@ side = "BOTH"
 
 [[mixins]]
 config = "jamlib.mixins.json"
+
+[[mixins]]
+config = "jamlib.client.mixins.json"

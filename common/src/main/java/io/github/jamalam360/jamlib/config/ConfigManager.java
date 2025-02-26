@@ -24,10 +24,10 @@ import java.util.Map;
  * @see RequiresRestart
  */
 public class ConfigManager<T> {
-
 	@ApiStatus.Internal
-	public static final Map<String, ConfigManager<?>> MANAGERS = new HashMap<>();
+	public static final Map<Key, ConfigManager<?>> MANAGERS = new HashMap<>();
 	private static final Jankson JANKSON = Jankson.builder().build();
+	private static final JsonGrammar JSON_GRAMMER = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
 	private final Path configPath;
 	private final String modId;
 	private final String configName;
@@ -53,8 +53,14 @@ public class ConfigManager<T> {
 	 * @param configClass The config class
 	 */
 	public ConfigManager(String modId, String configName, Class<T> configClass) {
-		MANAGERS.put(configName, this);
-		this.configPath = Platform.getConfigFolder().resolve(configName + ".json5");
+		MANAGERS.put(new Key(modId, configName), this);
+
+		if (modId.equals(configName)) {
+			this.configPath = Platform.getConfigFolder().resolve(configName + ".json5");
+		} else {
+			this.configPath = Platform.getConfigFolder().resolve(modId).resolve(configName + ".json5");
+		}
+
 		this.configName = configName;
 		this.modId = modId;
 		this.configClass = configClass;
@@ -106,14 +112,21 @@ public class ConfigManager<T> {
 	public void save() {
 		JsonElement json = JANKSON.toJson(this.config);
 		transformJsonBeforeSave(json);
-		JsonGrammar grammar = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
-		String stringifiedJson = json.toJson(grammar);
+		String stringifiedJson = json.toJson(JSON_GRAMMER);
 
 		try {
+			if (!Files.exists(this.configPath.getParent())) {
+				Files.createDirectories(this.configPath.getParent());
+			}
+
 			Files.writeString(this.configPath, stringifiedJson);
 			JamLib.LOGGER.info("Updated config file at {}", this.configPath);
 		} catch (IOException e) {
 			JamLib.LOGGER.error("Failed to write config file at {}", this.configPath, e);
+		}
+
+		if (this.config instanceof ConfigExtensions<?> ext) {
+			ext.afterSave();
 		}
 	}
 
@@ -148,7 +161,7 @@ public class ConfigManager<T> {
 				}
 			}
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			JamLib.LOGGER.error("Failed to validate config class " + this.configClass.getName(), e);
+			JamLib.LOGGER.error("Failed to validate config class {}", this.configClass.getName(), e);
 		}
 	}
 
@@ -156,7 +169,7 @@ public class ConfigManager<T> {
 		try {
 			return this.configClass.getConstructor().newInstance();
 		} catch (Exception e) {
-			JamLib.LOGGER.error("Failed to create default config for " + this.configClass.getName(), e);
+			JamLib.LOGGER.error("Failed to create default config for {}", this.configClass.getName(), e);
 		}
 
 		return null;
@@ -173,7 +186,7 @@ public class ConfigManager<T> {
 		}
 	}
 
-	private void attachDefaultComments(Class<?> clazz, Object defaults, JsonObject obj) {
+	private void attachDefaultComments(Class<?> clazz, T defaults, JsonObject obj) {
 		for (String key : obj.keySet()) {
 			JsonElement e = obj.get(key);
 			if (e instanceof JsonObject) {
@@ -236,5 +249,8 @@ public class ConfigManager<T> {
 				}
 			}
 		}
+	}
+
+	public record Key(String modId, String configName) {
 	}
 }

@@ -3,8 +3,6 @@ plugins {
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-
     mixin { useLegacyMixinAp = true }
 }
 
@@ -41,7 +39,6 @@ shadowJar {
 }
 
 remapJar {
-    injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
 }
