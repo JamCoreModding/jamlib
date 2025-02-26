@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -18,9 +19,7 @@ public class BooleanConfigEntry<T> extends ConfigEntry<T, Boolean> {
 
 	@Override
 	public List<AbstractWidget> createElementWidgets(int left, int width) {
-		this.button = Button.builder(this.getComponent(Boolean.TRUE.equals(this.getFieldValue())), button -> {
-			this.setFieldValue(!(Boolean.TRUE.equals(this.getFieldValue())));
-		}).pos(left, 0).size(width, 20).build();
+		this.button = Button.builder(this.getComponent(Boolean.TRUE.equals(this.getFieldValue())), button -> this.setFieldValue(!(Boolean.TRUE.equals(this.getFieldValue())))).pos(left, 0).size(width, 20).build();
 
 		return List.of(this.button);
 	}

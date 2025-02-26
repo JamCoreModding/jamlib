@@ -14,6 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * A scrollable list of widget groups. Widget groups can have arbitrary heights.
+ */
 public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 	public static final int PADDING = 4;
 

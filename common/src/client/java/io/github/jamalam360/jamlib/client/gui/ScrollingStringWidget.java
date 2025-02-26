@@ -6,6 +6,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.network.chat.Component;
 
+/**
+ * A string widget that scrolls if the component is too long for the width
+ */
 public class ScrollingStringWidget extends StringWidget {
 	public ScrollingStringWidget(int x, int y, int width, int height, Component component, Font font) {
 		super(x, y, width, height, component, font);
