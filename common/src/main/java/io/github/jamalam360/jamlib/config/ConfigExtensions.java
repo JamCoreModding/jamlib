@@ -55,7 +55,7 @@ public interface ConfigExtensions<T> {
 			result.add(new ValidationError(ValidationError.Type.WARNING, info, Component.translatable("config.jamlib.requires_restart_tooltip")));
 		}
 
-		if (info.backingField().isAnnotationPresent(WithinRange.class)) {
+		if (info.backingField().isAnnotationPresent(WithinRange.class) && !List.class.isAssignableFrom(info.backingField().getType())) {
 			if (info.backingField().getType() != double.class && info.backingField().getType() != Double.class
 					&& info.backingField().getType() != float.class && info.backingField().getType() != Float.class
 					&& info.backingField().getType() != int.class && info.backingField().getType() != Integer.class

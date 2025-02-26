@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
-import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.util.Mth;
@@ -13,25 +12,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 	public static final int PADDING = 4;
 
 	public WidgetList(Minecraft minecraft, int width, int height, int y) {
 		super(minecraft, width, height, y, 1);
-		System.out.println(height);
 		this.centerListVertically = false;
 		this.headerHeight = PADDING;
 	}
 
-	public void addWidgetGroup(AbstractWidget... widgets) {
-		this.addEntry(new WidgetList.Entry(ImmutableList.copyOf(widgets)));
+	public void addWidgetGroup(List<AbstractWidget> widgets) {
+		this.addEntry(new Entry(widgets));
 	}
 
-	public void addWidgetGroup(List<AbstractWidget> widgets) {
-		this.addEntry(new WidgetList.Entry(widgets));
+	public void updateWidgetGroup(int index, List<AbstractWidget> widgets) {
+		this.children().set(index, new Entry(widgets));
 	}
 
 	@Override
@@ -62,18 +58,6 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 		}
 
 		return null;
-	}
-
-	@Override
-	public int maxScrollAmount() {
-//		int height = this.headerHeight;
-//
-//		for (int i = 0; i < this.getItemCount(); i++) {
-//			height += this.getEntry(i).getHeight() + PADDING;
-//		}
-//
-//		return height;
-		return super.maxScrollAmount();
 	}
 
 	@Override
@@ -124,33 +108,7 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 		return this.getX() + this.width - 6;
 	}
 
-	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		if (this.isValidClickButton(button)) {
-			this.updateScrolling(mouseX, mouseY, button);
-			if (this.isMouseOver(mouseX, mouseY)) {
-				Entry entry = this.getRealEntryAtPosition(mouseX, mouseY);
-				if (entry != null) {
-					if (entry.mouseClicked(mouseX, mouseY, button)) {
-						Entry focused = this.getFocused();
-						if (focused != entry && focused instanceof ContainerEventHandler eventHandler) {
-							eventHandler.setFocused(null);
-						}
-
-						this.setFocused(entry);
-						this.setDragging(true);
-						return true;
-					}
-				} else {
-					// TODO: hmm?
-//					return this.clickedHeader((int) (mouseX - (double) (this.getX() + this.width / 2 - this.getRowWidth() / 2)), (int) (mouseY - (double) this.getY()) + (int) this.scrollAmount() - 4);
-				}
-			}
-		}
-		return false;
-	}
-
-	public class Entry extends ContainerObjectSelectionList.Entry<Entry> {
+	public static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
 		private final List<AbstractWidget> children;
 		private final List<Integer> childYs;
 
@@ -169,17 +127,6 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 			}
 		}
 
-		@Override
-		public boolean mouseClicked(double mouseX, double mouseY, int button) {
-			for (AbstractWidget widget : this.children) {
-				if (widget.isMouseOver(mouseX, mouseY) && widget.mouseClicked(mouseX, mouseY, button)) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 		public int getHeight() {
 			int maxY = 0;
 
@@ -190,11 +137,6 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 			}
 
 			return maxY;
-		}
-
-		@Override
-		public boolean isMouseOver(double mouseX, double mouseY) {
-			return Objects.equals(WidgetList.this.getRealEntryAtPosition(mouseX, mouseY), this);
 		}
 
 		@Override

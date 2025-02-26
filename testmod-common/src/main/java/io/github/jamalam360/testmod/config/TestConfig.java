@@ -8,12 +8,18 @@ import io.github.jamalam360.jamlib.config.MatchesRegex;
 import io.github.jamalam360.jamlib.config.RequiresRestart;
 import io.github.jamalam360.jamlib.config.Slider;
 import io.github.jamalam360.jamlib.config.WithinRange;
+
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.network.chat.Component;
 
 public class TestConfig implements ConfigExtensions<TestConfig> {
 
-    public List<Integer> listOfInts = List.of(1, 2, 3);
+    @Slider
+    @WithinRange(min = 1, max = 10)
+    public List<Integer> listOfInts = new ArrayList<>(List.of(1, 2, 3));
+
+    public List<ConfigEnum> listOfEnums = new ArrayList<>(List.of(ConfigEnum.SECOND));
 
     @Comment("This is a boolean")
     @RequiresRestart
@@ -51,6 +57,10 @@ public class TestConfig implements ConfigExtensions<TestConfig> {
 
         if (info.name().equals("testInt") && (Integer) info.value() == 4) {
             errors.add(new ValidationError(ValidationError.Type.ERROR, info, Component.translatable("config.testmod.i_dont_like_4")));
+        }
+
+        if (info.name().equals("listOfInts") && ((List) info.value()).size() == 3) {
+            errors.add(new ValidationError(ValidationError.Type.ERROR, info, Component.literal("Length must be 3")));
         }
 
         return errors;

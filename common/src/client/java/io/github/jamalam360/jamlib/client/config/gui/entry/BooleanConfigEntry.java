@@ -6,22 +6,21 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
-public class BooleanConfigEntry extends ConfigEntry {
+public class BooleanConfigEntry<T> extends ConfigEntry<T, Boolean> {
 	@Nullable
 	private Button button = null;
 
-	public BooleanConfigEntry(String modId, String configName, Field field) {
+	public BooleanConfigEntry(String modId, String configName, ConfigField<T, Boolean> field) {
 		super(modId, configName, field);
 	}
 
 	@Override
-	public List<AbstractWidget> createElementWidgets(int width) {
+	public List<AbstractWidget> createElementWidgets(int left, int width) {
 		this.button = Button.builder(this.getComponent(Boolean.TRUE.equals(this.getFieldValue())), button -> {
 			this.setFieldValue(!(Boolean.TRUE.equals(this.getFieldValue())));
-		}).pos(width - 188, 0).size(150, 20).build();
+		}).pos(left, 0).size(width, 20).build();
 
 		return List.of(this.button);
 	}

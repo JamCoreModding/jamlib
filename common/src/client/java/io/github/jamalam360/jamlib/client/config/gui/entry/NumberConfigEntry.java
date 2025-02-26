@@ -9,34 +9,33 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-public class NumberConfigEntry extends ConfigEntry {
+public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
-	private final Function<String, Object> parser;
+	private final Function<String, Number> parser;
 	private final Pattern regex;
 	@Nullable
 	private EditBox editBox = null;
 
-	public NumberConfigEntry(String modId, String configName, Field field) {
+	public NumberConfigEntry(String modId, String configName, ConfigField<T, V> field) {
 		super(modId, configName, field);
 
-		Class<?> c = field.getType();
+		Class<?> c = field.getElementType();
 
-		if (c == float.class) {
+		if (c == float.class || c == Float.class) {
 			this.parser = Float::parseFloat;
 			this.regex = Pattern.compile("^-?\\d*\\.?\\d*$");
-		} else if (c == double.class) {
+		} else if (c == double.class || c == Double.class) {
 			this.parser = Double::parseDouble;
 			this.regex = Pattern.compile("^-?\\d*\\.?\\d*$");
-		} else if (c == int.class) {
+		} else if (c == int.class || c == Integer.class) {
 			this.parser = Integer::parseInt;
 			this.regex = Pattern.compile("^-?\\d*$");
-		} else if (c == long.class) {
+		} else if (c == long.class || c == Long.class) {
 			this.parser = Long::parseLong;
 			this.regex = Pattern.compile("^-?\\d*$");
 		} else {
@@ -45,8 +44,8 @@ public class NumberConfigEntry extends ConfigEntry {
 	}
 
 	@Override
-	public List<AbstractWidget> createElementWidgets(int width) {
-		Number current = (Number) this.getFieldValue();
+	public List<AbstractWidget> createElementWidgets(int left, int width) {
+		Number current = this.getFieldValue();
 
 		if (this.field.isAnnotationPresent(Slider.class)) {
 			WithinRange range = this.field.getAnnotation(WithinRange.class);
@@ -56,16 +55,17 @@ public class NumberConfigEntry extends ConfigEntry {
 			}
 
 			SliderButton slider = new SliderButton(
-					width - 188,
+					left,
 					0,
-					150,
+					width,
 					20,
 					this.getComponent(current),
 					range.min(),
 					range.max(),
 					current.doubleValue(),
 					value -> {
-						this.setFieldValue(value);
+						//noinspection unchecked
+						this.setFieldValue((V) value);
 						return this.getComponent(value);
 					}
 			);
@@ -73,9 +73,9 @@ public class NumberConfigEntry extends ConfigEntry {
 		} else {
 			this.editBox = new EditBox(
 					Minecraft.getInstance().font,
-					width - 188,
+					left,
 					0,
-					150,
+					width,
 					20,
 					CommonComponents.EMPTY
 			);
@@ -83,19 +83,11 @@ public class NumberConfigEntry extends ConfigEntry {
 			this.editBox.setFilter(s -> this.regex.matcher(s).matches());
 			this.editBox.setResponder(s -> {
 				if (!s.isEmpty()) {
-					this.setFieldValue(this.parser.apply(s));
+					//noinspection unchecked
+					this.setFieldValue((V) this.parser.apply(s));
 				}
 			});
 			return List.of(this.editBox);
-		}
-	}
-
-	@Override
-	public void onChange() {
-		super.onChange();
-
-		if (this.editBox != null) {
-			this.editBox.setMessage(this.getComponent((Number) this.getFieldValue()));
 		}
 	}
 

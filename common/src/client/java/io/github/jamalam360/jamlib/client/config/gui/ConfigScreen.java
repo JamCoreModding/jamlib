@@ -10,6 +10,7 @@ import io.github.jamalam360.jamlib.config.HiddenInGui;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.screens.Screen;
@@ -31,7 +32,8 @@ public class ConfigScreen<T> extends Screen {
 
     protected final ConfigManager<T> manager;
     private final Screen parent;
-    private final List<ConfigEntry> entries;
+    private final List<ConfigEntry<T, ?>> entries;
+    private WidgetList widgetList;
     private Button doneButton;
 
     public ConfigScreen(ConfigManager<T> manager, Screen parent) {
@@ -89,7 +91,7 @@ public class ConfigScreen<T> extends Screen {
         );
         editManuallyButton.setX(7);
         editManuallyButton.setY(7);
-        WidgetList list = new WidgetList(this.minecraft, this.width, this.height - 64, 32);
+        this.widgetList = new WidgetList(this.minecraft, this.width, this.height - 64, 32);
 
         if (this.entries.isEmpty()) {
             for (Field field : this.manager.getConfigClass().getFields()) {
@@ -101,11 +103,11 @@ public class ConfigScreen<T> extends Screen {
             }
         }
 
-        for (ConfigEntry entry : this.entries) {
-            list.addWidgetGroup(entry.createWidgets(this.width));
+        for (ConfigEntry<T, ?> entry : this.entries) {
+            this.widgetList.addWidgetGroup(entry.createWidgets(this.width));
         }
 
-        this.addRenderableWidget(list);
+        this.addRenderableWidget(this.widgetList);
 
         if (this.manager.get() instanceof ConfigExtensions<?> ext) {
             List<ConfigExtensions.Link> links = ext.getLinks();
@@ -150,5 +152,13 @@ public class ConfigScreen<T> extends Screen {
         if (this.doneButton.active != canExit) {
             this.doneButton.active = canExit;
         }
+
+	    for (int i = 0; i < this.entries.size(); i++) {
+		    ConfigEntry<T, ?> entry = this.entries.get(i);
+            List<AbstractWidget> widgets = entry.getNewWidgets(this.width);
+            if (widgets != null) {
+                this.widgetList.updateWidgetGroup(i, widgets);
+            }
+	    }
     }
 }

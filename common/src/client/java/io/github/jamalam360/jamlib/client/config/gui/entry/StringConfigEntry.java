@@ -7,40 +7,29 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
-public class StringConfigEntry extends ConfigEntry {
+public class StringConfigEntry<T> extends ConfigEntry<T, String> {
 	@Nullable
 	private EditBox editBox = null;
 
-	public StringConfigEntry(String modId, String configName, Field field) {
+	public StringConfigEntry(String modId, String configName, ConfigField<T, String> field) {
 		super(modId, configName, field);
 	}
 
 	@Override
-	public List<AbstractWidget> createElementWidgets(int width) {
+	public List<AbstractWidget> createElementWidgets(int left, int width) {
 		this.editBox = new EditBox(
 				Minecraft.getInstance().font,
-				width - 188,
+				left,
 				0,
-				150,
+				width,
 				20,
 				CommonComponents.EMPTY
 		);
-		this.editBox.setValue(this.getFieldValue().toString());
+		this.editBox.setValue(this.getFieldValue());
 		this.editBox.setResponder(this::setFieldValue);
 
-
 		return List.of(this.editBox);
-	}
-
-	@Override
-	public void onChange() {
-		super.onChange();
-
-		if (this.editBox != null) {
-			this.editBox.setMessage(Component.literal((String) this.getFieldValue()));
-		}
 	}
 }

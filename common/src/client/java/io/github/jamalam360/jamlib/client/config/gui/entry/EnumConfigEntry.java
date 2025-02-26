@@ -7,30 +7,29 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
-public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry {
+public class EnumConfigEntry<T, V extends Enum<V>> extends ConfigEntry<T, V> {
 	@Nullable
-	private EnumButton<E> button = null;
+	private EnumButton<V> button = null;
 
-	public EnumConfigEntry(String modId, String configName, Field field) {
+	public EnumConfigEntry(String modId, String configName, ConfigField<T, V> field) {
 		super(modId, configName, field);
 	}
 
 	@Override
-	public List<AbstractWidget> createElementWidgets(int width) {
+	public List<AbstractWidget> createElementWidgets(int left, int width) {
 		//noinspection unchecked
 		this.button = new EnumButton<>(
-				width - 188,
+				left,
 				0,
-				150,
+				width,
 				20,
 				CommonComponents.EMPTY.copy(),
-				(Class<Enum<?>>) this.field.getType(),
+				(Class<Enum<?>>) this.field.getElementType(),
 				(b) -> this.setFieldValue(b.getValue())
 		);
-		this.button.setValue(this.getEnumValue());
+		this.button.setValue(this.getFieldValue());
 		this.button.setMessage(this.getComponent());
 
 		return List.of(this.button);
@@ -46,17 +45,12 @@ public class EnumConfigEntry<E extends Enum<E>> extends ConfigEntry {
 	}
 
 	private Component getComponent() {
-		String translationKey = ConfigScreen.createTranslationKey(this.configManager.getModId(), this.configManager.getConfigName(), field.getName() + "." + this.getEnumValue().name().toLowerCase());
+		String translationKey = ConfigScreen.createTranslationKey(this.configManager.getModId(), this.configManager.getConfigName(), field.getName() + "." + this.getFieldValue().name().toLowerCase());
 
 		if (I18n.exists(translationKey)) {
 			return Component.translatable(translationKey);
 		} else {
-			return Component.literal(this.getEnumValue().name());
+			return Component.literal(this.getFieldValue().name());
 		}
-	}
-
-	private E getEnumValue() {
-		//noinspection unchecked
-		return (E) this.getFieldValue();
 	}
 }
