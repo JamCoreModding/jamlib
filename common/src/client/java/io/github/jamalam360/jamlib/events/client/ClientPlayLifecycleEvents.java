@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.client.events.client;
+package io.github.jamalam360.jamlib.events.client;
 
 import dev.architectury.event.Event;
 import dev.architectury.event.EventFactory;
