@@ -4,12 +4,11 @@
   "package": "io.github.jamalam360.jamlib.client.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "event.ClientPacketListenerMixin",
-    "event.ConnectionMixin"
   ],
   "client": [
     "AbstractSelectionListMixin",
-    "ImageWidgetMixin"
+    "event.ClientPacketListenerMixin",
+    "event.ConnectionMixin"
   ],
   "server": [
   ],

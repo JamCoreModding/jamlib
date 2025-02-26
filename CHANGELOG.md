@@ -1,2 +1,1 @@
-- Backport post-1.0.0 JamLib to 1.20.1
-  - Should still be compatible with mods that use pre-1.0.0 JamLib, as functionality from that is included.
+Fix crash on dedicated servers.
