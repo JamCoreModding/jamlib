@@ -3,3 +3,4 @@
   - This should not be a breaking change as I am not aware of any mods registering multiple configs currently.
 - Switch to fabric-api mod ID in dependencies block (closes #10).
 - Enable split source sets (closes #14).
+- Identify config managers by `(MOD_ID, CONFIG_NAME)` rather than by just `(CONFIG_NAME)` (closes #15).

@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class ConfigManager<T> {
 	@ApiStatus.Internal
-	public static final Map<String, ConfigManager<?>> MANAGERS = new HashMap<>();
+	public static final Map<Key, ConfigManager<?>> MANAGERS = new HashMap<>();
 	private static final Jankson JANKSON = Jankson.builder().build();
 	private static final JsonGrammar JSON_GRAMMER = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
 	private final Path configPath;
@@ -53,7 +53,7 @@ public class ConfigManager<T> {
 	 * @param configClass The config class
 	 */
 	public ConfigManager(String modId, String configName, Class<T> configClass) {
-		MANAGERS.put(configName, this);
+		MANAGERS.put(new Key(modId, configName), this);
 
 		if (modId.equals(configName)) {
 			this.configPath = Platform.getConfigFolder().resolve(configName + ".json5");
@@ -249,5 +249,8 @@ public class ConfigManager<T> {
 				}
 			}
 		}
+	}
+
+	public record Key(String modId, String configName) {
 	}
 }
