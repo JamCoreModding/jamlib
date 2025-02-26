@@ -1,2 +1,1 @@
-- Undo accidentally API breakage of client lifecycle events.
-- 
+Fix crash on dedicated servers.
