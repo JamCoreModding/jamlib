@@ -21,9 +21,10 @@ configurations {
 }
 
 sourceSets {
-    deprecated {
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
+    main {
+        java {
+            srcDirs += "src/deprecated/java"
+        }
     }
 }
 
@@ -37,7 +38,6 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-    shadowCommon(sourceSets.deprecated.output)
 }
 
 if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_KEY") != null) {

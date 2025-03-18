@@ -384,12 +384,7 @@ public abstract class JamLibConfig {
                 loadValues();
             }
 
-            this.addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, button -> {
-                loadValues();
-                Objects.requireNonNull(minecraft).setScreen(parent);
-            }).pos(this.width / 2 - 154, this.height - 28).size(150, 20).build());
-
-            Button done = this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> {
+            Button done = Button.builder(CommonComponents.GUI_DONE, button -> {
                 for (EntryInfo info : entries) {
                     if (info.id.equals(modid)) {
                         try {
@@ -401,7 +396,7 @@ public abstract class JamLibConfig {
 
                 write(modid);
                 Objects.requireNonNull(minecraft).setScreen(parent);
-            }).pos(this.width / 2 + 4, this.height - 28).size(150, 20).build());
+            }).pos(this.width / 2 + 4, this.height - 28).size(150, 20).build();
 
             this.list = new MidnightConfigListWidget(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
             if (this.minecraft != null && this.minecraft.level != null) {
@@ -492,6 +487,12 @@ public abstract class JamLibConfig {
                     }
                 }
             }
+
+            this.addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, button -> {
+                loadValues();
+                Objects.requireNonNull(minecraft).setScreen(parent);
+            }).pos(this.width / 2 - 154, this.height - 28).size(150, 20).build());
+            this.addRenderableWidget(done);
         }
 
         @Override
