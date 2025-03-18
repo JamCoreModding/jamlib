@@ -10,20 +10,20 @@ import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
 public class SelectionList extends ContainerObjectSelectionList<SelectionListEntry> {
-    public SelectionList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
-        super(minecraft, width, height, y, itemHeight);
+    public SelectionList(Minecraft minecraft, int width, int height, int itemHeight) {
+        super(minecraft, width, height, itemHeight, height - 32, itemHeight);
         this.centerListVertically = false;
     }
 
     @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        super.renderWidget(graphics, mouseX, mouseY, delta);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
 
         SelectionListEntry hovered = this.getHoveredEntry(mouseX, mouseY);
 
         if (hovered != null) {
             if (hovered.getTooltip() != null) {
-                graphics.renderTooltip(Minecraft.getInstance().font, hovered.getTooltip(), mouseX, mouseY);
+                guiGraphics.renderTooltip(Minecraft.getInstance().font, hovered.getTooltip(), mouseX, mouseY);
             }
         }
     }
@@ -38,8 +38,10 @@ public class SelectionList extends ContainerObjectSelectionList<SelectionListEnt
 
         boolean anyWidgetsHovered = false;
         for (GuiEventListener widget : entry.children()) {
-            if (widget instanceof AbstractWidget && widget.isMouseOver(mouseX, mouseY)) {
-                anyWidgetsHovered = true;
+            if (widget instanceof AbstractWidget abstractWidget && widget.isMouseOver(mouseX, mouseY)) {
+                if (abstractWidget.getTooltip() != null) {
+                    anyWidgetsHovered = true;
+                }
                 break;
             }
         }
@@ -49,11 +51,11 @@ public class SelectionList extends ContainerObjectSelectionList<SelectionListEnt
 
     @Override
     protected int getScrollbarPosition() {
-        return this.width - 7;
+        return super.getScrollbarPosition() + 15 + 20;
     }
 
     @Override
     public int getRowWidth() {
-        return 1000;
+        return super.getRowWidth() + 32;
     }
 }

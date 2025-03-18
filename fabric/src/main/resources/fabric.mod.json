@@ -20,7 +20,8 @@
       "io.github.jamalam360.jamlib.fabric.JamLibFabric"
     ],
     "client": [
-      "io.github.jamalam360.jamlib.fabric.JamLibClientFabric"
+      "io.github.jamalam360.jamlib.fabric.JamLibClientFabric",
+      "io.github.jamalam360.jamlib.JamLibDeprecatedClient"
     ],
     "modmenu": [
       "io.github.jamalam360.jamlib.fabric.config.ModMenuCompatibility"

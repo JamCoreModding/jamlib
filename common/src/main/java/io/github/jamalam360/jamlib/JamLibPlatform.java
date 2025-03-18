@@ -14,8 +14,8 @@ public class JamLibPlatform {
     public static Platform getPlatform() {
         if (dev.architectury.platform.Platform.isModLoaded("quilt_loader")) {
             return Platform.QUILT;
-        } else if (dev.architectury.platform.Platform.isNeoForge()) {
-            return Platform.NEOFORGE;
+        } else if (dev.architectury.platform.Platform.isForge()) {
+            return Platform.FORGE;
         } else {
             return Platform.FABRIC;
         }
@@ -26,15 +26,15 @@ public class JamLibPlatform {
      */
     public enum Platform {
         FABRIC,
-        NEOFORGE,
+        FORGE,
         QUILT;
 
         public boolean isFabric() {
             return this == FABRIC;
         }
 
-        public boolean isNeoForge() {
-            return this == NEOFORGE;
+        public boolean isForge() {
+            return this == FORGE;
         }
 
         public boolean isQuilt() {
@@ -49,7 +49,7 @@ public class JamLibPlatform {
         public String toString() {
             return switch (this) {
                 case FABRIC -> "Fabric";
-                case NEOFORGE -> "NeoForge";
+                case FORGE -> "Forge";
                 case QUILT -> "Quilt";
             };
         }

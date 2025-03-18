@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -31,5 +30,15 @@ public class StringConfigEntry<T> extends ConfigEntry<T, String> {
 		this.editBox.setResponder(this::setFieldValue);
 
 		return List.of(this.editBox);
+	}
+
+
+	@Override
+	public void reset() {
+		super.reset();
+
+		if (this.editBox != null) {
+			this.editBox.setValue(this.getFieldValue());
+		}
 	}
 }

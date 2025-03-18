@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.client.config.gui.ConfigScreen;
 import io.github.jamalam360.jamlib.client.gui.ScrollingStringWidget;
-import io.github.jamalam360.jamlib.client.mixinsupport.MutableSpriteImageWidget$Sprite;
+import io.github.jamalam360.jamlib.client.gui.SpriteButton;
+import io.github.jamalam360.jamlib.client.mixinsupport.MutableSpriteImageWidget;
 import io.github.jamalam360.jamlib.config.ConfigExtensions;
 import io.github.jamalam360.jamlib.config.ConfigManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.ImageWidget;
-import net.minecraft.client.gui.components.SpriteIconButton;
-import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -79,7 +77,7 @@ public abstract class ConfigEntry<T, V> {
 
 		widgets.add(title);
 
-		this.validationIcon = ImageWidget.sprite(20, 20, JamLib.id("validation_warning"));
+		this.validationIcon = new ImageWidget(20, 20, JamLib.id("textures/gui/validation_warning.png"));
 		this.validationIcon.setX(width - 212);
 		this.validationIcon.setY(0);
 		this.validationIcon.setTooltip(Tooltip.create(Component.translatable("config.jamlib.requires_restart_tooltip")));
@@ -88,9 +86,7 @@ public abstract class ConfigEntry<T, V> {
 
 		widgets.addAll(this.createElementWidgets(width - 188, 150));
 
-		SpriteIconButton resetButton = SpriteIconButton.builder(Component.translatable("config.jamlib.reset"), (button) -> this.setFieldValue(this.getDefaultValue()), true).sprite(JamLib.id("reset"), 16, 16).size(20, 20).build();
-		resetButton.setX(width - 30);
-		resetButton.setY(0);
+		SpriteButton resetButton = new SpriteButton(width - 30, 0, 20, 20, Component.translatable("config.jamlib.reset"), JamLib.id("textures/gui/reset.png"), 16, 16,  (button) -> this.reset());
 		resetButton.setTooltip(Tooltip.create(Component.translatable("config.jamlib.reset_tooltip")));
 		widgets.add(resetButton);
 
@@ -114,14 +110,18 @@ public abstract class ConfigEntry<T, V> {
 		}
 	}
 
+	public void reset() {
+		this.setFieldValue(this.getDefaultValue());
+	}
+
 	protected void updateValidationIcon() {
 		if (this.validationIcon != null) {
 			if (this.isValid()) {
 				this.validationIcon.visible = false;
 			} else {
 				this.validationIcon.visible = true;
-				((MutableSpriteImageWidget$Sprite) this.validationIcon).setSprite(this.errors.getFirst().type().getTexture());
-				this.validationIcon.setTooltip(Tooltip.create(this.errors.getFirst().message()));
+				((MutableSpriteImageWidget) this.validationIcon).setSprite(this.errors.get(0).type().getTexture());
+				this.validationIcon.setTooltip(Tooltip.create(this.errors.get(0).message()));
 			}
 		}
 	}

@@ -83,9 +83,9 @@ public interface ConfigExtensions<T> {
 	class Link {
 
 		// I am not an artist but these are recognizable at least.
-		public static final ResourceLocation DISCORD = JamLib.id("link_discord");
-		public static final ResourceLocation GENERIC_LINK = JamLib.id("link_generic");
-		public static final ResourceLocation GITHUB = JamLib.id("link_github");
+		public static final ResourceLocation DISCORD = JamLib.id("textures/gui/link_discord.png");
+		public static final ResourceLocation GENERIC_LINK = JamLib.id("textures/gui/link_generic.png");
+		public static final ResourceLocation GITHUB = JamLib.id("textures/gui/link_github.png");
 
 		private final ResourceLocation texture;
 		private final URL url;
@@ -150,7 +150,7 @@ public interface ConfigExtensions<T> {
 			private final ResourceLocation texture;
 
 			Type() {
-				this.texture = JamLib.id("validation_" + this.name().toLowerCase());
+				this.texture = JamLib.id("textures/gui/validation_" + this.name().toLowerCase() + ".png");
 			}
 
 			public ResourceLocation getTexture() {

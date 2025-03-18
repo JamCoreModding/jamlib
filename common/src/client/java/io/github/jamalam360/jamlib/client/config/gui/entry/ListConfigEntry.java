@@ -1,19 +1,15 @@
 package io.github.jamalam360.jamlib.client.config.gui.entry;
 
-import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.client.gui.WidgetList;
 import io.github.jamalam360.jamlib.config.ConfigExtensions;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ImageWidget;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class ListConfigEntry<T, E> extends ConfigEntry<T, List<E>> {
 	private List<ConfigEntry<T, E>> listMembers;
@@ -35,14 +31,13 @@ public class ListConfigEntry<T, E> extends ConfigEntry<T, List<E>> {
 			List<AbstractWidget> entryWidgets = entry.createElementWidgets(left, childWidth);
 
 			for (AbstractWidget widget : entryWidgets) {
-				bottom = Math.max(widget.getBottom(), bottom);
+				bottom = Math.max(widget.getRectangle().bottom(), bottom);
 				widget.setY(widget.getY() + currentY);
 			}
 
 			int finalI = i;
 			widgets.add(Button.builder(Component.literal("-"), button -> {
 				this.getFieldValue().remove(finalI);
-				this.recreateWidgetsNextTick();
 				this.onChange();
 			}).size(20, 20).pos(left + childWidth + WidgetList.PADDING, currentY).build());
 			widgets.addAll(entryWidgets);
@@ -52,7 +47,6 @@ public class ListConfigEntry<T, E> extends ConfigEntry<T, List<E>> {
 		widgets.add(Button.builder(Component.literal("+"), button -> {
 			//noinspection unchecked
 			this.getFieldValue().add((E) this.getDefaultNewValue());
-			this.recreateWidgetsNextTick();
 			this.onChange();
 		}).size(width, 20).pos(left, currentY).build());
 		this.updateValidationIcon();
@@ -79,6 +73,12 @@ public class ListConfigEntry<T, E> extends ConfigEntry<T, List<E>> {
 				throw new IllegalArgumentException("Unsupported config field type " + elementType);
 			}
 		}
+	}
+
+	@Override
+	public void onChange() {
+		super.onChange();
+		this.recreateWidgetsNextTick();
 	}
 
 	@Override

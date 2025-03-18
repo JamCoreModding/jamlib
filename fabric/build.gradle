@@ -20,6 +20,13 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
+sourceSets {
+    deprecated {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
 dependencies {
     modImplementation libs.fabric.loader
     modImplementation libs.fabric.api
@@ -30,6 +37,7 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    shadowCommon(sourceSets.deprecated.output)
 }
 
 if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_KEY") != null) {

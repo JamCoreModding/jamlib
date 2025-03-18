@@ -26,7 +26,7 @@ public class ConnectionMixin {
 			method = "handleDisconnection",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/network/PacketListener;onDisconnect(Lnet/minecraft/network/DisconnectionDetails;)V"
+					target = "Lnet/minecraft/network/PacketListener;onDisconnect(Lnet/minecraft/network/chat/Component;)V"
 			)
 	)
 	private void jamlib$callDisconnectEvent(CallbackInfo ci) {

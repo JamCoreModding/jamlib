@@ -1,20 +1,20 @@
 [versions]
 # https://modrinth.com/mod/architectury-api/versions
-architectury = "13.0.6"
+architectury = "9.2.14"
 
 # https://parchmentmc.org/docs/getting-started
-parchment-minecraft = "1.21"
-parchment = "2024.07.28"
+parchment-minecraft = "1.20.1"
+parchment = "2023.09.03"
 
-# https://projects.neoforged.net/neoforged/neoforge
-neoforge = "21.1.72"
+# https://files.minecraftforge.net
+forge = "1.20.1-47.4.0"
 
 # https://fabricmc.net/develop
-fabric-loader = "0.16.7"
-fabric-api = "0.106.0+1.21.1"
+fabric-loader = "0.16.10"
+fabric-api = "0.92.4+1.20.1"
 
 # https://modrinth.com/mod/modmenu/versions
-modmenu = "11.0.1"
+modmenu = "7.2.2"
 
 # https://github.com/falkreon/Jankson/releases/latest
 jankson = "1.2.3"
@@ -22,9 +22,9 @@ jankson = "1.2.3"
 [libraries]
 architectury-common = { module = "dev.architectury:architectury", version.ref = "architectury" }
 architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
-architectury-neoforge = { module = "dev.architectury:architectury-neoforge", version.ref = "architectury" }
+architectury-forge = { module = "dev.architectury:architectury-forge", version.ref = "architectury" }
 
-neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
+forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
 
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }

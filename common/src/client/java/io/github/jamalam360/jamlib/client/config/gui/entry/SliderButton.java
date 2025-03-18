@@ -21,6 +21,7 @@ public class SliderButton extends AbstractSliderButton {
 
 	public void setValue(double value) {
 		this.value = ((Mth.clamp((float) value, this.min, this.max) - this.min) / (this.max - this.min));
+		this.applyValue();
 	}
 
 	@Override

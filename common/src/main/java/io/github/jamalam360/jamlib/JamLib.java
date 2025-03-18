@@ -1,9 +1,6 @@
 package io.github.jamalam360.jamlib;
 
-import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.platform.Platform;
-import dev.architectury.utils.EnvExecutor;
-import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
@@ -39,6 +36,6 @@ public class JamLib {
 
     @ApiStatus.Internal
     public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+        return new ResourceLocation(MOD_ID, path);
     }
 }

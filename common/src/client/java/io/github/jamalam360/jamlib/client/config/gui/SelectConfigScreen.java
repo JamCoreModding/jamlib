@@ -38,23 +38,21 @@ public class SelectConfigScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-
-        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> Objects.requireNonNull(this.minecraft).setScreen(this.parent)).pos(this.width / 2 - 75, this.height - 28).size(150, 20).build());
-
-        ConfigSelectionList list = new ConfigSelectionList(this.minecraft, this.width, this.height - 64, 32, 25);
+        ConfigSelectionList list = new ConfigSelectionList(this.minecraft, this.width, this.height, 25);
         ConfigManager.MANAGERS.values().stream().filter(m -> m.getModId().equals(this.modId)).forEach(list::addEntry);
         this.addRenderableWidget(list);
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> Objects.requireNonNull(this.minecraft).setScreen(this.parent)).pos(this.width / 2 - 75, this.height - 29).size(150, 20).build());
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         super.render(graphics, mouseX, mouseY, delta);
-        graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFF);
+        graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 8, 0xFFFFFF);
     }
 
     private static class ConfigSelectionList extends SelectionList {
-        public ConfigSelectionList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
-            super(minecraft, width, height, y, itemHeight);
+        public ConfigSelectionList(Minecraft minecraft, int width, int height, int itemHeight) {
+            super(minecraft, width, height, itemHeight);
         }
 
         private void addEntry(ConfigManager<?> manager) {

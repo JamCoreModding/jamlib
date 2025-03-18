@@ -19,8 +19,8 @@ import java.util.List;
 public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 	public static final int PADDING = 4;
 
-	public WidgetList(Minecraft minecraft, int width, int height, int y) {
-		super(minecraft, width, height, y, 1);
+	public WidgetList(Minecraft minecraft, int width, int height) {
+		super(minecraft, width, height, 32, height - 32, 1);
 		this.centerListVertically = false;
 		this.headerHeight = PADDING;
 	}
@@ -41,10 +41,10 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 	@Nullable
 	public Entry getRealEntryAtPosition(double mouseX, double mouseY) {
 		int halfRowWidth = this.getRowWidth() / 2;
-		int centerX = this.getX() + this.width / 2;
+		int centerX = this.x0 + this.width / 2;
 		int left = centerX - halfRowWidth;
 		int right = centerX + halfRowWidth;
-		int m = Mth.floor(mouseY - (double) this.getY()) - this.headerHeight + (int) this.getScrollAmount() - 4;
+		int m = Mth.floor(mouseY - (double) this.y0) - this.headerHeight + (int) this.getScrollAmount() - 4;
 
 		if (mouseX < left || mouseX > right || m < 0) {
 			return null;
@@ -61,17 +61,6 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 		}
 
 		return null;
-	}
-
-	@Override
-	protected void renderListItems(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-		for (int itemIdx = 0; itemIdx < this.getItemCount(); ++itemIdx) {
-			int top = this.getRowTop(itemIdx);
-			int bottom = this.getRowBottom(itemIdx);
-			if (bottom >= this.getY() && top <= this.getBottom()) {
-				this.renderItem(graphics, mouseX, mouseY, partialTick, itemIdx, this.getRowLeft(), top, this.getRowWidth(), this.getEntry(itemIdx).getHeight());
-			}
-		}
 	}
 
 	@Override
@@ -93,7 +82,7 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 			itemsHeight += this.getEntry(i).getHeight() + PADDING;
 		}
 
-		return this.getY() - (int) this.getScrollAmount() + itemsHeight + this.headerHeight;
+		return this.y0 - (int) this.getScrollAmount() + itemsHeight + this.headerHeight;
 	}
 
 	@Override
@@ -102,14 +91,14 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollY) {
 		this.setScrollAmount(this.getScrollAmount() - scrollY * 10);
 		return true;
 	}
 
 	@Override
 	protected int getScrollbarPosition() {
-		return this.getX() + this.width - 6;
+		return this.x0 + this.width - 6;
 	}
 
 	public static class Entry extends ContainerObjectSelectionList.Entry<Entry> {

@@ -3,6 +3,7 @@ package io.github.jamalam360.jamlib.client.config.gui;
 import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.client.config.gui.entry.ConfigEntry;
+import io.github.jamalam360.jamlib.client.gui.SpriteButton;
 import io.github.jamalam360.jamlib.client.gui.WidgetList;
 import io.github.jamalam360.jamlib.config.ConfigExtensions;
 import io.github.jamalam360.jamlib.config.ConfigManager;
@@ -12,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
@@ -30,135 +30,131 @@ import java.util.Objects;
 @ApiStatus.Internal
 public class ConfigScreen<T> extends Screen {
 
-    protected final ConfigManager<T> manager;
-    private final Screen parent;
-    private final List<ConfigEntry<T, ?>> entries;
-    private WidgetList widgetList;
-    private Button doneButton;
+	protected final ConfigManager<T> manager;
+	private final Screen parent;
+	private final List<ConfigEntry<T, ?>> entries;
+	private WidgetList widgetList;
+	private Button doneButton;
 
-    public ConfigScreen(ConfigManager<T> manager, Screen parent) {
-        super(createTitle(manager));
-        this.manager = manager;
-        this.parent = parent;
-        this.entries = new ArrayList<>();
-    }
+	public ConfigScreen(ConfigManager<T> manager, Screen parent) {
+		super(createTitle(manager));
+		this.manager = manager;
+		this.parent = parent;
+		this.entries = new ArrayList<>();
+	}
 
-    @ApiStatus.Internal
-    public static String createTranslationKey(String modId, String configName, String path) {
-        if (modId.equals(configName)) {
-            return "config." + modId + "." + path;
-        } else {
-            return "config." + modId + "." + configName + "." + path;
-        }
-    }
+	@ApiStatus.Internal
+	public static String createTranslationKey(String modId, String configName, String path) {
+		if (modId.equals(configName)) {
+			return "config." + modId + "." + path;
+		} else {
+			return "config." + modId + "." + configName + "." + path;
+		}
+	}
 
-    protected static Component createTitle(ConfigManager<?> manager) {
-        String translationKey = createTranslationKey(manager.getModId(), manager.getConfigName(), "title");
+	protected static Component createTitle(ConfigManager<?> manager) {
+		String translationKey = createTranslationKey(manager.getModId(), manager.getConfigName(), "title");
 
-        if (I18n.exists(translationKey)) {
-            return Component.translatable(translationKey);
-        } else {
-            return Component.literal(Platform.getMod(manager.getModId()).getName());
-        }
-    }
+		if (I18n.exists(translationKey)) {
+			return Component.translatable(translationKey);
+		} else {
+			return Component.literal(Platform.getMod(manager.getModId()).getName());
+		}
+	}
 
-    @Override
-    protected void init() {
-        super.init();
+	@Override
+	protected void init() {
+		super.init();
+		this.widgetList = new WidgetList(this.minecraft, this.width, this.height);
 
-        this.addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, button -> {
-            this.manager.reloadFromDisk();
-            Objects.requireNonNull(this.minecraft).setScreen(this.parent);
-        }).pos(this.width / 2 - 154, this.height - 28).size(150, 20).build());
+		if (this.entries.isEmpty()) {
+			for (Field field : this.manager.getConfigClass().getFields()) {
+				if (field.isAnnotationPresent(HiddenInGui.class)) {
+					continue;
+				}
 
-        this.doneButton = this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> {
-            if (this.hasChanges()) {
-                this.manager.save();
-            }
+				this.entries.add(ConfigEntry.createFromField(this.manager.getModId(), this.manager.getConfigName(), field));
+			}
+		}
 
-            Objects.requireNonNull(this.minecraft).setScreen(this.parent);
-        }).pos(this.width / 2 + 4, this.height - 28).size(150, 20).build());
+		for (ConfigEntry<T, ?> entry : this.entries) {
+			this.widgetList.addWidgetGroup(entry.createWidgets(this.width));
+		}
 
-        SpriteIconButton editManuallyButton = this.addRenderableWidget(
-                SpriteIconButton.builder(Component.translatable("config.jamlib.edit_manually"), button -> {
-                    if (this.hasChanges()) {
-                            this.manager.save();
-                        }
+		this.addRenderableWidget(this.widgetList);
 
-                        Util.getPlatform().openFile(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5").toFile());
-                        Objects.requireNonNull(this.minecraft).setScreen(this.parent);
-                }, true).sprite(JamLib.id("writable_book"), 16, 16).size(20, 20).build()
-        );
-        editManuallyButton.setX(7);
-        editManuallyButton.setY(7);
-        this.widgetList = new WidgetList(this.minecraft, this.width, this.height - 64, 32);
+		if (this.manager.get() instanceof ConfigExtensions<?> ext) {
+			List<ConfigExtensions.Link> links = ext.getLinks();
 
-        if (this.entries.isEmpty()) {
-            for (Field field : this.manager.getConfigClass().getFields()) {
-                if (field.isAnnotationPresent(HiddenInGui.class)) {
-                    continue;
-                }
+			for (int i = 0; i < links.size(); i++) {
+				ConfigExtensions.Link link = links.get(i);
 
-                this.entries.add(ConfigEntry.createFromField(this.manager.getModId(), this.manager.getConfigName(), field));
-            }
-        }
+				this.addRenderableWidget(
+						new SpriteButton(this.width - 30 - (28 * i), 5, 20, 20, link.getTooltip().copy(), link.getTexture(), 16, 16, button -> {
+							try {
+								Util.getPlatform().openUri(link.getUrl().toURI());
+							} catch (Exception e) {
+								JamLib.LOGGER.error("Failed to open link", e);
+							}
+						})
+				);
+			}
+		}
 
-        for (ConfigEntry<T, ?> entry : this.entries) {
-            this.widgetList.addWidgetGroup(entry.createWidgets(this.width));
-        }
+		this.addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, button -> {
+			this.manager.reloadFromDisk();
+			Objects.requireNonNull(this.minecraft).setScreen(this.parent);
+		}).pos(this.width / 2 - 154, this.height - 28).size(150, 20).build());
 
-        this.addRenderableWidget(this.widgetList);
+		this.doneButton = this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> {
+			if (this.hasChanges()) {
+				this.manager.save();
+			}
 
-        if (this.manager.get() instanceof ConfigExtensions<?> ext) {
-            List<ConfigExtensions.Link> links = ext.getLinks();
+			Objects.requireNonNull(this.minecraft).setScreen(this.parent);
+		}).pos(this.width / 2 + 4, this.height - 28).size(150, 20).build());
 
-            for (int i = 0; i < links.size(); i++) {
-                ConfigExtensions.Link link = links.get(i);
-                SpriteIconButton linkButton = this.addRenderableWidget(
-                        SpriteIconButton.builder(link.getTooltip(), button -> {
-                            try {
-                                Util.getPlatform().openUri(link.getUrl().toURI());
-                            } catch (Exception e) {
-                                JamLib.LOGGER.error("Failed to open link", e);
-                            }
-                        }, true).sprite(link.getTexture(), 16, 16).size(20, 20).build()
+		this.addRenderableWidget(
+				new SpriteButton(7, 7, 20, 20, Component.translatable("config.jamlib.edit_manually"), JamLib.id("textures/gui/writable_book.png"), 16, 16, button -> {
+					if (this.hasChanges()) {
+						this.manager.save();
+					}
 
-                );
-                linkButton.setX(this.width - 30 - (28 * i));
-                linkButton.setY(5);
-            }
-        }
-    }
+					Util.getPlatform().openFile(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5").toFile());
+					Objects.requireNonNull(this.minecraft).setScreen(this.parent);
+				})
+		);
+	}
 
-    @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        super.render(graphics, mouseX, mouseY, delta);
-        graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFF);
-    }
+	@Override
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		super.render(graphics, mouseX, mouseY, delta);
+		graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFF);
+	}
 
-    private boolean canExit() {
-        return this.entries.stream().allMatch(ConfigEntry::isValid);
-    }
+	private boolean canExit() {
+		return this.entries.stream().allMatch(ConfigEntry::isValid);
+	}
 
-    private boolean hasChanges() {
-        return this.entries.stream().anyMatch(ConfigEntry::hasChanged);
-    }
+	private boolean hasChanges() {
+		return this.entries.stream().anyMatch(ConfigEntry::hasChanged);
+	}
 
-    @Override
-    public void tick() {
-        super.tick();
-        boolean canExit = this.canExit();
+	@Override
+	public void tick() {
+		super.tick();
+		boolean canExit = this.canExit();
 
-        if (this.doneButton.active != canExit) {
-            this.doneButton.active = canExit;
-        }
+		if (this.doneButton.active != canExit) {
+			this.doneButton.active = canExit;
+		}
 
-	    for (int i = 0; i < this.entries.size(); i++) {
-		    ConfigEntry<T, ?> entry = this.entries.get(i);
-            List<AbstractWidget> widgets = entry.getNewWidgets(this.width);
-            if (widgets != null) {
-                this.widgetList.updateWidgetGroup(i, widgets);
-            }
-	    }
-    }
+		for (int i = 0; i < this.entries.size(); i++) {
+			ConfigEntry<T, ?> entry = this.entries.get(i);
+			List<AbstractWidget> widgets = entry.getNewWidgets(this.width);
+			if (widgets != null) {
+				this.widgetList.updateWidgetGroup(i, widgets);
+			}
+		}
+	}
 }
