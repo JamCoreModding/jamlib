@@ -1,1 +1,1 @@
-Fix crash on dedicated servers.
+Fix config crash.
