@@ -77,7 +77,7 @@ public abstract class ConfigEntry<T, V> {
 
 		widgets.add(title);
 
-		this.validationIcon = ImageWidget.sprite(20, 20, JamLib.id("textures/gui/validation_warning.png"));
+		this.validationIcon = new ImageWidget(20, 20, JamLib.id("textures/gui/validation_warning.png"));
 		this.validationIcon.setX(width - 212);
 		this.validationIcon.setY(0);
 		this.validationIcon.setTooltip(Tooltip.create(Component.translatable("config.jamlib.requires_restart_tooltip")));

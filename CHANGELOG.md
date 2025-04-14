@@ -1,1 +1,2 @@
-- (fix) resolve crash when resetting a list config to its default value
+- (fix) resolve crash when resetting a list config to its default value.
+- (fix) further issue with resetting values to default.

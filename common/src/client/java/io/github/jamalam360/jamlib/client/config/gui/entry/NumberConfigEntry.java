@@ -98,8 +98,8 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 	}
 
 	@Override
-	public void reset() {
-		super.reset();
+	public void resetToDefault() {
+		super.resetToDefault();
 
 		if (this.editBox != null) {
 			this.editBox.setValue(DECIMAL_FORMAT.format(this.getFieldValue().doubleValue()));

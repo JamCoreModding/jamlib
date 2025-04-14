@@ -34,8 +34,8 @@ public class StringConfigEntry<T> extends ConfigEntry<T, String> {
 
 
 	@Override
-	public void reset() {
-		super.reset();
+	public void resetToDefault() {
+		super.resetToDefault();
 
 		if (this.editBox != null) {
 			this.editBox.setValue(this.getFieldValue());
