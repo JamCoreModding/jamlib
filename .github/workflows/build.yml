@@ -9,3 +9,4 @@ jobs:
     uses: JamCoreModding/.github/.github/workflows/mod.yml@main
     with:
       java-version: 17
+      build-tasks: 'clean forge:build fabric:build'
