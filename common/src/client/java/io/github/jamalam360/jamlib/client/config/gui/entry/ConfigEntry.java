@@ -88,7 +88,7 @@ public abstract class ConfigEntry<T, V> {
 
 		widgets.addAll(this.createElementWidgets(width - 188, 150));
 
-		SpriteIconButton resetButton = SpriteIconButton.builder(Component.translatable("config.jamlib.reset"), (button) -> this.setFieldValue(this.getDefaultValue()), true).sprite(JamLib.id("reset"), 16, 16).size(20, 20).build();
+		SpriteIconButton resetButton = SpriteIconButton.builder(Component.translatable("config.jamlib.reset"), (button) -> this.resetToDefault(), true).sprite(JamLib.id("reset"), 16, 16).size(20, 20).build();
 		resetButton.setX(width - 30);
 		resetButton.setY(0);
 		resetButton.setTooltip(Tooltip.create(Component.translatable("config.jamlib.reset_tooltip")));
@@ -150,6 +150,10 @@ public abstract class ConfigEntry<T, V> {
 
 	public Component getName() {
 		return Component.translatable(this.translationKey);
+	}
+
+	protected void resetToDefault() {
+		this.setFieldValue(this.getDefaultValue());
 	}
 
 	protected V getFieldValue() {
