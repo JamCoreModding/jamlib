@@ -19,6 +19,8 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 	private final Function<String, Number> parser;
 	private final Pattern regex;
 	@Nullable
+	private SliderButton slider = null;
+	@Nullable
 	private EditBox editBox = null;
 
 	public NumberConfigEntry(String modId, String configName, ConfigField<T, V> field) {
@@ -54,7 +56,7 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 				current = range.min();
 			}
 
-			SliderButton slider = new SliderButton(
+			this.slider = new SliderButton(
 					left,
 					0,
 					width,
@@ -69,7 +71,7 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 						return this.getComponent(value);
 					}
 			);
-			return List.of(slider);
+			return List.of(this.slider);
 		} else {
 			this.editBox = new EditBox(
 					Minecraft.getInstance().font,
@@ -93,5 +95,16 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 
 	private Component getComponent(Number value) {
 		return Component.literal(DECIMAL_FORMAT.format(value.doubleValue()));
+	}
+
+	@Override
+	public void resetToDefault() {
+		super.resetToDefault();
+
+		if (this.editBox != null) {
+			this.editBox.setValue(DECIMAL_FORMAT.format(this.getFieldValue().doubleValue()));
+		} else if (this.slider != null) {
+			this.slider.setValue(this.getFieldValue().doubleValue());
+		}
 	}
 }
