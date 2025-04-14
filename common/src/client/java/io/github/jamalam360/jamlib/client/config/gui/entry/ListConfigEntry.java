@@ -87,8 +87,6 @@ public class ListConfigEntry<T, E> extends ConfigEntry<T, List<E>> {
 		if (this.configManager.get() instanceof ConfigExtensions<?>) {
 			@SuppressWarnings("unchecked") ConfigExtensions<T> ext = (ConfigExtensions<T>) this.configManager.get();
 
-			List<ConfigExtensions.ValidationError> elementErrors = new ArrayList<>();
-
 			for (ConfigEntry<T, E> entry : this.listMembers) {
 				this.errors.addAll(ext.getValidationErrors(this.configManager, new ConfigExtensions.FieldValidationInfo(entry.field.getName(), entry.getFieldValue(), entry.originalValue, entry.field.getBackingField())));
 			}
@@ -101,6 +99,12 @@ public class ListConfigEntry<T, E> extends ConfigEntry<T, List<E>> {
 	@Override
 	public boolean isValid() {
 		return super.isValid() && this.listMembers.stream().allMatch(ConfigEntry::isValid);
+	}
+
+	@Override
+	protected void resetToDefault() {
+		super.resetToDefault();
+		this.recreateWidgetsNextTick();
 	}
 
 	@SuppressWarnings("unchecked")
