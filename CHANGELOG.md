@@ -1,2 +1,1 @@
-- (fix) Config field titles are now left aligned, rather than center aligned (#17)
-- (fix) Adjust lang path for enum list translations (#16)
+- (fix) resolve crash when resetting a list config to its default value
