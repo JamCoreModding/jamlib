@@ -1,20 +1,20 @@
 [versions]
 # https://modrinth.com/mod/architectury-api/versions
-architectury = "15.0.1"
+architectury = "16.1.4"
 
 # https://parchmentmc.org/docs/getting-started
 parchment-minecraft = "1.21.4"
 parchment = "2024.12.07"
 
 # https://projects.neoforged.net/neoforged/neoforge
-neoforge = "21.4.13-beta"
+neoforge = "21.5.9-beta"
 
 # https://fabricmc.net/develop
-fabric-loader = "0.16.9"
-fabric-api = "0.111.0+1.21.4"
+fabric-loader = "0.16.13"
+fabric-api = "0.120.0+1.21.5"
 
 # https://modrinth.com/mod/modmenu/versions
-modmenu = "13.0.0-beta.1"
+modmenu = "14.0.0-rc.2"
 
 # https://github.com/falkreon/Jankson/releases/latest
 jankson = "1.2.3"
