@@ -1,1 +1,2 @@
-Update to 1.21.5
+- Update to 1.21.5
+- (fix) resolve crash when resetting a list config to its default value.
