@@ -45,7 +45,7 @@ public class EnumConfigEntry<T, V extends Enum<V>> extends ConfigEntry<T, V> {
 	}
 
 	private Component getComponent() {
-		String translationKey = ConfigScreen.createTranslationKey(this.configManager.getModId(), this.configManager.getConfigName(), field.getName() + "." + this.getFieldValue().name().toLowerCase());
+		String translationKey = ConfigScreen.createTranslationKey(this.configManager.getModId(), this.configManager.getConfigName(), field.getBackingField().getName() + "." + this.getFieldValue().name().toLowerCase());
 
 		if (I18n.exists(translationKey)) {
 			return Component.translatable(translationKey);

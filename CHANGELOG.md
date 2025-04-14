@@ -1,1 +1,2 @@
 - (fix) Config field titles are now left aligned, rather than center aligned (#17)
+- (fix) Adjust lang path for enum list translations (#16)
