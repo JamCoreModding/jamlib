@@ -1,1 +1,1 @@
-Fix crash on dedicated servers.
+- (fix) Config field titles are now left aligned, rather than center aligned (#17)
