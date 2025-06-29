@@ -50,10 +50,10 @@ public class SelectionListEntry extends ContainerObjectSelectionList.Entry<Selec
             double f = Math.sin((Math.PI / 2) * Math.cos((Math.PI * 2) * nanos / e)) / 2.0 + 0.5;
             double g = Mth.lerp(f, 0.0, difference);
             graphics.enableScissor(minX, minY, maxX, minY + Minecraft.getInstance().font.lineHeight * 2);
-            graphics.drawString(Minecraft.getInstance().font, this.title, minX - (int)g, y, 0xFFFFFF);
+            graphics.drawString(Minecraft.getInstance().font, this.title, minX - (int)g, y, 0xFFFFFFFF);
             graphics.disableScissor();
         } else {
-            graphics.drawString(Minecraft.getInstance().font, this.title, minX, y, 0xFFFFFF);
+            graphics.drawString(Minecraft.getInstance().font, this.title, minX, y, 0xFFFFFFFF);
         }
     }
 

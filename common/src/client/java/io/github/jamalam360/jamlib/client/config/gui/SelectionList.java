@@ -18,33 +18,6 @@ public class SelectionList extends ContainerObjectSelectionList<SelectionListEnt
     @Override
     public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         super.renderWidget(graphics, mouseX, mouseY, delta);
-
-        SelectionListEntry hovered = this.getHoveredEntry(mouseX, mouseY);
-
-        if (hovered != null) {
-            if (hovered.getTooltip() != null) {
-                graphics.renderTooltip(Minecraft.getInstance().font, hovered.getTooltip(), mouseX, mouseY);
-            }
-        }
-    }
-
-    @Nullable
-    private SelectionListEntry getHoveredEntry(int mouseX, int mouseY) {
-        SelectionListEntry entry = this.getEntryAtPosition(mouseX, mouseY);
-
-        if (entry == null) {
-            return null;
-        }
-
-        boolean anyWidgetsHovered = false;
-        for (GuiEventListener widget : entry.children()) {
-            if (widget instanceof AbstractWidget && widget.isMouseOver(mouseX, mouseY)) {
-                anyWidgetsHovered = true;
-                break;
-            }
-        }
-
-        return anyWidgetsHovered ? null : entry;
     }
 
     @Override

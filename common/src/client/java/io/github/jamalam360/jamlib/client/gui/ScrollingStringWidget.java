@@ -19,10 +19,9 @@ public class ScrollingStringWidget extends StringWidget {
 	@Override
 	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		renderLeftAlignedScrollingString(guiGraphics, this.getFont(), this.getMessage(), this.getX(), this.getWidth(), this.getY(), this.getColor());
-
-		if (this.isMouseOver(mouseX, mouseY) && this.getTooltip() != null) {
-			guiGraphics.renderTooltip(Minecraft.getInstance().font, this.getTooltip().toCharSequence(Minecraft.getInstance()), mouseX, mouseY);
-		}
+//		if (this.isMouseOver(mouseX, mouseY) && this.tooltip != null) {
+//			guiGraphics.renderTooltip(Minecraft.getInstance().font, this.getTooltip().toCharSequence(Minecraft.getInstance()), mouseX, mouseY);
+//		}
 	}
 
 	private static void renderLeftAlignedScrollingString(GuiGraphics graphics, Font font, Component text, int minX, int width, int y, int color) {
