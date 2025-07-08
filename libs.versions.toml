@@ -7,11 +7,11 @@ parchment-minecraft = "1.21.4"
 parchment = "2024.12.07"
 
 # https://projects.neoforged.net/neoforged/neoforge
-neoforge = "21.6.20-beta"
+neoforge = "21.7.10-beta"
 
 # https://fabricmc.net/develop
 fabric-loader = "0.16.14"
-fabric-api = "0.128.1+1.21.6"
+fabric-api = "0.128.2+1.21.7"
 
 # https://modrinth.com/mod/modmenu/versions
 modmenu = "15.0.0-beta.3"
