@@ -27,17 +27,17 @@ public class SelectionListEntry extends ContainerObjectSelectionList.Entry<Selec
         this.widgets = widgets;
     }
 
-    @Override
-    public void render(GuiGraphics graphics, int i, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovered, float delta) {
-        for (AbstractWidget widget : this.widgets) {
-            widget.setY(y);
-            widget.render(graphics, mouseX, mouseY, delta);
-        }
+	@Override
+	public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean hovered, float delta) {
+		for (AbstractWidget widget : this.widgets) {
+			widget.setY(this.getY());
+			widget.render(guiGraphics, mouseX, mouseY, delta);
+		}
 
-        this.renderTitle(graphics, y, 12, x + width / 2 - 10);
-    }
-    
-    // Mainly taken from AbstractWidget
+		this.renderTitle(guiGraphics, this.getY(), 12, this.getX() + this.getWidth() / 2 - 10);
+	}
+
+	// Mainly taken from AbstractWidget
     private void renderTitle(GuiGraphics graphics, int minY, int minX, int maxX) {
         int textWidth = Minecraft.getInstance().font.width(this.title);
         int y = minY + Minecraft.getInstance().font.lineHeight / 2 + 1;
