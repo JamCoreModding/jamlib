@@ -72,7 +72,6 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 		}
 
 		private void updateChildren(List<AbstractWidget> children) {
-			System.out.println("Updating children " + this.children + " with " + children);
 			this.children = ImmutableList.copyOf(children);
 			this.childYs = this.children.stream().map(AbstractWidget::getY).toList();
 		}
