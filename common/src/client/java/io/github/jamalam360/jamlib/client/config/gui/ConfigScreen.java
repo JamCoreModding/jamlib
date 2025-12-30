@@ -7,7 +7,7 @@ import io.github.jamalam360.jamlib.client.gui.WidgetList;
 import io.github.jamalam360.jamlib.config.ConfigExtensions;
 import io.github.jamalam360.jamlib.config.ConfigManager;
 import io.github.jamalam360.jamlib.config.HiddenInGui;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;

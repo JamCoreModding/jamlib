@@ -2,7 +2,7 @@ package io.github.jamalam360.jamlib.client.config.gui;
 
 import java.util.List;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
