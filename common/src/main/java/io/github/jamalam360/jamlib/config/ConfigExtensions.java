@@ -2,7 +2,7 @@ package io.github.jamalam360.jamlib.config;
 
 import io.github.jamalam360.jamlib.JamLib;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -83,15 +83,15 @@ public interface ConfigExtensions<T> {
 	class Link {
 
 		// I am not an artist but these are recognizable at least.
-		public static final ResourceLocation DISCORD = JamLib.id("link_discord");
-		public static final ResourceLocation GENERIC_LINK = JamLib.id("link_generic");
-		public static final ResourceLocation GITHUB = JamLib.id("link_github");
+		public static final Identifier DISCORD = JamLib.id("link_discord");
+		public static final Identifier GENERIC_LINK = JamLib.id("link_generic");
+		public static final Identifier GITHUB = JamLib.id("link_github");
 
-		private final ResourceLocation texture;
+		private final Identifier texture;
 		private final URL url;
 		private final Component tooltip;
 
-		public Link(ResourceLocation texture, String url, Component tooltip) {
+		public Link(Identifier texture, String url, Component tooltip) {
 			this.texture = texture;
 
 			try {
@@ -104,13 +104,13 @@ public interface ConfigExtensions<T> {
 			this.tooltip = tooltip;
 		}
 
-		public Link(ResourceLocation texture, URL url, Component tooltip) {
+		public Link(Identifier texture, URL url, Component tooltip) {
 			this.texture = texture;
 			this.url = url;
 			this.tooltip = tooltip;
 		}
 
-		public ResourceLocation getTexture() {
+		public Identifier getTexture() {
 			return this.texture;
 		}
 
@@ -147,13 +147,13 @@ public interface ConfigExtensions<T> {
 			 */
 			ERROR;
 
-			private final ResourceLocation texture;
+			private final Identifier texture;
 
 			Type() {
 				this.texture = JamLib.id("validation_" + this.name().toLowerCase());
 			}
 
-			public ResourceLocation getTexture() {
+			public Identifier getTexture() {
 				return this.texture;
 			}
 		}

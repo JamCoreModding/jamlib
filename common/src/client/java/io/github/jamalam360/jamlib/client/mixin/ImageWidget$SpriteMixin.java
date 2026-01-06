@@ -1,7 +1,7 @@
 package io.github.jamalam360.jamlib.client.mixin;
 
 import io.github.jamalam360.jamlib.client.mixinsupport.MutableSpriteImageWidget$Sprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -12,10 +12,10 @@ public class ImageWidget$SpriteMixin implements MutableSpriteImageWidget$Sprite 
 	@Mutable
 	@Shadow
 	@Final
-	private ResourceLocation sprite;
+	private Identifier sprite;
 
 	@Override
-	public void setSprite(ResourceLocation sprite) {
+	public void setSprite(Identifier sprite) {
 		this.sprite = sprite;
 	}
 }

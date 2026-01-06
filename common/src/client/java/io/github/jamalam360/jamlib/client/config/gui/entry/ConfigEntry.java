@@ -3,7 +3,6 @@ package io.github.jamalam360.jamlib.client.config.gui.entry;
 import com.google.gson.Gson;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.client.config.gui.ConfigScreen;
-import io.github.jamalam360.jamlib.client.gui.ScrollingStringWidget;
 import io.github.jamalam360.jamlib.client.mixinsupport.MutableSpriteImageWidget$Sprite;
 import io.github.jamalam360.jamlib.config.ConfigExtensions;
 import io.github.jamalam360.jamlib.config.ConfigManager;
@@ -11,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ImageWidget;
 import net.minecraft.client.gui.components.SpriteIconButton;
+import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -71,7 +71,7 @@ public abstract class ConfigEntry<T, V> {
 	public List<AbstractWidget> createWidgets(int width) {
 		List<AbstractWidget> widgets = new ArrayList<>();
 
-		ScrollingStringWidget title = new ScrollingStringWidget(12, Minecraft.getInstance().font.lineHeight / 2 + 1, width / 2 - 10, Minecraft.getInstance().font.lineHeight, Component.translatable(this.translationKey), Minecraft.getInstance().font);
+        StringWidget title = new StringWidget(12, Minecraft.getInstance().font.lineHeight / 2 + 1, width / 2 - 10, Minecraft.getInstance().font.lineHeight, Component.translatable(this.translationKey), Minecraft.getInstance().font);
 
 		if (this.tooltip != null) {
 			title.setTooltip(Tooltip.create(this.tooltip));

@@ -6,7 +6,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 import java.util.function.Consumer;
 
-public class EnumButton<E extends Enum<E>> extends Button {
+public class EnumButton<E extends Enum<E>> extends Button.Plain {
 	private final Class<E> enumClass;
 	private final Consumer<EnumButton<E>> onChange;
 	private int index;
