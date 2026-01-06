@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
-@Environment(EnvType.CLIENT)
 public class ClientPacketListenerMixin {
 	/**
 	 * Injection point taken from Fabric API - <a href="https://github.com/FabricMC/fabric/blob/1.21.2/fabric-networking-api-v1/src/client/java/net/fabricmc/fabric/mixin/networking/client/ClientPlayNetworkHandlerMixin.java#L54">...</a>

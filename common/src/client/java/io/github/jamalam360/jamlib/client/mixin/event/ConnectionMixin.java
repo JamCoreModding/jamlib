@@ -2,8 +2,6 @@ package io.github.jamalam360.jamlib.client.mixin.event;
 
 import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
 import io.netty.channel.ChannelHandlerContext;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Connection.class)
-@Environment(EnvType.CLIENT)
 public class ConnectionMixin {
 	@Inject(
 			method = "channelInactive",
