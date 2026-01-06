@@ -56,6 +56,7 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 				current = range.min();
 			}
 
+			//noinspection unchecked
 			this.slider = new SliderButton(
 					left,
 					0,
@@ -65,11 +66,8 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 					range.min(),
 					range.max(),
 					current.doubleValue(),
-					value -> {
-						//noinspection unchecked
-						this.setFieldValue((V) value);
-						return this.getComponent(value);
-					}
+					value -> this.setFieldValue((V) value),
+					this::getComponent
 			);
 			return List.of(this.slider);
 		} else {
@@ -104,7 +102,7 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 		if (this.editBox != null) {
 			this.editBox.setValue(DECIMAL_FORMAT.format(this.getFieldValue().doubleValue()));
 		} else if (this.slider != null) {
-			this.slider.setValue(this.getFieldValue().doubleValue());
+			this.slider.updateValue(this.getFieldValue().doubleValue());
 		}
 	}
 }

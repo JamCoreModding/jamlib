@@ -4,31 +4,35 @@ import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class SliderButton extends AbstractSliderButton {
 	private final double min;
 	private final double max;
-	private final Function<Double, Component> onChange;
+	private final Consumer<Double> onChange;
+	private final Function<Double, Component> toString;
 
-	protected SliderButton(int x, int y, int width, int height, Component message, double min, double max, double value, Function<Double, Component> onChange) {
-		super(x, y, width, height, message, value);
+	protected SliderButton(int x, int y, int width, int height, Component message, double min, double max, double value, Consumer<Double> onChange, Function<Double, Component> toString) {
+		super(x, y, width, height, message, ((Mth.clamp((float) value, min, max) - min) / (max - min)));
 		this.min = min;
 		this.max = max;
 		this.onChange = onChange;
-		this.value = ((Mth.clamp((float) value, this.min, this.max) - this.min) / (this.max - this.min));
+		this.toString = toString;
 	}
 
-	public void setValue(double value) {
+	public void updateValue(double value) {
 		this.value = ((Mth.clamp((float) value, this.min, this.max) - this.min) / (this.max - this.min));
+		this.updateMessage();
 	}
 
 	@Override
 	protected void updateMessage() {
+		this.setMessage(this.toString.apply(Mth.lerp(Mth.clamp(this.value, 0.0F, 1.0F), this.min, this.max)));
 	}
 
 	@Override
 	protected void applyValue() {
-		this.setMessage(this.onChange.apply(Mth.lerp(Mth.clamp(this.value, 0.0F, 1.0F), this.min, this.max)));
+		this.onChange.accept(Mth.lerp(Mth.clamp(this.value, 0.0F, 1.0F), this.min, this.max));
 	}
 }

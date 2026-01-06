@@ -71,7 +71,7 @@ public abstract class ConfigEntry<T, V> {
 	public List<AbstractWidget> createWidgets(int width) {
 		List<AbstractWidget> widgets = new ArrayList<>();
 
-        StringWidget title = new StringWidget(12, Minecraft.getInstance().font.lineHeight / 2 + 1, width / 2 - 10, Minecraft.getInstance().font.lineHeight, Component.translatable(this.translationKey), Minecraft.getInstance().font);
+        StringWidget title = new StringWidget(12, Minecraft.getInstance().font.lineHeight / 2 + 1, width / 2 - 10, Minecraft.getInstance().font.lineHeight, Component.translatable(this.translationKey), Minecraft.getInstance().font).setMaxWidth(width / 2 - 10, StringWidget.TextOverflow.SCROLLING);
 
 		if (this.tooltip != null) {
 			title.setTooltip(Tooltip.create(this.tooltip));
