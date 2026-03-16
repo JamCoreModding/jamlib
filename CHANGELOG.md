@@ -1,2 +1,3 @@
-- (fix) resolve crash when resetting a list config to its default value.
-- (fix) further issue with resetting values to default.
+- Remove redundant escape characters from string config field default comments.
+- Add comments to lists of enums stating what values they can take (#23).
+- Use system dependant line endings.
