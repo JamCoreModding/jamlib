@@ -1,3 +1,4 @@
 - Remove redundant escape characters from string config field default comments.
 - Add comments to lists of enums stating what values they can take (#23).
 - Use system dependant line endings.
+- Give each config its own Jankson instance to fix multithreading issues on Neoforge (#22).
