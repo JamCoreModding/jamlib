@@ -1,1 +1,3 @@
-Add 1.21.10 support.
+- Remove redundant escape characters from string config field default comments.
+- Add comments to lists of enums stating what values they can take (#23).
+- Use system dependant line endings.

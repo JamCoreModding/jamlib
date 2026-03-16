@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +28,7 @@ public class ConfigManager<T> {
 	@ApiStatus.Internal
 	public static final Map<Key, ConfigManager<?>> MANAGERS = new HashMap<>();
 	private static final Jankson JANKSON = Jankson.builder().build();
-	private static final JsonGrammar JSON_GRAMMER = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
+	private static final JsonGrammar JSON_GRAMMAR = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
 	private final Path configPath;
 	private final String modId;
 	private final String configName;
@@ -112,7 +113,7 @@ public class ConfigManager<T> {
 	public void save() {
 		JsonElement json = JANKSON.toJson(this.config);
 		transformJsonBeforeSave(json);
-		String stringifiedJson = json.toJson(JSON_GRAMMER);
+		String stringifiedJson = json.toJson(JSON_GRAMMAR);
 
 		try {
 			if (!Files.exists(this.configPath.getParent())) {
@@ -135,7 +136,7 @@ public class ConfigManager<T> {
 	 */
 	public void reloadFromDisk() {
 		try {
-			JsonObject json = JANKSON.load(Files.readAllLines(this.configPath).stream().reduce((a, b) -> a + "\n" + b).orElse(""));
+			JsonObject json = JANKSON.load(Files.readString(this.configPath));
 			this.config = JANKSON.fromJsonCarefully(json, this.configClass);
 		} catch (Exception e) {
 			JamLib.LOGGER.error("Failed to read config file at {}", configPath, e);
@@ -200,7 +201,7 @@ public class ConfigManager<T> {
 					Object defaultValue = field.get(defaults);
 					if (defaultValue != null) {
 						if (defaultValue instanceof String s) {
-							defaultValue = "\\\"" + s + "\\\"";
+							defaultValue = "\"" + s + "\"";
 						}
 
 						comment.append("- default: ").append(defaultValue);
@@ -208,7 +209,7 @@ public class ConfigManager<T> {
 
 					if (field.isAnnotationPresent(RequiresRestart.class)) {
 						if (!comment.isEmpty()) {
-							comment.append("\n");
+							comment.append(System.lineSeparator());
 						}
 
 						comment.append("- requires game restart");
@@ -218,7 +219,7 @@ public class ConfigManager<T> {
 						MatchesRegex annotation = field.getAnnotation(MatchesRegex.class);
 
 						if (!comment.isEmpty()) {
-							comment.append("\n");
+							comment.append(System.lineSeparator());
 						}
 
 						comment.append("- must match regex: ").append(annotation.value());
@@ -228,7 +229,7 @@ public class ConfigManager<T> {
 						WithinRange annotation = field.getAnnotation(WithinRange.class);
 
 						if (!comment.isEmpty()) {
-							comment.append("\n");
+							comment.append(System.lineSeparator());
 						}
 
 						comment.append("- must be between ").append(annotation.min()).append(" and ").append(annotation.max());
@@ -236,19 +237,35 @@ public class ConfigManager<T> {
 
 					if (Enum.class.isAssignableFrom(field.getType())) {
 						if (!comment.isEmpty()) {
-							comment.append("\n");
+							comment.append(System.lineSeparator());
 						}
 
-						comment.append("- must be one of: ").append(Arrays.stream(field.getType().getEnumConstants()).map(Object::toString).reduce((a, b) -> a + ", " + b).orElse(""));
+						comment.append("- must be one of: ").append(this.getEnumValues(field.getType()));
 					}
 
-					String newComment = (currentComment == null ? "" : currentComment) + (currentComment == null ? "" : "\n") + comment;
+					if (List.class.isAssignableFrom(field.getType())) {
+						List<?> list = (List<?>) field.get(defaults);
+
+						if (!list.isEmpty() && list.get(0).getClass().isEnum()) {
+							if (!comment.isEmpty()) {
+								comment.append(System.lineSeparator());
+							}
+
+							comment.append("- values must be one of: ").append(this.getEnumValues(list.get(0).getClass()));
+						}
+					}
+
+					String newComment = (currentComment == null ? "" : currentComment) + (currentComment == null ? "" : System.lineSeparator()) + comment;
 					obj.setComment(key, newComment);
 				} catch (NoSuchFieldException | IllegalAccessException ignored) {
-					// This isn't critical functionality, so these exceptions doesn't need logging
+					// This isn't critical functionality, so these exceptions don't need logging
 				}
 			}
 		}
+	}
+
+	private String getEnumValues(Class<?> clazz) {
+		return Arrays.stream(clazz.getEnumConstants()).map(Object::toString).reduce((a, b) -> a + ", " + b).orElse("");
 	}
 
 	public record Key(String modId, String configName) {
