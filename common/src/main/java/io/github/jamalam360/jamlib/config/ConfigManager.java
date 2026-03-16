@@ -27,8 +27,8 @@ import java.util.Map;
 public class ConfigManager<T> {
 	@ApiStatus.Internal
 	public static final Map<Key, ConfigManager<?>> MANAGERS = new HashMap<>();
-	private static final Jankson JANKSON = Jankson.builder().build();
-	private static final JsonGrammar JSON_GRAMMAR = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(true).withComments(true).build();
+	private static final JsonGrammar JSON_GRAMMAR = JsonGrammar.builder().bareRootObject(false).bareSpecialNumerics(false).printCommas(true).printWhitespace(true).printUnquotedKeys(false).withComments(true).build();
+	private final Jankson jankson = Jankson.builder().build();
 	private final Path configPath;
 	private final String modId;
 	private final String configName;
@@ -111,9 +111,10 @@ public class ConfigManager<T> {
 	 * Saves the current config to the config file.
 	 */
 	public void save() {
-		JsonElement json = JANKSON.toJson(this.config);
+		JsonElement json = this.jankson.toJson(this.config);
 		transformJsonBeforeSave(json);
 		String stringifiedJson = json.toJson(JSON_GRAMMAR);
+		stringifiedJson = stringifiedJson.replaceAll("\\R", System.lineSeparator());
 
 		try {
 			if (!Files.exists(this.configPath.getParent())) {
@@ -136,8 +137,8 @@ public class ConfigManager<T> {
 	 */
 	public void reloadFromDisk() {
 		try {
-			JsonObject json = JANKSON.load(Files.readString(this.configPath));
-			this.config = JANKSON.fromJsonCarefully(json, this.configClass);
+			JsonObject json = this.jankson.load(Files.readString(this.configPath));
+			this.config = this.jankson.fromJsonCarefully(json, this.configClass);
 		} catch (Exception e) {
 			JamLib.LOGGER.error("Failed to read config file at {}", configPath, e);
 			JamLib.LOGGER.error("Resetting to defaults; a backup will be written to {}.broken", configPath);
