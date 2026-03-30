@@ -1,6 +1,6 @@
 package io.github.jamalam360.jamlib.client.mixin.event;
 
-import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
+import io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;

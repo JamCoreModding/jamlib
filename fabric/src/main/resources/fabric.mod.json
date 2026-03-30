@@ -17,13 +17,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.jamalam360.jamlib.fabric.JamLibFabric"
+      "io.github.jamalam360.jamlib.impl.JamLibFabric"
     ],
     "client": [
-      "io.github.jamalam360.jamlib.fabric.JamLibClientFabric"
+      "io.github.jamalam360.jamlib.impl.JamLibClientFabric"
     ],
     "modmenu": [
-      "io.github.jamalam360.jamlib.fabric.config.ModMenuCompatibility"
+      "io.github.jamalam360.jamlib.impl.config.ModMenuCompatibility"
     ]
   },
   "mixins": [

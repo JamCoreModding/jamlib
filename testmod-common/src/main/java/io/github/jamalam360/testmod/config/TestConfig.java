@@ -1,13 +1,13 @@
 package io.github.jamalam360.testmod.config;
 
 import blue.endless.jankson.Comment;
-import io.github.jamalam360.jamlib.config.ConfigExtensions;
-import io.github.jamalam360.jamlib.config.ConfigManager;
-import io.github.jamalam360.jamlib.config.HiddenInGui;
-import io.github.jamalam360.jamlib.config.MatchesRegex;
-import io.github.jamalam360.jamlib.config.RequiresRestart;
-import io.github.jamalam360.jamlib.config.Slider;
-import io.github.jamalam360.jamlib.config.WithinRange;
+import io.github.jamalam360.jamlib.api.config.ConfigExtensions;
+import io.github.jamalam360.jamlib.api.config.ConfigManager;
+import io.github.jamalam360.jamlib.api.config.HiddenInGui;
+import io.github.jamalam360.jamlib.api.config.MatchesRegex;
+import io.github.jamalam360.jamlib.api.config.RequiresRestart;
+import io.github.jamalam360.jamlib.api.config.Slider;
+import io.github.jamalam360.jamlib.api.config.WithinRange;
 
 import java.util.ArrayList;
 import java.util.List;

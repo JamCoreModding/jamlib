@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "io.github.jamalam360.testmod.fabric.TestModFabric"
+    ],
+    "client": [
+      "io.github.jamalam360.testmod.fabric.TestModClientFabric"
     ]
   },
   "mixins": [

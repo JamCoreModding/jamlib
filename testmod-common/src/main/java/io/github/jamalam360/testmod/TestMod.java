@@ -1,11 +1,19 @@
 package io.github.jamalam360.testmod;
 
-import io.github.jamalam360.jamlib.platform.Platform;
-import io.github.jamalam360.jamlib.config.ConfigManager;
-import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
+import dev.architectury.registry.registries.DeferredRegister;
+import io.github.jamalam360.jamlib.api.network.Network;
+import io.github.jamalam360.jamlib.api.platform.Platform;
+import io.github.jamalam360.jamlib.api.config.ConfigManager;
+import io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.config.NestedConfigChild;
 import io.github.jamalam360.testmod.config.QuickerConnectButtonTestConfig;
 import io.github.jamalam360.testmod.config.TestConfig;
+import io.github.jamalam360.testmod.item.PacketPotatoItem;
+import io.github.jamalam360.testmod.network.PotatoPacket;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,5 +35,17 @@ public class TestMod {
 
         ClientPlayLifecycleEvents.JOIN.register(client -> LOGGER.info("Joined server!"));
         ClientPlayLifecycleEvents.DISCONNECT.register(client -> LOGGER.info("Left server!"));
+
+        Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
+
+	    DeferredRegister<Item> reg = DeferredRegister.create(MOD_ID, Registries.ITEM);
+        reg.register(id("potato"), () -> new PacketPotatoItem(new Item.Properties().setId(
+                ResourceKey.create(Registries.ITEM, id("potato"))
+        )));
+        reg.register();
+    }
+
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 }

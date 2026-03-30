@@ -1,8 +1,6 @@
 package io.github.jamalam360.jamlib.client.mixin.event;
 
-import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;

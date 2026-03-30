@@ -1,6 +1,7 @@
 package io.github.jamalam360.jamlib;
 
-import io.github.jamalam360.jamlib.platform.Platform;
+import io.github.jamalam360.jamlib.api.platform.Platform;
+import io.github.jamalam360.jamlib.impl.JarRenamingChecker;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
