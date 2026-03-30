@@ -4,8 +4,8 @@ import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonGrammar;
 import blue.endless.jankson.JsonObject;
-import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.JamLib;
+import io.github.jamalam360.jamlib.platform.Platform;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.io.IOException;

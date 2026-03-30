@@ -1,9 +1,6 @@
 package io.github.jamalam360.jamlib;
 
-import dev.architectury.event.events.client.ClientPlayerEvent;
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.EnvExecutor;
-import net.fabricmc.api.EnvType;
+import io.github.jamalam360.jamlib.platform.Platform;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
@@ -19,7 +16,7 @@ public class JamLib {
 
     @ApiStatus.Internal
     public static void init() {
-	    LOGGER.info("Initializing JamLib on {}", JamLibPlatform.getPlatform());
+	    LOGGER.info("Initializing JamLib on {}", Platform.getModLoader());
         checkForJarRenaming(JamLib.class);
     }
 
@@ -40,5 +37,10 @@ public class JamLib {
     @ApiStatus.Internal
     public static Identifier id(String path) {
         return Identifier.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    @ApiStatus.Internal
+    public static <T> T expectPlatform() {
+        throw new AssertionError("Expected platform-specific implementation");
     }
 }

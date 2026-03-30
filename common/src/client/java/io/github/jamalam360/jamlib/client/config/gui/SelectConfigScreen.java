@@ -1,9 +1,11 @@
 package io.github.jamalam360.jamlib.client.config.gui;
 
-import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.config.ConfigManager;
 import java.util.List;
 import java.util.Objects;
+
+import io.github.jamalam360.jamlib.platform.ModInfo;
+import io.github.jamalam360.jamlib.platform.Platform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -31,7 +33,7 @@ public class SelectConfigScreen extends Screen {
         if (I18n.exists(translationKey)) {
             return Component.translatable(translationKey);
         } else {
-            return Component.translatable("config.jamlib.selection_screen_title", Platform.getMod(modId).getName());
+            return Component.translatable("config.jamlib.selection_screen_title", Platform.getMod(modId).map(ModInfo::modName).orElse("Unknown"));
         }
     }
 

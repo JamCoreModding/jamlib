@@ -1,12 +1,13 @@
 package io.github.jamalam360.jamlib.client.config.gui;
 
-import dev.architectury.platform.Platform;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.client.config.gui.entry.ConfigEntry;
 import io.github.jamalam360.jamlib.client.gui.WidgetList;
 import io.github.jamalam360.jamlib.config.ConfigExtensions;
 import io.github.jamalam360.jamlib.config.ConfigManager;
 import io.github.jamalam360.jamlib.config.HiddenInGui;
+import io.github.jamalam360.jamlib.platform.ModInfo;
+import io.github.jamalam360.jamlib.platform.Platform;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -58,7 +59,7 @@ public class ConfigScreen<T> extends Screen {
         if (I18n.exists(translationKey)) {
             return Component.translatable(translationKey);
         } else {
-            return Component.literal(Platform.getMod(manager.getModId()).getName());
+            return Component.literal(Platform.getMod(manager.getModId()).map(ModInfo::modName).orElse("Unknown"));
         }
     }
 

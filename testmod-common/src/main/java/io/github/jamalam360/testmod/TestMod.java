@@ -1,6 +1,6 @@
 package io.github.jamalam360.testmod;
 
-import io.github.jamalam360.jamlib.JamLibPlatform;
+import io.github.jamalam360.jamlib.platform.Platform;
 import io.github.jamalam360.jamlib.config.ConfigManager;
 import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.config.NestedConfigChild;
@@ -20,7 +20,8 @@ public class TestMod {
     public static final ConfigManager<NestedConfigChild> NESTED_CONFIG = new ConfigManager<>(MOD_ID, "nested", NestedConfigChild.class);
 
     public static void init() {
-        LOGGER.info("Initializing JamLib Test Mod on {}", JamLibPlatform.getPlatform());
+        LOGGER.info("Initializing JamLib Test Mod on {}", Platform.getModLoader());
+        LOGGER.info("Fabric Loader: {}", Platform.getMod("fabricloader"));
         System.out.println(CONFIG_MANAGER.get());
         System.out.println(QCB_CONFIG.get());
 

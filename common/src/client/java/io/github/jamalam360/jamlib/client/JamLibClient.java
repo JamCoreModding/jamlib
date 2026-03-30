@@ -2,7 +2,7 @@ package io.github.jamalam360.jamlib.client;
 
 import static io.github.jamalam360.jamlib.JamLib.JAR_RENAMING_CHECKER;
 
-import dev.architectury.event.events.client.ClientPlayerEvent;
+import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -12,14 +12,11 @@ import org.jetbrains.annotations.ApiStatus;
 public class JamLibClient {
     @ApiStatus.Internal
     public static void init() {
-        ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(JamLibClient::onPlayerJoin);
+        ClientPlayLifecycleEvents.JOIN.register(JamLibClient::onPlayerJoin);
     }
 
-    private static void onPlayerJoin(LocalPlayer player) {
-        if (player != Minecraft.getInstance().player) {
-            return;
-        }
-
+    private static void onPlayerJoin(Minecraft minecraft) {
+        LocalPlayer player = minecraft.player;
         if (JAR_RENAMING_CHECKER.getSuspiciousJarsToNotifyAbout().isEmpty()) {
             return;
         }
