@@ -8,11 +8,20 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 
+/**
+ * A platform-agnostic packet sending system.
+ */
 public class Network {
 	private static final Map<PayloadType<?>, NetworkPayloadType<?>> types = new HashMap<>();
 	private static final Map<PayloadType<?>, NetworkPayloadHandler<?>> clientBoundHandlers = new HashMap<>();
 	private static final Map<PayloadType<?>, NetworkPayloadHandler<?>> serverBoundHandlers = new HashMap<>();
 
+    /**
+	 * Registers a handler for a payload type.
+     * @param direction The direction the handler should be registered for.
+     * @param id The ID of the payload the handler handles.
+     * @param handler The handler.
+     */
 	public static <T> void registerHandler(Direction direction, PayloadType<T> id, NetworkPayloadHandler<T> handler) {
 		Map<PayloadType<?>, NetworkPayloadHandler<?>> handlers = switch (direction) {
 			case CLIENT_BOUND -> clientBoundHandlers;
@@ -26,6 +35,10 @@ public class Network {
 		handlers.put(id, handler);
 	}
 
+    /**
+     * @param id The ID of the payload type.
+     * @param type The type of the payload.
+     */
 	public static <T> void registerPayloadType(PayloadType<T> id, NetworkPayloadType<T> type) {
 		if (types.containsKey(id)) {
 			throw new IllegalArgumentException("A payload type with the id " + id + " is already registered");
@@ -35,6 +48,11 @@ public class Network {
 		JamLib.LOGGER.info("Registered network payload type {}", id.id());
 	}
 
+    /**
+	 * Sends a payload to the server.
+     * @param id The ID of the payload type.
+     * @param payload The payload.
+     */
 	@SuppressWarnings("unchecked")
 	public static <T> void sendToServer(PayloadType<T> id, T payload) {
 		if (!types.containsKey(id)) {
@@ -45,6 +63,11 @@ public class Network {
 		PlatformNetwork.sendToServer(id, type.getSerializer(), payload);
 	}
 
+	/**
+	 * Sends a payload to the client.
+	 * @param id The ID of the payload type.
+	 * @param payload The payload.
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> void sendToClient(ServerPlayer player, PayloadType<T> id, T payload) {
 		if (!types.containsKey(id)) {

@@ -3,6 +3,9 @@ package io.github.jamalam360.jamlib.api.network;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
+/**
+ * A {@link NetworkPayloadType} that uses a {@link StreamCodec} to encode and decode the payload.
+ */
 public interface StreamCodecNetworkPayloadType<T> extends NetworkPayloadType<T> {
 	StreamCodec<RegistryFriendlyByteBuf, T> getStreamCodec();
 

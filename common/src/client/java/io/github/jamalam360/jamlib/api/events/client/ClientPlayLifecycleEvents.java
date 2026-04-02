@@ -1,6 +1,6 @@
 package io.github.jamalam360.jamlib.api.events.client;
 
-import io.github.jamalam360.jamlib.events.Event;
+import io.github.jamalam360.jamlib.api.events.Event;
 import net.minecraft.client.Minecraft;
 
 /**
