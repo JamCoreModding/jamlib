@@ -19,6 +19,6 @@ public class ClientPacketListenerMixin {
 			at = @At("RETURN")
 	)
 	private void jamlib$joinServer(ClientboundLoginPacket packet, CallbackInfo ci) {
-		ClientPlayLifecycleEvents.JOIN.invoker().onJoin(Minecraft.getInstance());
+		ClientPlayLifecycleEvents.JOIN.invoke((listener) -> listener.onJoin(Minecraft.getInstance()));
 	}
 }

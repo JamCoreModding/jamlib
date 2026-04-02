@@ -12,7 +12,7 @@ import org.jetbrains.annotations.ApiStatus;
 public class JamLibClient {
     @ApiStatus.Internal
     public static void init() {
-        ClientPlayLifecycleEvents.JOIN.register(JamLibClient::onPlayerJoin);
+        ClientPlayLifecycleEvents.JOIN.listen(JamLibClient::onPlayerJoin);
     }
 
     private static void onPlayerJoin(Minecraft minecraft) {

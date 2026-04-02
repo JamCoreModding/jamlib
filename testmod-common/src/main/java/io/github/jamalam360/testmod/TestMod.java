@@ -33,8 +33,8 @@ public class TestMod {
         System.out.println(CONFIG_MANAGER.get());
         System.out.println(QCB_CONFIG.get());
 
-        ClientPlayLifecycleEvents.JOIN.register(client -> LOGGER.info("Joined server!"));
-        ClientPlayLifecycleEvents.DISCONNECT.register(client -> LOGGER.info("Left server!"));
+        ClientPlayLifecycleEvents.JOIN.listen(client -> LOGGER.info("Joined server!"));
+        ClientPlayLifecycleEvents.DISCONNECT.listen(client -> LOGGER.info("Left server!"));
 
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
 

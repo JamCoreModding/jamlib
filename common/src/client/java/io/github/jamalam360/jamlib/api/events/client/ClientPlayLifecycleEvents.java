@@ -1,7 +1,6 @@
 package io.github.jamalam360.jamlib.api.events.client;
 
-import dev.architectury.event.Event;
-import dev.architectury.event.EventFactory;
+import io.github.jamalam360.jamlib.events.Event;
 import net.minecraft.client.Minecraft;
 
 /**
@@ -11,11 +10,11 @@ public class ClientPlayLifecycleEvents {
 	/**
 	 * Called when the local player has joined a logical server.
 	 */
-	public static final Event<Join> JOIN = EventFactory.createLoop(Join.class);
+	public static final Event<Join> JOIN = new Event<>();
 	/**
 	 * Called when the local player leaves a logical server.
 	 */
-	public static final Event<Leave> DISCONNECT = EventFactory.createLoop(Leave.class);
+	public static final Event<Leave> DISCONNECT = new Event<>();
 
 	@FunctionalInterface
 	public interface Join {

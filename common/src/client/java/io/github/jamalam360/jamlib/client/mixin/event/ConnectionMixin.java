@@ -16,7 +16,7 @@ public class ConnectionMixin {
 			at = @At("HEAD")
 	)
 	private void jamlib$callDisconnectEvent(ChannelHandlerContext channelHandlerContext, CallbackInfo ci) {
-		ClientPlayLifecycleEvents.DISCONNECT.invoker().onLeave(Minecraft.getInstance());
+		ClientPlayLifecycleEvents.DISCONNECT.invoke((listener) -> listener.onLeave(Minecraft.getInstance()));
 	}
 
 	@Inject(
@@ -27,6 +27,6 @@ public class ConnectionMixin {
 			)
 	)
 	private void jamlib$callDisconnectEvent(CallbackInfo ci) {
-		ClientPlayLifecycleEvents.DISCONNECT.invoker().onLeave(Minecraft.getInstance());
+		ClientPlayLifecycleEvents.DISCONNECT.invoke((listener) -> listener.onLeave(Minecraft.getInstance()));
 	}
 }
