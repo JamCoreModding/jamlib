@@ -15,7 +15,6 @@ loom {
 
 dependencies {
     modImplementation libs.fabric.loader
-    modImplementation libs.architectury.common
     api libs.jankson
 }
 
