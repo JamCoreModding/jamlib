@@ -21,8 +21,6 @@ jankson = "1.2.3"
 
 [libraries]
 architectury-common = { module = "dev.architectury:architectury", version.ref = "architectury" }
-architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
-architectury-neoforge = { module = "dev.architectury:architectury-neoforge", version.ref = "architectury" }
 
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 

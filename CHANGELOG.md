@@ -1,4 +1,3 @@
-- Remove redundant escape characters from string config field default comments.
-- Add comments to lists of enums stating what values they can take (#23).
-- Use system dependant line endings.
-- Give each config its own Jankson instance to fix multithreading issues on Neoforge (#22).
+Add more APIs in order to remove Architectury dependency.
+
+This is a backwards compatible update. Mods which still use 1.x.x versions of JamLib are able to coexist with JamLib 2.x.x and mods using it. Please get in touch if you run into issues.

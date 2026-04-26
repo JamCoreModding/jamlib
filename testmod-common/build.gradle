@@ -1,6 +1,5 @@
 dependencies {
     modImplementation libs.fabric.loader
-    modImplementation libs.architectury.common
     implementation project(path: ":common", configuration: "namedElements")
 }
 

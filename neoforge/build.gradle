@@ -29,7 +29,6 @@ repositories {
 
 dependencies {
     neoForge libs.neoforge
-    modImplementation libs.architectury.neoforge
     api libs.jankson
     include libs.jankson
     forgeRuntimeLibrary libs.jankson
@@ -48,14 +47,6 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
             gameLoaders = ["neoforge"]
 
             mainPublication tasks.remapJar
-
-            relations {
-                depends {
-                    curseforge = "architectury-api"
-                    modrinth = "architectury-api"
-                }
-            }
-
 
             curseforge {
                 token = System.getenv("CURSEFORGE_API_KEY")
@@ -96,7 +87,6 @@ processResources {
             "version"             : project.version,
             "minecraft_version"   : project.minimum_minecraft_version,
             "neoforge_version"    : project.minimum_minecraft_version.substring(2),
-            "architectury_version": project.minimum_architectury_api_version
     ]
 
     filesMatching("META-INF/neoforge.mods.toml") {

@@ -9,7 +9,9 @@
 JamLib provides:
 
 - Platform abstractions
+- Events
 - A JSON5 config API
+- Networking
 - A mod repost (9minecraft etc.) checker
 
 Comprehensive documentation can be found [here](https://docs.jamalam.tech/jamlib/getting-started/).

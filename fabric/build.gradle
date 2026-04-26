@@ -23,7 +23,6 @@ configurations {
 dependencies {
     modImplementation libs.fabric.loader
     modImplementation libs.fabric.api
-    modImplementation libs.architectury.fabric
     modImplementation libs.modmenu
     api libs.jankson
     include libs.jankson
@@ -47,11 +46,6 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
                 depends {
                     curseforge = "fabric-api"
                     modrinth = "fabric-api"
-                }
-
-                depends {
-                    curseforge = "architectury-api"
-                    modrinth = "architectury-api"
                 }
             }
 
@@ -95,7 +89,6 @@ processResources {
             "version"             : project.version,
             "minecraft_version"   : project.minimum_minecraft_version,
             "fabric_api_version"  : project.minimum_fabric_api_version,
-            "architectury_version": project.minimum_architectury_api_version
     ]
 
     filesMatching("fabric.mod.json") {
