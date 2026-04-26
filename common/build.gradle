@@ -2,6 +2,14 @@ architectury {
     common(rootProject.enabled_platforms.split(","))
 }
 
+sourceSets {
+    deprecated {
+        java {
+            srcDir "src/deprecated/java"
+        }
+    }
+}
+
 loom {
     splitEnvironmentSourceSets()
 
@@ -9,13 +17,31 @@ loom {
         jamlib {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
+            sourceSet sourceSets.deprecated
         }
     }
+}
+
+loom.createRemapConfigurations(sourceSets.deprecated)
+configurations {
+    deprecatedImplementation.extendsFrom implementation
+    deprecatedRuntimeOnly.extendsFrom runtimeOnly
+    modDeprecatedImplementation.extendsFrom modImplementation
+    deprecatedCompileClasspath.extendsFrom clientCompileClasspath
+    modDeprecatedImplementation.extendsFrom modClientImplementation
 }
 
 dependencies {
     modImplementation libs.fabric.loader
     api libs.jankson
+
+    deprecatedImplementation libs.architectury.common
+    deprecatedImplementation sourceSets.main.output
+    deprecatedImplementation sourceSets.client.output
+}
+
+tasks.named('jar', Jar) {
+    from sourceSets.deprecated.output
 }
 
 publishing {

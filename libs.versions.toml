@@ -1,4 +1,7 @@
 [versions]
+# https://modrinth.com/mod/architectury-api/versions
+architectury = "19.0.1"
+
 # https://parchmentmc.org/docs/getting-started
 parchment-minecraft = "1.21.11"
 parchment = "2025.12.20"
@@ -17,6 +20,8 @@ modmenu = "17.0.0-beta.1"
 jankson = "1.2.3"
 
 [libraries]
+architectury-common = { module = "dev.architectury:architectury", version.ref = "architectury" }
+
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
