@@ -23,7 +23,7 @@
       "io.github.jamalam360.jamlib.impl.fabric.JamLibClientFabric"
     ],
     "modmenu": [
-      "io.github.jamalam360.jamlib.impl.config.ModMenuCompatibility"
+      "io.github.jamalam360.jamlib.impl.fabric.config.ModMenuCompatibility"
     ]
   },
   "mixins": [
