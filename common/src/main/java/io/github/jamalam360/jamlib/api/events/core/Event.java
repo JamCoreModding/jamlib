@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:common/src/main/java/io/github/jamalam360/jamlib/api/events/Event.java
-package io.github.jamalam360.jamlib.api.events;
-========
 package io.github.jamalam360.jamlib.api.events.core;
->>>>>>>> 2fca7fd (feat: interaction events):common/src/main/java/io/github/jamalam360/jamlib/api/events/core/Event.java
 
 import com.google.common.collect.Ordering;
 import com.google.common.collect.TreeMultimap;
