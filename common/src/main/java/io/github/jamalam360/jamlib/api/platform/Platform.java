@@ -52,7 +52,7 @@ public class Platform {
         } else if (isForge()) {
             return ModLoader.FORGE;
         } else if (isNeoForge()){
-            return ModLoader.FABRIC;
+            return ModLoader.NEOFORGE;
         }
 
         throw new IllegalStateException("Could not determine mod loader");
