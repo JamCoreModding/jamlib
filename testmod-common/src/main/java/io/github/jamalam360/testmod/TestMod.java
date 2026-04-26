@@ -1,6 +1,8 @@
 package io.github.jamalam360.testmod;
 
 import dev.architectury.registry.registries.DeferredRegister;
+import io.github.jamalam360.jamlib.api.events.InteractionEvent;
+import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
@@ -13,6 +15,7 @@ import io.github.jamalam360.testmod.network.PotatoPacket;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +38,16 @@ public class TestMod {
 
         ClientPlayLifecycleEvents.JOIN.listen(client -> LOGGER.info("Joined server!"));
         ClientPlayLifecycleEvents.DISCONNECT.listen(client -> LOGGER.info("Left server!"));
+        InteractionEvent.USE_BLOCK.listen(((player, hand, pos, direction) -> {
+            LOGGER.info("Used block!");
+
+            if (player.getRandom().nextBoolean() && !player.level().isClientSide()) {
+                LOGGER.info("Cancelling interaction");
+                return EventResult.cancel(InteractionResult.PASS);
+            } else {
+                return EventResult.pass();
+            }
+        }));
 
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
 

@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:common/src/main/java/io/github/jamalam360/jamlib/api/events/CancellableEvent.java
 package io.github.jamalam360.jamlib.api.events;
+========
+package io.github.jamalam360.jamlib.api.events.core;
+>>>>>>>> 2fca7fd (feat: interaction events):common/src/main/java/io/github/jamalam360/jamlib/api/events/core/CancellableEvent.java
 
 import java.util.function.Function;
 

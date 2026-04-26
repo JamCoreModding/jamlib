@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.client.mixin;
+package io.github.jamalam360.jamlib.impl.mixinclient;
 
 import io.github.jamalam360.jamlib.impl.mixinsupport.MutableSpriteImageWidget$Sprite;
 import net.minecraft.resources.Identifier;
@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(targets = "net.minecraft.client.gui.components.ImageWidget$Sprite")
-public class ImageWidget$SpriteMixin implements MutableSpriteImageWidget$Sprite {
+public abstract class ImageWidget$SpriteMixin implements MutableSpriteImageWidget$Sprite {
 	@Mutable
 	@Shadow
 	private Identifier sprite;

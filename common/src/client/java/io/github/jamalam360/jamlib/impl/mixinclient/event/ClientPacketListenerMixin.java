@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.client.mixin.event;
+package io.github.jamalam360.jamlib.impl.mixinclient.event;
 
 import io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents;
 import net.minecraft.client.Minecraft;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
-public class ClientPacketListenerMixin {
+public abstract class ClientPacketListenerMixin {
 	/**
 	 * Injection point taken from Fabric API - <a href="https://github.com/FabricMC/fabric/blob/1.21.2/fabric-networking-api-v1/src/client/java/net/fabricmc/fabric/mixin/networking/client/ClientPlayNetworkHandlerMixin.java#L54">...</a>
 	 */

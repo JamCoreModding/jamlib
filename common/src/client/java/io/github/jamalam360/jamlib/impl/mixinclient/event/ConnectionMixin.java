@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.client.mixin.event;
+package io.github.jamalam360.jamlib.impl.mixinclient.event;
 
 import io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Connection.class)
-public class ConnectionMixin {
+public abstract class ConnectionMixin {
 	@Inject(
 			method = "channelInactive",
 			at = @At("HEAD")
