@@ -21,14 +21,14 @@ public class JamLibClient {
             return;
         }
 
-        player.displayClientMessage(Component.translatable("text.jamlib.renamed_1", Component.translatable("text.jamlib.renamed_1.1").withStyle(ChatFormatting.RED)), false);
+        player.sendSystemMessage(Component.translatable("text.jamlib.renamed_1", Component.translatable("text.jamlib.renamed_1.1").withStyle(ChatFormatting.RED)));
 
         for (String jar : JAR_RENAMING_CHECKER.getSuspiciousJarsToNotifyAbout()) {
-            player.displayClientMessage(Component.literal(" - " + jar).withStyle(ChatFormatting.GRAY), false);
+            player.sendSystemMessage(Component.literal(" - " + jar).withStyle(ChatFormatting.GRAY));
         }
 
-        player.displayClientMessage(Component.translatable("text.jamlib.renamed_2", Component.translatable("text.jamlib.renamed_2.1").withStyle(ChatFormatting.YELLOW), Component.translatable("text.jamlib.renamed_2.2").withStyle(ChatFormatting.RED), Component.translatable("text.jamlib.renamed_2.3").withStyle(ChatFormatting.RED), Component.translatable("text.jamlib.renamed_2.4").withStyle(ChatFormatting.GOLD), Component.translatable("text.jamlib.renamed_2.5").withStyle(ChatFormatting.GOLD)), false);
-        player.displayClientMessage(Component.translatable("text.jamlib.renamed_3", Component.translatable("text.jamlib.renamed_3.1").withStyle(ChatFormatting.GRAY)), false);
+        player.sendSystemMessage(Component.translatable("text.jamlib.renamed_2", Component.translatable("text.jamlib.renamed_2.1").withStyle(ChatFormatting.YELLOW), Component.translatable("text.jamlib.renamed_2.2").withStyle(ChatFormatting.RED), Component.translatable("text.jamlib.renamed_2.3").withStyle(ChatFormatting.RED), Component.translatable("text.jamlib.renamed_2.4").withStyle(ChatFormatting.GOLD), Component.translatable("text.jamlib.renamed_2.5").withStyle(ChatFormatting.GOLD)));
+        player.sendSystemMessage(Component.translatable("text.jamlib.renamed_3", Component.translatable("text.jamlib.renamed_3.1").withStyle(ChatFormatting.GRAY)));
         JAR_RENAMING_CHECKER.afterNotify();
     }
 }

@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.gradleup.shadow" version "8.3.3"
 }
 
 loom {
@@ -34,23 +34,24 @@ dependencies {
     neoForge libs.neoforge
     forgeRuntimeLibrary libs.jankson
 
-    implementation project(path: ":neoforge", configuration: "namedElements")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    implementation project(":neoforge")
+    common(project(":common")) { transitive false }
+    common(project(path: ":common", configuration: "clientClassesElements")) { transitive false }
+    common(project(":testmod-common")) { transitive false }
     shadowCommon(project(path: ":testmod-common", configuration: "transformProductionNeoForge")) { transitive false }
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null
 }
 
 components.java {

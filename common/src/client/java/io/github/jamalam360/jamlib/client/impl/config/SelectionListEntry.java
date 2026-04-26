@@ -2,9 +2,9 @@ package io.github.jamalam360.jamlib.client.impl.config;
 
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -28,17 +28,17 @@ public class SelectionListEntry extends ContainerObjectSelectionList.Entry<Selec
     }
 
 	@Override
-	public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean hovered, float delta) {
+	public void extractContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean hovered, float delta) {
 		for (AbstractWidget widget : this.widgets) {
 			widget.setY(this.getY());
-			widget.render(guiGraphics, mouseX, mouseY, delta);
+			widget.extractRenderState(guiGraphics, mouseX, mouseY, delta);
 		}
 
 		this.renderTitle(guiGraphics, this.getY(), 12, this.getX() + this.getWidth() / 2 - 10);
 	}
 
 	// Mainly taken from AbstractWidget
-    private void renderTitle(GuiGraphics graphics, int minY, int minX, int maxX) {
+    private void renderTitle(GuiGraphicsExtractor graphics, int minY, int minX, int maxX) {
         int textWidth = Minecraft.getInstance().font.width(this.title);
         int y = minY + Minecraft.getInstance().font.lineHeight / 2 + 1;
         int width = maxX - minX;
@@ -50,10 +50,10 @@ public class SelectionListEntry extends ContainerObjectSelectionList.Entry<Selec
             double f = Math.sin((Math.PI / 2) * Math.cos((Math.PI * 2) * nanos / e)) / 2.0 + 0.5;
             double g = Mth.lerp(f, 0.0, difference);
             graphics.enableScissor(minX, minY, maxX, minY + Minecraft.getInstance().font.lineHeight * 2);
-            graphics.drawString(Minecraft.getInstance().font, this.title, minX - (int)g, y, 0xFFFFFFFF);
+            graphics.text(Minecraft.getInstance().font, this.title, minX - (int)g, y, 0xFFFFFFFF);
             graphics.disableScissor();
         } else {
-            graphics.drawString(Minecraft.getInstance().font, this.title, minX, y, 0xFFFFFFFF);
+            graphics.text(Minecraft.getInstance().font, this.title, minX, y, 0xFFFFFFFF);
         }
     }
 

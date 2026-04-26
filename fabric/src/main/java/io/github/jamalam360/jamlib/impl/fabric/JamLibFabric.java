@@ -13,8 +13,8 @@ public class JamLibFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         JamLib.init();
-        PayloadTypeRegistry.playC2S().register(JamLibPacket.TYPE, JamLibPacket.CODEC);
-        PayloadTypeRegistry.playS2C().register(JamLibPacket.TYPE, JamLibPacket.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(JamLibPacket.TYPE, JamLibPacket.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(JamLibPacket.TYPE, JamLibPacket.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(JamLibPacket.TYPE, (payload, ctx) -> Network.receive(Network.Direction.SERVER_BOUND, new NetworkContext(ctx.player()), payload));
     }
 }

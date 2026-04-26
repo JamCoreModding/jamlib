@@ -80,7 +80,6 @@ public class NumberConfigEntry<T, V extends Number> extends ConfigEntry<T, V> {
 					CommonComponents.EMPTY
 			);
 			this.editBox.setValue(DECIMAL_FORMAT.format(current.doubleValue()));
-			this.editBox.setFilter(s -> this.regex.matcher(s).matches());
 			this.editBox.setResponder(s -> {
 				if (!s.isEmpty()) {
 					//noinspection unchecked

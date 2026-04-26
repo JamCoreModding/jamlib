@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.gradleup.shadow" version "8.3.3"
     id "me.shedaniel.unified-publishing" version "0.1.+"
 }
 
@@ -21,13 +21,14 @@ configurations {
 }
 
 dependencies {
-    modImplementation libs.fabric.loader
-    modImplementation libs.fabric.api
-    modImplementation libs.modmenu
+    implementation libs.fabric.loader
+    implementation libs.fabric.api
+    implementation libs.modmenu
     api libs.jankson
     include libs.jankson
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(":common")) { transitive false }
+    common(project(path: ":common", configuration: "clientClassesElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
@@ -40,7 +41,7 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
             gameVersions = [project.minecraft_version, *(project.additional_minecraft_versions == "" ? [] : project.additional_minecraft_versions.split(","))]
             gameLoaders = ["fabric", "quilt"]
 
-            mainPublication tasks.remapJar
+            mainPublication tasks.shadowJar
 
             relations {
                 depends {
@@ -63,10 +64,21 @@ if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_K
     }
 }
 
+configurations {
+    apiElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
+    }
+    runtimeElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
+    }
+}
+
 publishing {
     publications {
         mavenFabric(MavenPublication) {
-            artifactId = rootProject.archivesBaseName + "-fabric"
+            artifactId = rootProject.base.archivesName.get() + "-fabric"
             from components.java
         }
     }
@@ -98,17 +110,18 @@ processResources {
     substitutions.each { inputs.property it.key, it.value }
 }
 
-shadowJar {
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    injectAccessWidener = true
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 sourcesJar {

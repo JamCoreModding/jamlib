@@ -1,9 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
-}
-
-loom {
-    mixin { useLegacyMixinAp = true }
+    id "com.gradleup.shadow" version "8.3.3"
 }
 
 architectury {
@@ -20,26 +16,28 @@ configurations {
 }
 
 dependencies {
-    modImplementation libs.fabric.loader
-    modImplementation libs.fabric.api
-    modRuntimeOnly libs.modmenu
+    implementation libs.fabric.loader
+    implementation libs.fabric.api
+    runtimeOnly libs.modmenu
 
-    implementation project(path: ":fabric", configuration: "namedElements")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    implementation project(":fabric")
+    common(project(":common")) { transitive false }
+    common(project(path: ":common", configuration: "clientClassesElements")) { transitive false }
+    common(project(":testmod-common")) { transitive false }
     shadowCommon(project(path: ":testmod-common", configuration: "transformProductionFabric")) { transitive false }
 }
 
-shadowJar {
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null
 }
 
 components.java {

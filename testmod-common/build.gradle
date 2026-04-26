@@ -1,8 +1,9 @@
-dependencies {
-    modImplementation libs.fabric.loader
-    implementation project(path: ":common", configuration: "namedElements")
-}
-
 architectury {
     common(["fabric", "neoforge"])
+}
+
+dependencies {
+    implementation libs.fabric.loader
+    implementation project(":common")
+    implementation project(path: ":common", configuration: "clientClassesElements")
 }

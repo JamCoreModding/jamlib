@@ -2,7 +2,7 @@ package io.github.jamalam360.jamlib.client.api.gui;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -50,12 +50,12 @@ public class WidgetList extends ContainerObjectSelectionList<WidgetList.Entry> {
 		}
 
 		@Override
-		public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean hovered, float partialTick) {
+		public void extractContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean hovered, float partialTick) {
 			for (int i = 0; i < this.children.size(); i++) {
 				AbstractWidget widget = this.children.get(i);
 				int relativeY = this.childYs.get(i);
 				widget.setY(PADDING + this.getY() + relativeY);
-				widget.render(guiGraphics, mouseX, mouseY, partialTick);
+				widget.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
 			}
 		}
 

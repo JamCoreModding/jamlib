@@ -7,7 +7,7 @@ import java.util.Objects;
 import io.github.jamalam360.jamlib.api.platform.ModInfo;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -49,9 +49,9 @@ public class SelectConfigScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        super.render(graphics, mouseX, mouseY, delta);
-        graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFFFF);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
+        graphics.text(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFFFF);
     }
 
     private static class ConfigSelectionList extends SelectionList {

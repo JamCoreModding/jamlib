@@ -1,3 +1,2 @@
-Add more APIs in order to remove Architectury dependency.
+Update to support 26.1, 26.1.1, and 26.1.2.
 
-This is a backwards compatible update. Mods which still use 1.x.x versions of JamLib are able to coexist with JamLib 2.x.x and mods using it. Please get in touch if you run into issues.

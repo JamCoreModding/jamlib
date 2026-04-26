@@ -8,9 +8,9 @@ import io.github.jamalam360.jamlib.api.config.ConfigManager;
 import io.github.jamalam360.jamlib.api.config.HiddenInGui;
 import io.github.jamalam360.jamlib.api.platform.ModInfo;
 import io.github.jamalam360.jamlib.api.platform.Platform;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.SpriteIconButton;
@@ -132,9 +132,9 @@ public class ConfigScreen<T> extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        super.render(graphics, mouseX, mouseY, delta);
-        graphics.drawCenteredString(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFFFF);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        super.extractRenderState(graphics, mouseX, mouseY, a);
+        graphics.centeredText(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFFFF);
     }
 
     private boolean canExit() {

@@ -2,14 +2,6 @@ architectury {
     common(rootProject.enabled_platforms.split(","))
 }
 
-sourceSets {
-    deprecated {
-        java {
-            srcDir "src/deprecated/java"
-        }
-    }
-}
-
 loom {
     splitEnvironmentSourceSets()
 
@@ -17,39 +9,35 @@ loom {
         jamlib {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
-            sourceSet sourceSets.deprecated
         }
     }
 }
 
-loom.createRemapConfigurations(sourceSets.deprecated)
 configurations {
-    deprecatedImplementation.extendsFrom implementation
-    deprecatedRuntimeOnly.extendsFrom runtimeOnly
-    modDeprecatedImplementation.extendsFrom modImplementation
-    deprecatedCompileClasspath.extendsFrom clientCompileClasspath
-    modDeprecatedImplementation.extendsFrom modClientImplementation
-    deprecatedImplementation.extendsFrom clientImplementation
+    clientClassesElements {
+        canBeConsumed = true
+        canBeResolved = false
+    }
+}
+
+tasks.register("clientJar", Jar) {
+    archiveClassifier.set("client")
+    from sourceSets.client.output
+}
+
+artifacts {
+    clientClassesElements(clientJar)
 }
 
 dependencies {
-    modImplementation libs.fabric.loader
+    implementation libs.fabric.loader
     api libs.jankson
-
-    deprecatedImplementation libs.architectury.common
-    deprecatedImplementation sourceSets.main.output
-    deprecatedImplementation sourceSets.client.output
-}
-
-tasks.named('jar', Jar) {
-    from sourceSets.deprecated.output
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 publishing {
     publications {
         mavenCommon(MavenPublication) {
-            artifactId = rootProject.archivesBaseName
+            artifactId = rootProject.base.archivesName
             from components.java
         }
     }
