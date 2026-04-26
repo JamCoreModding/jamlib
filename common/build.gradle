@@ -26,9 +26,7 @@ loom.createRemapConfigurations(sourceSets.deprecated)
 configurations {
     deprecatedImplementation.extendsFrom implementation
     deprecatedRuntimeOnly.extendsFrom runtimeOnly
-    modDeprecatedImplementation.extendsFrom modImplementation
     deprecatedCompileClasspath.extendsFrom clientCompileClasspath
-    modDeprecatedImplementation.extendsFrom modClientImplementation
 }
 
 dependencies {
