@@ -5,17 +5,13 @@ import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
-import io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents;
+import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.config.NestedConfigChild;
 import io.github.jamalam360.testmod.config.QuickerConnectButtonTestConfig;
 import io.github.jamalam360.testmod.config.TestConfig;
-import io.github.jamalam360.testmod.item.PacketPotatoItem;
 import io.github.jamalam360.testmod.network.PotatoPacket;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -26,7 +26,10 @@ loom.createRemapConfigurations(sourceSets.deprecated)
 configurations {
     deprecatedImplementation.extendsFrom implementation
     deprecatedRuntimeOnly.extendsFrom runtimeOnly
+    modDeprecatedImplementation.extendsFrom modImplementation
     deprecatedCompileClasspath.extendsFrom clientCompileClasspath
+    modDeprecatedImplementation.extendsFrom modClientImplementation
+    deprecatedImplementation.extendsFrom clientImplementation
 }
 
 dependencies {
@@ -40,6 +43,7 @@ dependencies {
 
 tasks.named('jar', Jar) {
     from sourceSets.deprecated.output
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 publishing {

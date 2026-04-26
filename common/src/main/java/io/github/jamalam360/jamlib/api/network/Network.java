@@ -1,8 +1,8 @@
 package io.github.jamalam360.jamlib.api.network;
 
 import io.github.jamalam360.jamlib.JamLib;
-import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
-import io.github.jamalam360.jamlib.impl.network.PlatformNetwork;
+import io.github.jamalam360.jamlib.impl.fabric.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.fabric.network.PlatformNetwork;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.ApiStatus;
 

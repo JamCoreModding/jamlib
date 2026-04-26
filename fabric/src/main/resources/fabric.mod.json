@@ -17,10 +17,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.jamalam360.jamlib.impl.JamLibFabric"
+      "io.github.jamalam360.jamlib.impl.fabric.JamLibFabric"
     ],
     "client": [
-      "io.github.jamalam360.jamlib.impl.JamLibClientFabric"
+      "io.github.jamalam360.jamlib.impl.fabric.JamLibClientFabric"
     ],
     "modmenu": [
       "io.github.jamalam360.jamlib.impl.config.ModMenuCompatibility"

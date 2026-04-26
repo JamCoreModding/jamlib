@@ -16,8 +16,8 @@ public class ClientPlayLifecycleEvents {
 	public static final Event<Leave> DISCONNECT = EventFactory.createLoop(Leave.class);
 
 	static {
-		io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents.JOIN.listen((minecraft) -> JOIN.invoker().onJoin(minecraft));
-		io.github.jamalam360.jamlib.api.events.client.ClientPlayLifecycleEvents.DISCONNECT.listen((minecraft) -> DISCONNECT.invoker().onLeave(minecraft));
+		io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents.JOIN.listen((minecraft) -> JOIN.invoker().onJoin(minecraft));
+		io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents.DISCONNECT.listen((minecraft) -> DISCONNECT.invoker().onLeave(minecraft));
 	}
 
 	@FunctionalInterface
