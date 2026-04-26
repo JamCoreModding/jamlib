@@ -1,6 +1,5 @@
 package io.github.jamalam360.testmod;
 
-import dev.architectury.registry.registries.DeferredRegister;
 import io.github.jamalam360.jamlib.api.events.InteractionEvent;
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
@@ -51,11 +50,11 @@ public class TestMod {
 
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
 
-	    DeferredRegister<Item> reg = DeferredRegister.create(MOD_ID, Registries.ITEM);
-        reg.register(id("potato"), () -> new PacketPotatoItem(new Item.Properties().setId(
-                ResourceKey.create(Registries.ITEM, id("potato"))
-        )));
-        reg.register();
+//	    DeferredRegister<Item> reg = DeferredRegister.create(MOD_ID, Registries.ITEM);
+//        reg.register(id("potato"), () -> new PacketPotatoItem(new Item.Properties().setId(
+//                ResourceKey.create(Registries.ITEM, id("potato"))
+//        )));
+//        reg.register();
     }
 
     public static Identifier id(String path) {
