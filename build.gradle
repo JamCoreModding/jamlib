@@ -1,18 +1,18 @@
 plugins {
-    id "architectury-plugin" version "3.5-SNAPSHOT"
-    id "dev.architectury.loom-no-remap" version "1.14-SNAPSHOT" apply false
-    id "com.github.breadmoirai.github-release" version "2.4.1"
-    id "maven-publish"
+    id 'architectury-plugin' version '3.5-SNAPSHOT'
+    id 'dev.architectury.loom-no-remap' version '1.14-SNAPSHOT' apply false
+    id 'com.github.breadmoirai.github-release' version '2.4.1'
+    id 'maven-publish'
 }
 
-if (System.getenv("GITHUB_TOKEN") != null) {
+if (System.getenv('GITHUB_TOKEN') != null) {
     githubRelease {
-        token(System.getenv("GITHUB_TOKEN"))
-        owner("JamCoreModding")
-        repo("jamlib")
-        tagName("${project.version}")
-        releaseName("V${project.version}")
-        body(project.rootProject.file("CHANGELOG.md").text)
+        token(System.getenv('GITHUB_TOKEN'))
+        owner('JamCoreModding')
+        repo('jamlib')
+        tagName('${project.version}')
+        releaseName('V${project.version}')
+        body(project.rootProject.file('CHANGELOG.md').text)
         draft(false)
 
         if (project.branch != null) {
@@ -22,7 +22,7 @@ if (System.getenv("GITHUB_TOKEN") != null) {
 }
 
 subprojects {
-    apply plugin: "dev.architectury.loom-no-remap"
+    apply plugin: 'dev.architectury.loom-no-remap'
 
     loom {
         silentMojangMappingsLicense()
@@ -47,42 +47,42 @@ subprojects {
     }
 
     dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+                minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
     }
 }
 
 allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
+    apply plugin: 'java'
+    apply plugin: 'architectury-plugin'
+    apply plugin: 'maven-publish'
 
     version = rootProject.version
     group = rootProject.group
 
     base {
-        archivesName = "jamlib"
+        archivesName = 'jamlib'
     }
 
     repositories {
         mavenCentral()
 
         maven {
-            name = "Modrinth"
-            url = "https://api.modrinth.com/maven"
+            name = 'Modrinth'
+            url = 'https://api.modrinth.com/maven'
         }
 
         maven {
-            name = "ParchmentMC"
-            url = "https://maven.parchmentmc.org"
+            name = 'ParchmentMC'
+            url = 'https://maven.parchmentmc.org'
         }
     }
 
     tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+        options.encoding = 'UTF-8'
         options.release = 25
     }
 
-    tasks.create("prepareWorkspace") {}
+    tasks.create('prepareWorkspace') {}
 
     java {
         withSourcesJar()
@@ -90,11 +90,11 @@ allprojects {
 }
 
 tasks.publish {
-    dependsOn("clean")
-    dependsOn(":githubRelease")
-    dependsOn("common:publishAllPublicationsToMavenRepository")
-    dependsOn("fabric:publishUnified")
-    dependsOn("fabric:publishAllPublicationsToMavenRepository")
-    dependsOn("neoforge:publishUnified")
-    dependsOn("neoforge:publishAllPublicationsToMavenRepository")
+    dependsOn('clean')
+    dependsOn(':githubRelease')
+    dependsOn('common:publishAllPublicationsToMavenRepository')
+    dependsOn('fabric:publishUnified')
+    dependsOn('fabric:publishAllPublicationsToMavenRepository')
+    dependsOn('neoforge:publishUnified')
+    dependsOn('neoforge:publishAllPublicationsToMavenRepository')
 }

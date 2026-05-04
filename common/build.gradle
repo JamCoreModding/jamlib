@@ -38,7 +38,7 @@ artifacts {
 publishing {
     publications {
         mavenCommon(MavenPublication) {
-            artifactId = rootProject.base.archivesName
+            artifactId = rootProject.base.archivesName.get()
             from components.java
         }
     }
