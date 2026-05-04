@@ -13,25 +13,30 @@ loom {
     }
 }
 
-configurations {
-    clientClassesElements {
-        canBeConsumed = true
-        canBeResolved = false
-    }
-}
-
-tasks.register("clientJar", Jar) {
-    archiveClassifier.set("client")
-    from sourceSets.client.output
-}
-
-artifacts {
-    clientClassesElements(clientJar)
-}
-
 dependencies {
     implementation libs.fabric.loader
     api libs.jankson
+}
+
+tasks.register('clientJar', Jar) {
+    from sourceSets.main.output
+    from sourceSets.client.output
+    archiveClassifier = 'client'
+}
+
+configurations {
+    clientElements {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+artifacts {
+    clientElements tasks.clientJar
+}
+
+tasks.named("jar", Jar) {
+    from sourceSets.client.output
 }
 
 publishing {

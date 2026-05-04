@@ -45,12 +45,6 @@ public class TestMod {
         }));
 
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
-
-//	    DeferredRegister<Item> reg = DeferredRegister.create(MOD_ID, Registries.ITEM);
-//        reg.register(id("potato"), () -> new PacketPotatoItem(new Item.Properties().setId(
-//                ResourceKey.create(Registries.ITEM, id("potato"))
-//        )));
-//        reg.register();
     }
 
     public static Identifier id(String path) {

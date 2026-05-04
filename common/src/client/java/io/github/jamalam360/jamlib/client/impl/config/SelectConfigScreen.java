@@ -51,7 +51,7 @@ public class SelectConfigScreen extends Screen {
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         super.extractRenderState(graphics, mouseX, mouseY, delta);
-        graphics.text(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFFFF);
+        graphics.centeredText(Minecraft.getInstance().font, this.title, this.width / 2, 12, 0xFFFFFFFF);
     }
 
     private static class ConfigSelectionList extends SelectionList {

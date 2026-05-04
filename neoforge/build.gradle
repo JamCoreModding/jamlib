@@ -30,11 +30,11 @@ repositories {
 dependencies {
     neoForge libs.neoforge
     api libs.jankson
-    include libs.jankson
+    shadowCommon libs.jankson
     forgeRuntimeLibrary libs.jankson
 
     common(project(":common")) { transitive false }
-    common(project(path: ":common", configuration: "clientClassesElements")) { transitive false }
+//    common(project(path: ':common', configuration: 'clientElements')) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
 }
 

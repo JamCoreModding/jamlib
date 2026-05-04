@@ -22,7 +22,6 @@ dependencies {
 
     implementation project(":fabric")
     common(project(":common")) { transitive false }
-    common(project(path: ":common", configuration: "clientClassesElements")) { transitive false }
     common(project(":testmod-common")) { transitive false }
     shadowCommon(project(path: ":testmod-common", configuration: "transformProductionFabric")) { transitive false }
 }

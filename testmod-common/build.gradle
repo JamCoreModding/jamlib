@@ -4,6 +4,7 @@ architectury {
 
 dependencies {
     implementation libs.fabric.loader
-    implementation project(":common")
-    implementation project(path: ":common", configuration: "clientClassesElements")
+//    implementation project(":common")
+    compileOnly project(path: ":common", configuration: "clientElements")
+    implementation libs.jankson
 }

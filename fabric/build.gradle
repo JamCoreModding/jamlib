@@ -27,8 +27,8 @@ dependencies {
     api libs.jankson
     include libs.jankson
 
-    common(project(":common")) { transitive false }
-    common(project(path: ":common", configuration: "clientClassesElements")) { transitive false }
+//    common(project(":common")) { transitive false }
+    common(project(path: ':common', configuration: 'clientElements')) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 

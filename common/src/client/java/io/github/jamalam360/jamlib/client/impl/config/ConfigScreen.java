@@ -91,7 +91,7 @@ public class ConfigScreen<T> extends Screen {
                 }, true).sprite(JamLib.id("writable_book"), 16, 16).size(20, 20).build()
         );
         editManuallyButton.setX(7);
-        editManuallyButton.setY(7);
+        editManuallyButton.setY(5);
         this.widgetList = new WidgetList(this.minecraft, this.width, this.height - 64, 32);
 
         if (this.entries.isEmpty()) {
