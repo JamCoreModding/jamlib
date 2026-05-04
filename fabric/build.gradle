@@ -24,8 +24,7 @@ dependencies {
     implementation libs.fabric.loader
     implementation libs.fabric.api
     implementation libs.modmenu
-    api libs.jankson
-    include libs.jankson
+    shadowCommon libs.jankson
 
     common(project(path: ':common', configuration: 'mergedElements')) { transitive false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionFabric')) { transitive false }
