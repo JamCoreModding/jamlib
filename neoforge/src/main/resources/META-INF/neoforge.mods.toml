@@ -8,7 +8,7 @@ modId = "jamlib"
 version = "${version}"
 displayName = "JamLib"
 displayURL = "https://github.com/JamCoreModding/jamlib"
-logoFile = "icon.png"
+logoFile = "assets/jamlib/icon.png"
 authors = "Jamalam"
 description = '''The platform-agnostic library used in all of JamCore's mods'''
 
