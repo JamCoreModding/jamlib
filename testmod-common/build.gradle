@@ -1,10 +1,9 @@
 architectury {
-    common(["fabric", "neoforge"])
+    common(['fabric', 'neoforge'])
 }
 
 dependencies {
     implementation libs.fabric.loader
-//    implementation project(":common")
-    compileOnly project(path: ":common", configuration: "clientElements")
+    implementation project(path: ':common', configuration: 'mergedElements')
     implementation libs.jankson
 }

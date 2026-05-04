@@ -1,5 +1,5 @@
 plugins {
-    id "com.gradleup.shadow" version "8.3.3"
+    id 'com.gradleup.shadow' version '8.3.3'
 }
 
 architectury {
@@ -20,14 +20,13 @@ dependencies {
     implementation libs.fabric.api
     runtimeOnly libs.modmenu
 
-    implementation project(":fabric")
-    common(project(":common")) { transitive false }
-    common(project(":testmod-common")) { transitive false }
-    shadowCommon(project(path: ":testmod-common", configuration: "transformProductionFabric")) { transitive false }
+    implementation project(':fabric')
+    common(project(':testmod-common')) { transitive false }
+    shadowCommon(project(path: ':testmod-common', configuration: 'transformProductionFabric')) { transitive false }
 }
 
 jar {
-    archiveClassifier = "raw"
+    archiveClassifier = 'raw'
 }
 
 shadowJar {

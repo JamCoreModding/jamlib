@@ -1,6 +1,6 @@
 plugins {
-    id "com.gradleup.shadow" version "8.3.3"
-    id "me.shedaniel.unified-publishing" version "0.1.+"
+    id 'com.gradleup.shadow' version '8.3.3'
+    id 'me.shedaniel.unified-publishing' version '0.1.+'
 }
 
 architectury {
@@ -9,7 +9,7 @@ architectury {
 }
 
 base {
-    archivesName = "jamlib-neoforge"
+    archivesName = 'jamlib-neoforge'
 }
 
 configurations {
@@ -22,8 +22,8 @@ configurations {
 
 repositories {
     maven {
-        name = "NeoForge"
-        url = "https://maven.neoforged.net/releases/"
+        name = 'NeoForge'
+        url = 'https://maven.neoforged.net/releases/'
     }
 }
 
@@ -33,30 +33,29 @@ dependencies {
     shadowCommon libs.jankson
     forgeRuntimeLibrary libs.jankson
 
-    common(project(":common")) { transitive false }
-//    common(project(path: ':common', configuration: 'clientElements')) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
+    common(project(path: ':common', configuration: 'mergedElements')) { transitive false }
+    shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge')) { transitive false }
 }
 
-if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_KEY") != null) {
+if (System.getenv('CURSEFORGE_API_KEY') != null && System.getenv('MODRINTH_API_KEY') != null) {
     unifiedPublishing {
         project {
-            displayName = "V${project.version} (NeoForge ${project.minecraft_version})"
-            changelog = rootProject.file("CHANGELOG.md").text
-            releaseType = project.version.contains("beta") ? "beta" : "release"
-            gameVersions = [project.minecraft_version, *(project.additional_minecraft_versions == "" ? [] : project.additional_minecraft_versions.split(","))]
-            gameLoaders = ["neoforge"]
+            displayName = 'V${project.version} (NeoForge ${project.minecraft_version})'
+            changelog = rootProject.file('CHANGELOG.md').text
+            releaseType = project.version.contains('beta') ? 'beta' : 'release'
+            gameVersions = [project.minecraft_version, *(project.additional_minecraft_versions == '' ? [] : project.additional_minecraft_versions.split(','))]
+            gameLoaders = ['neoforge']
 
             mainPublication tasks.shadowJar
 
             curseforge {
-                token = System.getenv("CURSEFORGE_API_KEY")
-                id = "623764"
+                token = System.getenv('CURSEFORGE_API_KEY')
+                id = '623764'
             }
 
             modrinth {
-                token = System.getenv("MODRINTH_API_KEY")
-                id = "IYY9Siz8"
+                token = System.getenv('MODRINTH_API_KEY')
+                id = 'IYY9Siz8'
             }
         }
     }
@@ -76,18 +75,18 @@ configurations {
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            artifactId = rootProject.base.archivesName.get() + "-neoforge"
+            artifactId = rootProject.base.archivesName.get() + '-neoforge'
             from components.java
         }
     }
 
     repositories {
-        if (System.getenv("MAVEN_USERNAME") != null && System.getenv("MAVEN_PASSWORD") != null) {
+        if (System.getenv('MAVEN_USERNAME') != null && System.getenv('MAVEN_PASSWORD') != null) {
             maven {
-                url = "https://maven.jamalam.tech/releases"
+                url = 'https://maven.jamalam.tech/releases'
                 credentials {
-                    username = System.getenv("MAVEN_USERNAME")
-                    password = System.getenv("MAVEN_PASSWORD")
+                    username = System.getenv('MAVEN_USERNAME')
+                    password = System.getenv('MAVEN_PASSWORD')
                 }
             }
         }
@@ -96,12 +95,12 @@ publishing {
 
 processResources {
     def substitutions = [
-            "version"             : project.version,
-            "minecraft_version"   : project.minimum_minecraft_version,
-            "neoforge_version"    : project.minimum_minecraft_version.substring(2),
+            'version'             : project.version,
+            'minecraft_version'   : project.minimum_minecraft_version,
+            'neoforge_version'    : project.minimum_minecraft_version.substring(2),
     ]
 
-    filesMatching("META-INF/neoforge.mods.toml") {
+    filesMatching('META-INF/neoforge.mods.toml') {
         expand substitutions
     }
 
@@ -109,7 +108,7 @@ processResources {
 }
 
 jar {
-    archiveClassifier = "raw"
+    archiveClassifier = 'raw'
 }
 
 shadowJar {
@@ -122,7 +121,7 @@ shadowJar {
 }
 
 sourcesJar {
-    def commonSources = project(":common").sourcesJar
+    def commonSources = project(':common').sourcesJar
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
 }

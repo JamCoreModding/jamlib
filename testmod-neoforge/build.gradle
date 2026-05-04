@@ -1,13 +1,5 @@
 plugins {
-    id "com.gradleup.shadow" version "8.3.3"
-}
-
-loom {
-    mods {
-        neoForge {
-            sourceSet project(":neoforge").sourceSets.main
-        }
-    }
+    id 'com.gradleup.shadow' version '8.3.3'
 }
 
 architectury {
@@ -25,8 +17,8 @@ configurations {
 
 repositories {
     maven {
-        name = "NeoForge"
-        url = "https://maven.neoforged.net/releases/"
+        name = 'NeoForge'
+        url = 'https://maven.neoforged.net/releases/'
     }
 }
 
@@ -34,14 +26,13 @@ dependencies {
     neoForge libs.neoforge
     forgeRuntimeLibrary libs.jankson
 
-    implementation project(":neoforge")
-    common(project(":common")) { transitive false }
-    common(project(":testmod-common")) { transitive false }
-    shadowCommon(project(path: ":testmod-common", configuration: "transformProductionNeoForge")) { transitive false }
+    implementation(project(':neoforge')) { transitive false }
+    common(project(':testmod-common')) { transitive false }
+    shadowCommon(project(path: ':testmod-common', configuration: 'transformProductionNeoForge')) { transitive false }
 }
 
 jar {
-    archiveClassifier = "raw"
+    archiveClassifier = 'raw'
 }
 
 shadowJar {

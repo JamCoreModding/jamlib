@@ -1,5 +1,5 @@
 architectury {
-    common(rootProject.enabled_platforms.split(","))
+    common(rootProject.enabled_platforms.split(','))
 }
 
 loom {
@@ -18,25 +18,21 @@ dependencies {
     api libs.jankson
 }
 
-tasks.register('clientJar', Jar) {
+tasks.register('mergedJar', Jar) {
     from sourceSets.main.output
     from sourceSets.client.output
-    archiveClassifier = 'client'
+    archiveClassifier = 'merged'
 }
 
 configurations {
-    clientElements {
+    mergedElements {
         canBeResolved = false
         canBeConsumed = true
     }
 }
 
 artifacts {
-    clientElements tasks.clientJar
-}
-
-tasks.named("jar", Jar) {
-    from sourceSets.client.output
+    mergedElements tasks.mergedJar
 }
 
 publishing {
@@ -48,12 +44,12 @@ publishing {
     }
 
     repositories {
-        if (System.getenv("MAVEN_USERNAME") != null && System.getenv("MAVEN_PASSWORD") != null) {
+        if (System.getenv('MAVEN_USERNAME') != null && System.getenv('MAVEN_PASSWORD') != null) {
             maven {
-                url = "https://maven.jamalam.tech/releases"
+                url = 'https://maven.jamalam.tech/releases'
                 credentials {
-                    username = System.getenv("MAVEN_USERNAME")
-                    password = System.getenv("MAVEN_PASSWORD")
+                    username = System.getenv('MAVEN_USERNAME')
+                    password = System.getenv('MAVEN_PASSWORD')
                 }
             }
         }

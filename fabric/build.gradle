@@ -1,6 +1,6 @@
 plugins {
-    id "com.gradleup.shadow" version "8.3.3"
-    id "me.shedaniel.unified-publishing" version "0.1.+"
+    id 'com.gradleup.shadow' version '8.3.3'
+    id 'me.shedaniel.unified-publishing' version '0.1.+'
 }
 
 architectury {
@@ -9,7 +9,7 @@ architectury {
 }
 
 base {
-    archivesName = "jamlib-fabric"
+    archivesName = 'jamlib-fabric'
 }
 
 configurations {
@@ -27,38 +27,37 @@ dependencies {
     api libs.jankson
     include libs.jankson
 
-//    common(project(":common")) { transitive false }
-    common(project(path: ':common', configuration: 'clientElements')) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    common(project(path: ':common', configuration: 'mergedElements')) { transitive false }
+    shadowCommon(project(path: ':common', configuration: 'transformProductionFabric')) { transitive false }
 }
 
-if (System.getenv("CURSEFORGE_API_KEY") != null && System.getenv("MODRINTH_API_KEY") != null) {
+if (System.getenv('CURSEFORGE_API_KEY') != null && System.getenv('MODRINTH_API_KEY') != null) {
     unifiedPublishing {
         project {
-            displayName = "V${project.version} (Fabric ${project.minecraft_version})"
-            changelog = rootProject.file("CHANGELOG.md").text
-            releaseType = project.version.contains("beta") ? "beta" : "release"
-            gameVersions = [project.minecraft_version, *(project.additional_minecraft_versions == "" ? [] : project.additional_minecraft_versions.split(","))]
-            gameLoaders = ["fabric", "quilt"]
+            displayName = 'V${project.version} (Fabric ${project.minecraft_version})'
+            changelog = rootProject.file('CHANGELOG.md').text
+            releaseType = project.version.contains('beta') ? 'beta' : 'release'
+            gameVersions = [project.minecraft_version, *(project.additional_minecraft_versions == '' ? [] : project.additional_minecraft_versions.split(','))]
+            gameLoaders = ['fabric', 'quilt']
 
             mainPublication tasks.shadowJar
 
             relations {
                 depends {
-                    curseforge = "fabric-api"
-                    modrinth = "fabric-api"
+                    curseforge = 'fabric-api'
+                    modrinth = 'fabric-api'
                 }
             }
 
 
             curseforge {
-                token = System.getenv("CURSEFORGE_API_KEY")
-                id = "623764"
+                token = System.getenv('CURSEFORGE_API_KEY')
+                id = '623764'
             }
 
             modrinth {
-                token = System.getenv("MODRINTH_API_KEY")
-                id = "IYY9Siz8"
+                token = System.getenv('MODRINTH_API_KEY')
+                id = 'IYY9Siz8'
             }
         }
     }
@@ -78,18 +77,18 @@ configurations {
 publishing {
     publications {
         mavenFabric(MavenPublication) {
-            artifactId = rootProject.base.archivesName.get() + "-fabric"
+            artifactId = rootProject.base.archivesName.get() + '-fabric'
             from components.java
         }
     }
 
     repositories {
-        if (System.getenv("MAVEN_USERNAME") != null && System.getenv("MAVEN_PASSWORD") != null) {
+        if (System.getenv('MAVEN_USERNAME') != null && System.getenv('MAVEN_PASSWORD') != null) {
             maven {
-                url = "https://maven.jamalam.tech/releases"
+                url = 'https://maven.jamalam.tech/releases'
                 credentials {
-                    username = System.getenv("MAVEN_USERNAME")
-                    password = System.getenv("MAVEN_PASSWORD")
+                    username = System.getenv('MAVEN_USERNAME')
+                    password = System.getenv('MAVEN_PASSWORD')
                 }
             }
         }
@@ -98,12 +97,12 @@ publishing {
 
 processResources {
     def substitutions = [
-            "version"             : project.version,
-            "minecraft_version"   : project.minimum_minecraft_version,
-            "fabric_api_version"  : project.minimum_fabric_api_version,
+            'version'             : project.version,
+            'minecraft_version'   : project.minimum_minecraft_version,
+            'fabric_api_version'  : project.minimum_fabric_api_version,
     ]
 
-    filesMatching("fabric.mod.json") {
+    filesMatching('fabric.mod.json') {
         expand substitutions
     }
 
@@ -111,7 +110,7 @@ processResources {
 }
 
 jar {
-    archiveClassifier = "raw"
+    archiveClassifier = 'raw'
 }
 
 shadowJar {
@@ -125,7 +124,7 @@ shadowJar {
 }
 
 sourcesJar {
-    def commonSources = project(":common").sourcesJar
+    def commonSources = project(':common').sourcesJar
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
 }
