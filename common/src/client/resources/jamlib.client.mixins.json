@@ -9,6 +9,7 @@
     "ImageWidget$SpriteMixin",
     "event.ClientPacketListenerMixin",
     "event.ConnectionMixin",
+    "event.MouseHandlerMixin",
     "event.MultiPlayerGameModeMixin"
   ],
   "server": [

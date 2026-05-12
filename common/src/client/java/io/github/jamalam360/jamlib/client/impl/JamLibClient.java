@@ -2,6 +2,7 @@ package io.github.jamalam360.jamlib.client.impl;
 
 import static io.github.jamalam360.jamlib.JamLib.JAR_RENAMING_CHECKER;
 
+import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,9 @@ public class JamLibClient {
     @ApiStatus.Internal
     public static void init() {
         ClientPlayLifecycleEvents.JOIN.listen(JamLibClient::onPlayerJoin);
+
+        ClientMouseScrollEvents.IN_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));
+        ClientMouseScrollEvents.OUT_OF_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));
     }
 
     private static void onPlayerJoin(Minecraft minecraft) {

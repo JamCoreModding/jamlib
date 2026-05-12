@@ -36,8 +36,6 @@ public class TestMod {
     public static void init() {
         LOGGER.info("Initializing JamLib Test Mod on {}", Platform.getModLoader());
         LOGGER.info("Fabric Loader: {}", Platform.getMod("fabricloader"));
-        System.out.println(CONFIG_MANAGER.get());
-        System.out.println(QCB_CONFIG.get());
 
         ClientPlayLifecycleEvents.JOIN.listen(client -> LOGGER.info("Joined server!"));
         ClientPlayLifecycleEvents.DISCONNECT.listen(client -> LOGGER.info("Left server!"));
