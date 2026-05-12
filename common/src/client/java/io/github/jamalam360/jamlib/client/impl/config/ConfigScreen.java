@@ -83,11 +83,11 @@ public class ConfigScreen<T> extends Screen {
         SpriteIconButton editManuallyButton = this.addRenderableWidget(
                 SpriteIconButton.builder(Component.translatable("config.jamlib.edit_manually"), button -> {
                     if (this.hasChanges()) {
-                            this.manager.save();
-                        }
+                        this.manager.save();
+                    }
 
-                        Util.getPlatform().openFile(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5").toFile());
-                        Objects.requireNonNull(this.minecraft).setScreen(this.parent);
+                    Util.getPlatform().openFile(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5").toFile());
+                    Objects.requireNonNull(this.minecraft).setScreen(this.parent);
                 }, true).sprite(JamLib.id("writable_book"), 16, 16).size(20, 20).build()
         );
         editManuallyButton.setX(7);

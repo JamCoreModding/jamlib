@@ -71,11 +71,9 @@ public class ConfigManager<T> {
 		if (!Files.exists(this.configPath)) {
 			this.config = this.createDefaultConfig();
 			this.save();
+		} else {
+			this.reloadFromDisk();
 		}
-
-		this.reloadFromDisk();
-		// There is an extra save here in-case the config schema was updated.
-		this.save();
 	}
 
 	/**
