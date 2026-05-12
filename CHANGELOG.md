@@ -1,2 +1,4 @@
-Update to support 26.1, 26.1.1, and 26.1.2.
-
+- Config files are no longer rewritten to the disk every time the game is launched (#31).
+- Added mouse scroll events (#29).
+- Implemented networking on Neoforge (#24).
+- Implement registration system (#25).
