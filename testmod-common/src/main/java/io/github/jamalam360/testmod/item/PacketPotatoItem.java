@@ -24,7 +24,7 @@ public class PacketPotatoItem extends Item {
 		}
 
 		int random = new Random().nextInt(3, 10);
-		TestMod.LOGGER.info("On client: {}", random);
+		TestMod.LOGGER.info("On server: {}", random);
 		Network.sendToClient((ServerPlayer) player, PotatoPacket.TYPE, new PotatoPacket.Payload(random));
 		return InteractionResult.SUCCESS;
 	}

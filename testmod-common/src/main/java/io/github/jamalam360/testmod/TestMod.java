@@ -5,13 +5,18 @@ import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
+import io.github.jamalam360.jamlib.api.registry.DeferredRegistry;
+import io.github.jamalam360.jamlib.api.registry.RegistryObject;
 import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.config.NestedConfigChild;
 import io.github.jamalam360.testmod.config.QuickerConnectButtonTestConfig;
 import io.github.jamalam360.testmod.config.TestConfig;
+import io.github.jamalam360.testmod.item.PacketPotatoItem;
 import io.github.jamalam360.testmod.network.PotatoPacket;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +29,9 @@ public class TestMod {
     public static final ConfigManager<TestConfig> CONFIG_MANAGER_2 = new ConfigManager<>(MOD_ID, "second_config", TestConfig.class);
     public static final ConfigManager<QuickerConnectButtonTestConfig> QCB_CONFIG = new ConfigManager<>(MOD_ID, "quickerconnectbutton", QuickerConnectButtonTestConfig.class);
     public static final ConfigManager<NestedConfigChild> NESTED_CONFIG = new ConfigManager<>(MOD_ID, "nested", NestedConfigChild.class);
+
+    public static final DeferredRegistry<Item> ITEMS = DeferredRegistry.create(MOD_ID, BuiltInRegistries.ITEM);
+    public static final RegistryObject<Item> POTATO_ITEM = ITEMS.register("packet_potato", (key) -> new PacketPotatoItem(new Item.Properties().setId(key)));
 
     public static void init() {
         LOGGER.info("Initializing JamLib Test Mod on {}", Platform.getModLoader());
@@ -44,6 +52,7 @@ public class TestMod {
             }
         }));
 
+        ITEMS.registerEntries();
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
     }
 
