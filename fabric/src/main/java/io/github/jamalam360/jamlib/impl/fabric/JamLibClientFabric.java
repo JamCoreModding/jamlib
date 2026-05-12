@@ -3,7 +3,7 @@ package io.github.jamalam360.jamlib.impl.fabric;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.network.NetworkContext;
 import io.github.jamalam360.jamlib.client.impl.JamLibClient;
-import io.github.jamalam360.jamlib.impl.fabric.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 

@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.impl.fabric.network;
+package io.github.jamalam360.jamlib.impl.network;
 
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.network.PayloadType;

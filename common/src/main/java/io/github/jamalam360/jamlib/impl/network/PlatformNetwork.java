@@ -1,4 +1,4 @@
-package io.github.jamalam360.jamlib.impl.fabric.network;
+package io.github.jamalam360.jamlib.impl.network;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import io.github.jamalam360.jamlib.JamLib;

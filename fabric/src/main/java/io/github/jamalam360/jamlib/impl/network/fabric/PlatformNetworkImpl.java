@@ -1,8 +1,8 @@
-package io.github.jamalam360.jamlib.impl.fabric.network.fabric;
+package io.github.jamalam360.jamlib.impl.network.fabric;
 
 import io.github.jamalam360.jamlib.api.network.NetworkPayloadType;
 import io.github.jamalam360.jamlib.api.network.PayloadType;
-import io.github.jamalam360.jamlib.impl.fabric.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
