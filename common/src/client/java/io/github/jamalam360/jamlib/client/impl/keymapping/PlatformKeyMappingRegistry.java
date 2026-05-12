@@ -2,7 +2,6 @@ package io.github.jamalam360.jamlib.client.impl.keymapping;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import io.github.jamalam360.jamlib.JamLib;
-import io.github.jamalam360.jamlib.client.api.keymapping.KeyMappingRegistry;
 import net.minecraft.client.KeyMapping;
 
 public class PlatformKeyMappingRegistry {
