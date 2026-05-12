@@ -3,6 +3,7 @@ package io.github.jamalam360.jamlib.impl.network;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.network.PayloadType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
@@ -13,11 +14,14 @@ public record JamLibPacket(PayloadType<?> payloadType, RegistryFriendlyByteBuf p
 	public static final StreamCodec<RegistryFriendlyByteBuf, JamLibPacket> CODEC = StreamCodec.of(
 			(buf, packet) -> {
 				buf.writeIdentifier(packet.payloadType().id());
-				buf.writeBytes(packet.payload());
+				int len = packet.payload().writerIndex();
+				buf.writeInt(len);
+				buf.writeBytes(packet.payload(), 0, len);
 			},
 			(buf) -> {
 				Identifier payloadType = buf.readIdentifier();
-				RegistryFriendlyByteBuf payload = new RegistryFriendlyByteBuf(buf.readBytes(buf.readableBytes()), buf.registryAccess());
+				int len = buf.readInt();
+				RegistryFriendlyByteBuf payload = new RegistryFriendlyByteBuf(buf.readBytes(len), buf.registryAccess());
 				return new JamLibPacket(new PayloadType<>(payloadType), payload);
 			}
 	);

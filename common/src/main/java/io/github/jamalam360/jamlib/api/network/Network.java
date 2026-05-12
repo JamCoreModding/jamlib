@@ -87,11 +87,11 @@ public class Network {
 		};
 
 		if (!types.containsKey(packet.payloadType())) {
-			throw new IllegalArgumentException("No payload type with the id " + packet.payloadType() + " is registered");
+			throw new IllegalArgumentException("No payload type with the id " + packet.payloadType() + " (" + direction.name() + ") is registered");
 		}
 
 		if (!handlers.containsKey(packet.payloadType())) {
-			throw new IllegalStateException("Received a packet with the id " + packet.payloadType() + " for which no handler is registered");
+			throw new IllegalStateException("Received a packet with the id " + packet.payloadType() + " (" + direction.name() + ") for which no handler is registered");
 		}
 
 		NetworkPayloadType<T> type = (NetworkPayloadType<T>) types.get(packet.payloadType());
