@@ -2,3 +2,4 @@
 - Added mouse scroll events (#29).
 - Implemented networking on Neoforge (#24).
 - Implement registration system (#25).
+- Implement keymapping registration (#28).
