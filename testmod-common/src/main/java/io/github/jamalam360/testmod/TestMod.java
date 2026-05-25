@@ -1,5 +1,6 @@
 package io.github.jamalam360.testmod;
 
+import io.github.jamalam360.jamlib.api.events.CommandRegistrationEvent;
 import io.github.jamalam360.jamlib.api.events.InteractionEvent;
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
@@ -15,7 +16,9 @@ import io.github.jamalam360.testmod.config.TestConfig;
 import io.github.jamalam360.testmod.item.PacketPotatoItem;
 import io.github.jamalam360.testmod.network.PotatoPacket;
 import io.github.jamalam360.testmod.pack.TestReloadListener;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.InteractionResult;
@@ -46,6 +49,13 @@ public class TestMod {
 
         ITEMS.registerEntries();
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
+
+        CommandRegistrationEvent.EVENT.listen((dispatcher, context, selection) -> {
+            dispatcher.register(Commands.literal("hello").executes(c -> {
+                c.getSource().sendSuccess(() -> Component.literal("Hello, world!"), false);
+                return 1;
+            }));
+        });
 
         if (Flags.DEBUG_INTERACTION_EVENTS) {
             InteractionEvent.USE_BLOCK.listen(((player, hand, pos, direction) -> {
