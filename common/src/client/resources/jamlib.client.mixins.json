@@ -3,13 +3,15 @@
   "minVersion": "0.8",
   "package": "io.github.jamalam360.jamlib.client.impl.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [],
+  "mixins": [
+  ],
   "client": [
     "ImageWidget$SpriteMixin",
     "event.AbstractContainerScreenMixin",
     "event.ClientLevelMixin",
     "event.ClientPacketListenerMixin",
     "event.ConnectionMixin",
+    "event.KeyboardHandlerMixin",
     "event.MouseHandlerMixin",
     "event.MultiPlayerGameModeMixin"
   ],

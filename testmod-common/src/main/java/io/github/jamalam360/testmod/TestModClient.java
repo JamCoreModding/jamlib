@@ -21,9 +21,14 @@ public class TestModClient {
 		});
 
 		KeyMapping mapping = KeyMappingRegistry.register(new KeyMapping("test", GLFW.GLFW_KEY_M, KeyMapping.Category.GAMEPLAY));
+		KeyMapping screenMapping = KeyMappingRegistry.register(new KeyMapping("screen", GLFW.GLFW_KEY_U, KeyMapping.Category.GAMEPLAY), true);
 		ClientLevelTickEvents.POST_TICK.listen(ignored -> {
 			while (mapping.consumeClick()) {
 				TestMod.LOGGER.info("Key pressed!");
+			}
+
+			while (screenMapping.consumeClick()) {
+				TestMod.LOGGER.info("Screen key pressed!");
 			}
 		});
         PackReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, TestMod.id("test_client_resources"), new TestReloadListener("client_resources"));
