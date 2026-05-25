@@ -1,6 +1,6 @@
 [versions]
 # https://projects.neoforged.net/neoforged/neoforge
-neoforge = "26.1.2.29-beta"
+neoforge = "26.1.2.65-beta"
 
 # https://fabricmc.net/develop
 fabric-loader = "0.19.2"

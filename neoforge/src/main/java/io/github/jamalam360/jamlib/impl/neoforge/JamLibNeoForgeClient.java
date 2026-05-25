@@ -22,6 +22,7 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ import java.util.List;
 public class JamLibNeoForgeClient {
 	public JamLibNeoForgeClient(IEventBus bus) {
 		JamLibClient.init();
+		NeoForge.EVENT_BUS.addListener(this::onRegisterClientCommands);
 		bus.addListener(ClientPackReloadListenerRegistry::registerListeners);
 		bus.addListener(PlatformKeyMappingRegistryImpl::registerMappings);
 		bus.register(this);
@@ -36,7 +38,6 @@ public class JamLibNeoForgeClient {
 
 	// Commands
 	@SuppressWarnings("unchecked")
-	@SubscribeEvent
 	private void onRegisterClientCommands(RegisterClientCommandsEvent ev) {
 		ClientCommandRegistrationEvent.EVENT.invoke(l -> l.register((CommandDispatcher<ClientCommandSourceStack>) (CommandDispatcher<?>) ev.getDispatcher(), ev.getBuildContext()));
 	}
