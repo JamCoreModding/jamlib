@@ -1,5 +1,1 @@
-- Config files are no longer rewritten to the disk every time the game is launched (#31).
-- Added mouse scroll events (#29).
-- Implemented networking on Neoforge (#24).
-- Implement registration system (#25).
-- Implement keymapping registration (#28).
+- Add a resource reload listener registry.

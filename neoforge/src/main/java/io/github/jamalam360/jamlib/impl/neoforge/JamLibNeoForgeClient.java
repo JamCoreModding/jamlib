@@ -9,6 +9,7 @@ import io.github.jamalam360.jamlib.client.impl.config.ConfigScreen;
 import io.github.jamalam360.jamlib.client.impl.config.SelectConfigScreen;
 import io.github.jamalam360.jamlib.client.impl.keymapping.neoforge.PlatformKeyMappingRegistryImpl;
 import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.pack.neoforge.ClientPackReloadListenerRegistry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -24,6 +25,7 @@ import java.util.List;
 public class JamLibNeoForgeClient {
 	public JamLibNeoForgeClient(IEventBus bus) {
 		JamLibClient.init();
+		bus.addListener(ClientPackReloadListenerRegistry::registerListeners);
 		bus.addListener(PlatformKeyMappingRegistryImpl::registerMappings);
 		bus.register(this);
 	}

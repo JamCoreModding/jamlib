@@ -2,11 +2,14 @@ package io.github.jamalam360.testmod;
 
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
+import io.github.jamalam360.jamlib.api.pack.PackReloadListenerRegistry;
 import io.github.jamalam360.jamlib.client.api.events.ClientLevelTickEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
 import io.github.jamalam360.jamlib.client.api.keymapping.KeyMappingRegistry;
 import io.github.jamalam360.testmod.network.PotatoPacket;
+import io.github.jamalam360.testmod.pack.TestReloadListener;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.server.packs.PackType;
 import org.lwjgl.glfw.GLFW;
 
 public class TestModClient {
@@ -21,6 +24,7 @@ public class TestModClient {
 				TestMod.LOGGER.info("Key pressed!");
 			}
 		});
+        PackReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, TestMod.id("test_client_resources"), new TestReloadListener("client_resources"));
 
 		if (Flags.DEBUG_MOUSE_SCROLL_EVENTS) {
 			ClientMouseScrollEvents.ALWAYS.listen((m, a) -> {

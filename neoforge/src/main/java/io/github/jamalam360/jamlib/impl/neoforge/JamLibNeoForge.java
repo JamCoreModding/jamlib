@@ -4,6 +4,7 @@ import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.network.NetworkContext;
 import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.pack.neoforge.PlatformPackReloadListenerRegistryImpl;
 import io.github.jamalam360.jamlib.impl.registry.neoforge.PlatformRegistriesImpl;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,6 +17,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class JamLibNeoForge {
 	public JamLibNeoForge(IEventBus bus) {
 		JamLib.init();
+		bus.addListener(PlatformPackReloadListenerRegistryImpl::registerListeners);
 		bus.addListener(PlatformRegistriesImpl::register);
 		bus.register(this);
 	}

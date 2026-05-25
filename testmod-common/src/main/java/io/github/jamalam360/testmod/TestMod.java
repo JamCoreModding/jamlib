@@ -3,6 +3,7 @@ package io.github.jamalam360.testmod;
 import io.github.jamalam360.jamlib.api.events.InteractionEvent;
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
+import io.github.jamalam360.jamlib.api.pack.PackReloadListenerRegistry;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
 import io.github.jamalam360.jamlib.api.registry.DeferredRegistry;
@@ -13,8 +14,10 @@ import io.github.jamalam360.testmod.config.QuickerConnectButtonTestConfig;
 import io.github.jamalam360.testmod.config.TestConfig;
 import io.github.jamalam360.testmod.item.PacketPotatoItem;
 import io.github.jamalam360.testmod.network.PotatoPacket;
+import io.github.jamalam360.testmod.pack.TestReloadListener;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
@@ -49,6 +52,7 @@ public class TestMod {
                 return EventResult.pass();
             }
         }));
+        PackReloadListenerRegistry.register(PackType.SERVER_DATA, id("test_server_data"), new TestReloadListener("server_data"));
 
         ITEMS.registerEntries();
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
