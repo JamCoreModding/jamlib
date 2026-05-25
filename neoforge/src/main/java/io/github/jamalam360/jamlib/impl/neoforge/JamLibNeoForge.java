@@ -26,13 +26,13 @@ public class JamLibNeoForge {
 
 	// Commands
 	@SubscribeEvent
-	private void registerCommands(RegisterCommandsEvent event) {
+	private void onRegisterCommands(RegisterCommandsEvent event) {
 		CommandRegistrationEvent.EVENT.invoke(l -> l.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection()));
 	}
 
 	// Networking
 	@SubscribeEvent
-	private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
+	private void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1").executesOn(HandlerThread.MAIN);
 		registrar.playBidirectional(JamLibPacket.TYPE, JamLibPacket.CODEC, (payload, ctx) -> Network.receive(Network.Direction.SERVER_BOUND, new NetworkContext(ctx.player()), payload));
 	}

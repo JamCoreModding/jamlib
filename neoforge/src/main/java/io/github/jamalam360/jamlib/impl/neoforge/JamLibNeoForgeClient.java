@@ -1,9 +1,12 @@
 package io.github.jamalam360.jamlib.impl.neoforge;
 
+import com.mojang.brigadier.CommandDispatcher;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.network.NetworkContext;
+import io.github.jamalam360.jamlib.client.api.command.ClientCommandRegistrationEvent;
+import io.github.jamalam360.jamlib.client.api.command.ClientCommandSourceStack;
 import io.github.jamalam360.jamlib.client.impl.JamLibClient;
 import io.github.jamalam360.jamlib.client.impl.config.ConfigScreen;
 import io.github.jamalam360.jamlib.client.impl.config.SelectConfigScreen;
@@ -16,6 +19,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
 
@@ -30,6 +34,14 @@ public class JamLibNeoForgeClient {
 		bus.register(this);
 	}
 
+	// Commands
+	@SuppressWarnings("unchecked")
+	@SubscribeEvent
+	private void onRegisterClientCommands(RegisterClientCommandsEvent ev) {
+		ClientCommandRegistrationEvent.EVENT.invoke(l -> l.register((CommandDispatcher<ClientCommandSourceStack>) (CommandDispatcher<?>) ev.getDispatcher(), ev.getBuildContext()));
+	}
+
+	// Config
 	@SubscribeEvent
 	private void onFmlLoadComplete(FMLLoadCompleteEvent ev) {
 		ev.enqueueWork(() -> {
@@ -54,6 +66,7 @@ public class JamLibNeoForgeClient {
 		}
 	}
 
+	// Networking
 	@SubscribeEvent
 	private void onRegisterClientPayloadHandlers(RegisterClientPayloadHandlersEvent ev) {
 		ev.register(JamLibPacket.TYPE, (payload, ctx) -> Network.receive(Network.Direction.CLIENT_BOUND, new NetworkContext(ctx.player()), payload));

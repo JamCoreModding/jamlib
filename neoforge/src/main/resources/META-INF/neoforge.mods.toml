@@ -31,3 +31,6 @@ config = "jamlib.mixins.json"
 
 [[mixins]]
 config = "jamlib.client.mixins.json"
+
+[[mixins]]
+config = "jamlib.neoforge.mixins.json"
