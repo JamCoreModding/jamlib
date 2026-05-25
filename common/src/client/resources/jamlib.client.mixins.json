@@ -6,6 +6,7 @@
   "mixins": [],
   "client": [
     "ImageWidget$SpriteMixin",
+    "event.AbstractContainerScreenMixin",
     "event.ClientLevelMixin",
     "event.ClientPacketListenerMixin",
     "event.ConnectionMixin",

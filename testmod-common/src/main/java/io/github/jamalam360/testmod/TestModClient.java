@@ -3,12 +3,14 @@ package io.github.jamalam360.testmod;
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.pack.PackReloadListenerRegistry;
+import io.github.jamalam360.jamlib.client.api.events.ClientContainerRenderEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientLevelTickEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
 import io.github.jamalam360.jamlib.client.api.keymapping.KeyMappingRegistry;
 import io.github.jamalam360.testmod.network.PotatoPacket;
 import io.github.jamalam360.testmod.pack.TestReloadListener;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.PackType;
 import org.lwjgl.glfw.GLFW;
 
@@ -55,6 +57,12 @@ public class TestModClient {
 					return EventResult.pass();
 				}
 			});
+		}
+
+		if (Flags.DEBUG_CONTAINER_RENDER_EVENTS) {
+			ClientContainerRenderEvents.RENDER_FOREGROUND.listen(((screen, graphics, mouseX, mouseY, delta) -> {
+				graphics.centeredText(Minecraft.getInstance().font, "Test mod container render event", mouseX, mouseY, 0xFFFFFFFF);
+			}));
 		}
 	}
 }

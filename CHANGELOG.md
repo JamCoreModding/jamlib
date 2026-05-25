@@ -1,1 +1,2 @@
 - Add a resource reload listener registry.
+- Add container render events.

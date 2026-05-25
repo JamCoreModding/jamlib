@@ -42,20 +42,23 @@ public class TestMod {
 
         ClientPlayLifecycleEvents.JOIN.listen(client -> LOGGER.info("Joined server!"));
         ClientPlayLifecycleEvents.DISCONNECT.listen(client -> LOGGER.info("Left server!"));
-        InteractionEvent.USE_BLOCK.listen(((player, hand, pos, direction) -> {
-            LOGGER.info("Used block!");
-
-            if (player.getRandom().nextBoolean() && !player.level().isClientSide()) {
-                LOGGER.info("Cancelling interaction");
-                return EventResult.cancel(InteractionResult.PASS);
-            } else {
-                return EventResult.pass();
-            }
-        }));
         PackReloadListenerRegistry.register(PackType.SERVER_DATA, id("test_server_data"), new TestReloadListener("server_data"));
 
         ITEMS.registerEntries();
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
+
+        if (Flags.DEBUG_INTERACTION_EVENTS) {
+            InteractionEvent.USE_BLOCK.listen(((player, hand, pos, direction) -> {
+                LOGGER.info("Used block!");
+
+                if (player.getRandom().nextBoolean() && !player.level().isClientSide()) {
+                    LOGGER.info("Cancelling interaction");
+                    return EventResult.cancel(InteractionResult.PASS);
+                } else {
+                    return EventResult.pass();
+                }
+            }));
+        }
     }
 
     public static Identifier id(String path) {
