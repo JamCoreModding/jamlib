@@ -43,8 +43,6 @@ public class TestMod {
         LOGGER.info("Initializing JamLib Test Mod on {}", Platform.getModLoader());
         LOGGER.info("Fabric Loader: {}", Platform.getMod("fabricloader"));
 
-        ClientPlayLifecycleEvents.JOIN.listen(client -> LOGGER.info("Joined server!"));
-        ClientPlayLifecycleEvents.DISCONNECT.listen(client -> LOGGER.info("Left server!"));
         PackReloadListenerRegistry.register(PackType.SERVER_DATA, id("test_server_data"), new TestReloadListener("server_data"));
 
         ITEMS.registerEntries();

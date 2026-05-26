@@ -9,6 +9,7 @@ import io.github.jamalam360.jamlib.client.api.events.ClientContainerRenderEvents
 import io.github.jamalam360.jamlib.client.api.events.ClientLevelTickEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
 import io.github.jamalam360.jamlib.client.api.keymapping.KeyMappingRegistry;
+import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.network.PotatoPacket;
 import io.github.jamalam360.testmod.pack.TestReloadListener;
 import net.minecraft.client.KeyMapping;
@@ -22,6 +23,9 @@ public class TestModClient {
 		Network.registerHandler(Network.Direction.CLIENT_BOUND, PotatoPacket.TYPE, (ctx, payload) -> {
 			TestMod.LOGGER.info("Received potato packet with random: {}", payload.random());
 		});
+
+        ClientPlayLifecycleEvents.JOIN.listen(client -> TestMod.LOGGER.info("Joined server!"));
+        ClientPlayLifecycleEvents.DISCONNECT.listen(client -> TestMod.LOGGER.info("Left server!"));
 
 		KeyMapping mapping = KeyMappingRegistry.register(new KeyMapping("test", GLFW.GLFW_KEY_M, KeyMapping.Category.GAMEPLAY));
 		KeyMapping screenMapping = KeyMappingRegistry.register(new KeyMapping("screen", GLFW.GLFW_KEY_U, KeyMapping.Category.GAMEPLAY), true);
