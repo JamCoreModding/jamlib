@@ -3,6 +3,13 @@ plugins {
     id "me.shedaniel.unified-publishing" version "0.1.+"
 }
 
+loom {
+    forge {
+        mixinConfig "jamlib.mixins.json"
+        mixinConfig "jamlib.client.mixins.json"
+    }
+}
+
 architectury {
     platformSetupLoomIde()
     forge()
