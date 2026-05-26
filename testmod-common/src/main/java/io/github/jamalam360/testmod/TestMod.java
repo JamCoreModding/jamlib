@@ -23,8 +23,5 @@ public class TestMod {
         LOGGER.info("Initializing JamLib Test Mod on {}", JamLibPlatform.getPlatform());
         System.out.println(CONFIG_MANAGER.get());
         System.out.println(QCB_CONFIG.get());
-
-        ClientPlayLifecycleEvents.JOIN.register(client -> LOGGER.info("Joined server!"));
-        ClientPlayLifecycleEvents.DISCONNECT.register(client -> LOGGER.info("Left server!"));
     }
 }
