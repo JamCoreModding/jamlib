@@ -1,6 +1,6 @@
 package io.github.jamalam360.jamlib.client.impl.mixin.event;
 
-import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
+import io.github.jamalam360.jamlib.client.api.events.ClientConnectionEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
@@ -19,6 +19,6 @@ public abstract class ClientPacketListenerMixin {
 			at = @At("RETURN")
 	)
 	private void jamlib$joinServer(ClientboundLoginPacket packet, CallbackInfo ci) {
-		ClientPlayLifecycleEvents.JOIN.invoke((listener) -> listener.onJoin(Minecraft.getInstance()));
+		ClientConnectionEvents.CONNECT.invoke((listener) -> listener.onConnect(Minecraft.getInstance()));
 	}
 }

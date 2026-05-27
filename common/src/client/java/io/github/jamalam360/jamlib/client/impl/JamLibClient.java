@@ -3,7 +3,8 @@ package io.github.jamalam360.jamlib.client.impl;
 import static io.github.jamalam360.jamlib.JamLib.JAR_RENAMING_CHECKER;
 
 import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
-import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
+import io.github.jamalam360.jamlib.client.api.events.ClientConnectionEvents;
+import io.github.jamalam360.jamlib.impl.network.NetworkCapabilitiesImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,7 +14,8 @@ import org.jetbrains.annotations.ApiStatus;
 public class JamLibClient {
     @ApiStatus.Internal
     public static void init() {
-        ClientPlayLifecycleEvents.JOIN.listen(JamLibClient::onPlayerJoin);
+        ClientConnectionEvents.CONNECT.listen(JamLibClient::onPlayerJoin);
+        ClientConnectionEvents.CONNECT.listen(_ -> NetworkCapabilitiesImpl.onClientJoin());
 
         ClientMouseScrollEvents.IN_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));
         ClientMouseScrollEvents.OUT_OF_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));
@@ -21,7 +23,7 @@ public class JamLibClient {
 
     private static void onPlayerJoin(Minecraft minecraft) {
         LocalPlayer player = minecraft.player;
-        if (JAR_RENAMING_CHECKER.getSuspiciousJarsToNotifyAbout().isEmpty()) {
+        if (JAR_RENAMING_CHECKER.getSuspiciousJarsToNotifyAbout().isEmpty() || player == null) {
             return;
         }
 

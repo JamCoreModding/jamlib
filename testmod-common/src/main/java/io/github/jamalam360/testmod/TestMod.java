@@ -9,7 +9,6 @@ import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
 import io.github.jamalam360.jamlib.api.registry.DeferredRegistry;
 import io.github.jamalam360.jamlib.api.registry.RegistryObject;
-import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.config.NestedConfigChild;
 import io.github.jamalam360.testmod.config.QuickerConnectButtonTestConfig;
 import io.github.jamalam360.testmod.config.TestConfig;

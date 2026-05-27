@@ -1,6 +1,6 @@
 package io.github.jamalam360.jamlib.client.impl.mixin.event;
 
-import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
+import io.github.jamalam360.jamlib.client.api.events.ClientConnectionEvents;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
@@ -16,7 +16,7 @@ public abstract class ConnectionMixin {
 			at = @At("HEAD")
 	)
 	private void jamlib$callDisconnectEvent(ChannelHandlerContext channelHandlerContext, CallbackInfo ci) {
-		ClientPlayLifecycleEvents.DISCONNECT.invoke((listener) -> listener.onLeave(Minecraft.getInstance()));
+		ClientConnectionEvents.DISCONNECT.invoke((listener) -> listener.onDisconnect(Minecraft.getInstance()));
 	}
 
 	@Inject(
@@ -27,6 +27,6 @@ public abstract class ConnectionMixin {
 			)
 	)
 	private void jamlib$callDisconnectEvent(CallbackInfo ci) {
-		ClientPlayLifecycleEvents.DISCONNECT.invoke((listener) -> listener.onLeave(Minecraft.getInstance()));
+		ClientConnectionEvents.DISCONNECT.invoke((listener) -> listener.onDisconnect(Minecraft.getInstance()));
 	}
 }
