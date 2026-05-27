@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class PlatformPackReloadListenerRegistryImpl {
-	private static List<Listener> queue = new ArrayList<>();
+	private static final List<Listener> LISTENERS = new ArrayList<>();
 
 	public static void register(PackType type, Identifier id, Collection<Identifier> dependencies, PreparableReloadListener listener) {
 		Listener listenerObj = new Listener(id, dependencies, listener);
@@ -21,15 +21,10 @@ public class PlatformPackReloadListenerRegistryImpl {
 	}
 
 	private static void registerServerDataListener(Listener listener) {
-		if (queue == null) {
-			throw new IllegalStateException("Reload listener cannot be registered after mod initialization");
-		}
-
-		queue.add(listener);
+		LISTENERS.add(listener);
 	}
 
 	public static void registerListeners(AddServerReloadListenersEvent event) {
-		queue.forEach((l) -> l.register(event));
-		queue = null;
+		LISTENERS.forEach((l) -> l.register(event));
 	}
 }

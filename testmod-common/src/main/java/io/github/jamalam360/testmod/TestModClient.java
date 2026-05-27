@@ -8,8 +8,8 @@ import io.github.jamalam360.jamlib.client.api.command.ClientCommandRegistrationE
 import io.github.jamalam360.jamlib.client.api.events.ClientContainerRenderEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientLevelTickEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
+import io.github.jamalam360.jamlib.client.api.events.ClientPlayLifecycleEvents;
 import io.github.jamalam360.jamlib.client.api.keymapping.KeyMappingRegistry;
-import io.github.jamalam360.jamlib.events.client.ClientPlayLifecycleEvents;
 import io.github.jamalam360.testmod.network.PotatoPacket;
 import io.github.jamalam360.testmod.pack.TestReloadListener;
 import net.minecraft.client.KeyMapping;

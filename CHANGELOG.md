@@ -1,4 +1,1 @@
-- Add a resource reload listener registry.
-- Add container render events.
-- Add an option for registered keybinds to also trigger while in screens.
-- Add command registration events.
+- Fix resource reloading on Neoforge (#37)

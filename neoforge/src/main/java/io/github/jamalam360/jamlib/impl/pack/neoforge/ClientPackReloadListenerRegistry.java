@@ -6,18 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientPackReloadListenerRegistry {
-	private static List<Listener> queue = new ArrayList<>();
+	private static final List<Listener> LISTENERS = new ArrayList<>();
 
 	public static void registerClientResourcesListener(Listener listener) {
-		if (queue == null) {
-			throw new IllegalStateException("Reload listener cannot be registered after mod initialization");
-		}
-
-		queue.add(listener);
+		LISTENERS.add(listener);
 	}
 
 	public static void registerListeners(AddClientReloadListenersEvent event) {
-		queue.forEach((l) -> l.register(event));
-		queue = null;
+		LISTENERS.forEach((l) -> l.register(event));
 	}
 }
