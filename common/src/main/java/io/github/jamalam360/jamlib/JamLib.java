@@ -1,7 +1,11 @@
 package io.github.jamalam360.jamlib;
 
+import io.github.jamalam360.jamlib.api.events.ServerConnectionEvents;
+import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.impl.JarRenamingChecker;
+import io.github.jamalam360.jamlib.impl.network.CapabilitiesPacket;
+import io.github.jamalam360.jamlib.impl.network.NetworkCapabilitiesImpl;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
@@ -19,6 +23,10 @@ public class JamLib {
     public static void init() {
 	    LOGGER.info("Initializing JamLib on {}", Platform.getModLoader());
         checkForJarRenaming(JamLib.class);
+
+        ServerConnectionEvents.CONNECT.listen(NetworkCapabilitiesImpl::onPlayerJoin);
+        Network.registerPayloadType(CapabilitiesPacket.TYPE, CapabilitiesPacket.INSTANCE);
+        Network.registerHandler(Network.Direction.SERVER_BOUND, CapabilitiesPacket.TYPE, NetworkCapabilitiesImpl::handleCapabilities);
     }
 
     /**

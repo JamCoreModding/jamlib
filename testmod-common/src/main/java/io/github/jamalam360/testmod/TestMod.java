@@ -5,6 +5,8 @@ import io.github.jamalam360.jamlib.api.events.InteractionEvent;
 import io.github.jamalam360.jamlib.api.events.ServerConnectionEvents;
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
+import io.github.jamalam360.jamlib.api.network.NetworkEvents;
+import io.github.jamalam360.jamlib.api.network.PayloadType;
 import io.github.jamalam360.jamlib.api.pack.PackReloadListenerRegistry;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
@@ -50,6 +52,12 @@ public class TestMod {
 
         ITEMS.registerEntries();
         Network.registerPayloadType(PotatoPacket.TYPE, PotatoPacket.INSTANCE);
+
+        NetworkEvents.CLIENT_CAPABILITIES_HANDSHAKE_COMPLETED.listen(p -> {
+            boolean recvPotato = Network.getPlayerCapability(p).canReceive(PotatoPacket.TYPE);
+            boolean recvFake = Network.getPlayerCapability(p).canReceive(new PayloadType<>(id("fake_packet")));
+            TestMod.LOGGER.info("Capabilities handshake with client completed! Can receive potato packet: {}, can receive fake packet: {}", recvPotato, recvFake);
+        });
 
         CommandRegistrationEvent.EVENT.listen((dispatcher, context, selection) -> {
             dispatcher.register(Commands.literal("hello").executes(c -> {

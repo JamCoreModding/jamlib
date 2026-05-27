@@ -2,6 +2,7 @@ package io.github.jamalam360.testmod;
 
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
+import io.github.jamalam360.jamlib.api.network.PayloadType;
 import io.github.jamalam360.jamlib.api.pack.PackReloadListenerRegistry;
 import io.github.jamalam360.jamlib.client.api.command.ClientCommandBuilders;
 import io.github.jamalam360.jamlib.client.api.command.ClientCommandRegistrationEvent;
@@ -10,6 +11,7 @@ import io.github.jamalam360.jamlib.client.api.events.ClientLevelTickEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientConnectionEvents;
 import io.github.jamalam360.jamlib.client.api.keymapping.KeyMappingRegistry;
+import io.github.jamalam360.jamlib.client.api.network.ClientNetworkEvents;
 import io.github.jamalam360.testmod.network.PotatoPacket;
 import io.github.jamalam360.testmod.pack.TestReloadListener;
 import net.minecraft.client.KeyMapping;
@@ -23,6 +25,12 @@ public class TestModClient {
 		Network.registerHandler(Network.Direction.CLIENT_BOUND, PotatoPacket.TYPE, (ctx, payload) -> {
 			TestMod.LOGGER.info("Received potato packet with random: {}", payload.random());
 		});
+
+        ClientNetworkEvents.SERVER_CAPABILITIES_HANDSHAKE_COMPLETED.listen(() -> {
+            boolean recvPotato = Network.getServerCapability().canReceive(PotatoPacket.TYPE);
+            boolean recvFake = Network.getServerCapability().canReceive(new PayloadType<>(TestMod.id("fake_packet")));
+            TestMod.LOGGER.info("Capabilities handshake with server completed! Can receive potato packet: {}, can receive fake packet: {}", recvPotato, recvFake);
+        });
 
         ClientConnectionEvents.CONNECT.listen(client -> TestMod.LOGGER.info("[C] Joined server!"));
         ClientConnectionEvents.DISCONNECT.listen(client -> TestMod.LOGGER.info("[C] Left server!"));

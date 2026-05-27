@@ -1,1 +1,2 @@
 - Add ServerConnectionEvents.
+- Add capabilities handshake system.

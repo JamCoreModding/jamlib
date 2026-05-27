@@ -2,7 +2,9 @@ package io.github.jamalam360.jamlib.api.network;
 
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.network.NetworkCapabilitiesImpl;
 import io.github.jamalam360.jamlib.impl.network.PlatformNetwork;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -46,6 +48,25 @@ public class Network {
 
 		types.put(id, type);
 		JamLib.LOGGER.info("Registered network payload type {}", id.id());
+	}
+
+	/**
+	 * Gets the network capability of the logical server that the client is currently connected to.
+	 * Should only be called client-side.
+	 * @return The server's network capability.
+	 */
+	public static NetworkCapability getServerCapability() {
+		return NetworkCapabilitiesImpl.getServerCapability();
+	}
+
+	/**
+	 * Gets the network capability of a player connected to the server.
+	 * Should only be called server-side.
+	 * @param player The player to get the capability of.
+	 * @return The player's network capability.
+	 */
+	public static NetworkCapability getPlayerCapability(ServerPlayer player) {
+		return NetworkCapabilitiesImpl.getPlayerCapability(player);
 	}
 
     /**
@@ -97,6 +118,11 @@ public class Network {
 		NetworkPayloadType<T> type = (NetworkPayloadType<T>) types.get(packet.payloadType());
 		NetworkPayloadHandler<T> handler = (NetworkPayloadHandler<T>) handlers.get(packet.payloadType());
 		handler.handle(context, type.getDeserializer().deserialize(packet.payload()));
+	}
+
+	@ApiStatus.Internal
+	public static List<Identifier> getRegisteredHandlerTypes(Direction direction) {
+		return (direction == Direction.CLIENT_BOUND ? clientBoundHandlers : serverBoundHandlers).keySet().stream().map(PayloadType::id).toList();
 	}
 
 	public enum Direction {
