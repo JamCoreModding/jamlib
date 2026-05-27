@@ -5,8 +5,7 @@ plugins {
 
 loom {
     forge {
-        mixinConfig "jamlib.mixins.json"
-        mixinConfig "jamlib.client.mixins.json"
+        mixinConfigs "jamlib.mixins.json", "jamlib.client.mixins.json"
     }
 }
 
