@@ -1,1 +1,1 @@
-- Fix resource reloading on Neoforge (#37)
+- Add ServerConnectionEvents.

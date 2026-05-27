@@ -2,6 +2,7 @@ package io.github.jamalam360.testmod;
 
 import io.github.jamalam360.jamlib.api.events.CommandRegistrationEvent;
 import io.github.jamalam360.jamlib.api.events.InteractionEvent;
+import io.github.jamalam360.jamlib.api.events.ServerConnectionEvents;
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.pack.PackReloadListenerRegistry;
@@ -41,6 +42,9 @@ public class TestMod {
     public static void init() {
         LOGGER.info("Initializing JamLib Test Mod on {}", Platform.getModLoader());
         LOGGER.info("Fabric Loader: {}", Platform.getMod("fabricloader"));
+
+        ServerConnectionEvents.CONNECT.listen(client -> TestMod.LOGGER.info("[S] Joined server!"));
+        ServerConnectionEvents.DISCONNECT.listen(client -> TestMod.LOGGER.info("[S] Left server!"));
 
         PackReloadListenerRegistry.register(PackType.SERVER_DATA, id("test_server_data"), new TestReloadListener("server_data"));
 

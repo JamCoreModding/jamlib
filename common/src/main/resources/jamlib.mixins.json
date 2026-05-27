@@ -4,6 +4,7 @@
   "package": "io.github.jamalam360.jamlib.impl.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "event.PlayerListMixin",
     "event.ServerPlayerGameModeMixin"
   ],
   "client": [

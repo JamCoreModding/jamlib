@@ -24,8 +24,8 @@ public class TestModClient {
 			TestMod.LOGGER.info("Received potato packet with random: {}", payload.random());
 		});
 
-        ClientConnectionEvents.CONNECT.listen(client -> TestMod.LOGGER.info("Joined server!"));
-        ClientConnectionEvents.DISCONNECT.listen(client -> TestMod.LOGGER.info("Left server!"));
+        ClientConnectionEvents.CONNECT.listen(client -> TestMod.LOGGER.info("[C] Joined server!"));
+        ClientConnectionEvents.DISCONNECT.listen(client -> TestMod.LOGGER.info("[C] Left server!"));
 
 		KeyMapping mapping = KeyMappingRegistry.register(new KeyMapping("test", GLFW.GLFW_KEY_M, KeyMapping.Category.GAMEPLAY));
 		KeyMapping screenMapping = KeyMappingRegistry.register(new KeyMapping("screen", GLFW.GLFW_KEY_U, KeyMapping.Category.GAMEPLAY), true);
