@@ -17,7 +17,7 @@ public class ClientNetworkCapabilitiesImpl {
 		payload.capabilities().forEach(capability::addSupportedPayloadType);
 		List<Identifier> clientCapabilities = Network.getRegisteredHandlerTypes(Network.Direction.CLIENT_BOUND);
 		Network.sendToServer(CapabilitiesPacket.TYPE, new CapabilitiesPacket.Payload(clientCapabilities));
-		JamLib.LOGGER.info("Received {} network capabilities from server, responded with {}", payload.capabilities().size(), clientCapabilities.size());
+		JamLib.LOGGER.info("Received {} network {} from server (responded with {})", payload.capabilities().size(), payload.capabilities().size() > 1 ? "capabilities" : "capability", clientCapabilities.size());
 		ClientNetworkEvents.SERVER_CAPABILITIES_HANDSHAKE_COMPLETED.invoke(ClientNetworkEvents.ServerCapabilitiesHandshakeCompleted::onServerCapabilitiesHandshakeCompleted);
 	}
 }

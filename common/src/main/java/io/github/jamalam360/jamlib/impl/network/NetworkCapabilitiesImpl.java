@@ -46,14 +46,14 @@ public class NetworkCapabilitiesImpl {
 
 	public static void onPlayerJoin(ServerPlayer player) {
 		List<Identifier> capabilities = Network.getRegisteredHandlerTypes(Network.Direction.SERVER_BOUND);
-		JamLib.LOGGER.info("Sending {} network capabilities to {}", capabilities.size(), player.getName().getString());
+		JamLib.LOGGER.info("Sending {} network {} to {}", capabilities.size(), capabilities.size() > 1 ? "capabilities" : "capability", player.getName().getString());
 		Network.sendToClient(player, CapabilitiesPacket.TYPE, new CapabilitiesPacket.Payload(capabilities));
 	}
 
 	public static void handleCapabilities(NetworkContext context, CapabilitiesPacket.Payload payload) {
 		NetworkCapabilityImpl capabilities = getOrCreatePlayerCapability((ServerPlayer) context.player());
 		payload.capabilities().forEach(capabilities::addSupportedPayloadType);
-		JamLib.LOGGER.info("Received {} capabilities from {}", payload.capabilities().size(), context.player().getName().getString());
+		JamLib.LOGGER.info("Received {} {} from {}", payload.capabilities().size(), payload.capabilities().size() > 1 ? "capabilities" : "capability", context.player().getName().getString());
 		NetworkEvents.CLIENT_CAPABILITIES_HANDSHAKE_COMPLETED.invoke(l -> l.onClientCapabilitiesHandshakeCompleted((ServerPlayer) context.player()));
 	}
 }
