@@ -2,9 +2,10 @@ package io.github.jamalam360.jamlib.impl.fabric;
 
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.events.CommandRegistrationEvent;
-import io.github.jamalam360.jamlib.api.network.Network;
-import io.github.jamalam360.jamlib.api.network.NetworkContext;
+import io.github.jamalam360.jamlib.api.network.PacketDirection;
 import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.network.NetworkImpl;
+import io.github.jamalam360.jamlib.impl.network.fabric.FabricServerNetworkContext;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -22,6 +23,6 @@ public class JamLibFabric implements ModInitializer {
         // Networking
         PayloadTypeRegistry.serverboundPlay().register(JamLibPacket.TYPE, JamLibPacket.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(JamLibPacket.TYPE, JamLibPacket.CODEC);
-        ServerPlayNetworking.registerGlobalReceiver(JamLibPacket.TYPE, (payload, ctx) -> Network.receive(Network.Direction.SERVER_BOUND, new NetworkContext(ctx.player()), payload));
+        ServerPlayNetworking.registerGlobalReceiver(JamLibPacket.TYPE, (payload, ctx) -> NetworkImpl.receive(PacketDirection.SERVERBOUND, new FabricServerNetworkContext(ctx), payload));
     }
 }

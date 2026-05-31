@@ -2,9 +2,10 @@ package io.github.jamalam360.jamlib.impl.neoforge;
 
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.events.CommandRegistrationEvent;
-import io.github.jamalam360.jamlib.api.network.Network;
-import io.github.jamalam360.jamlib.api.network.NetworkContext;
+import io.github.jamalam360.jamlib.api.network.PacketDirection;
 import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.network.NetworkImpl;
+import io.github.jamalam360.jamlib.impl.network.neoforge.NeoForgeNetworkContext;
 import io.github.jamalam360.jamlib.impl.pack.neoforge.PlatformPackReloadListenerRegistryImpl;
 import io.github.jamalam360.jamlib.impl.registry.neoforge.PlatformRegistriesImpl;
 import net.neoforged.bus.api.IEventBus;
@@ -35,6 +36,6 @@ public class JamLibNeoForge {
 	@SubscribeEvent
 	private void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1").executesOn(HandlerThread.MAIN);
-		registrar.playBidirectional(JamLibPacket.TYPE, JamLibPacket.CODEC, (payload, ctx) -> Network.receive(Network.Direction.SERVER_BOUND, new NetworkContext(ctx.player()), payload));
+		registrar.playBidirectional(JamLibPacket.TYPE, JamLibPacket.CODEC, (payload, ctx) -> NetworkImpl.receive(PacketDirection.SERVERBOUND, new NeoForgeNetworkContext(ctx), payload));
 	}
 }

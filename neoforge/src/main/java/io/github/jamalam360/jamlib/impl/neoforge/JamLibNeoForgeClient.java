@@ -3,8 +3,7 @@ package io.github.jamalam360.jamlib.impl.neoforge;
 import com.mojang.brigadier.CommandDispatcher;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.config.ConfigManager;
-import io.github.jamalam360.jamlib.api.network.Network;
-import io.github.jamalam360.jamlib.api.network.NetworkContext;
+import io.github.jamalam360.jamlib.api.network.PacketDirection;
 import io.github.jamalam360.jamlib.client.api.command.ClientCommandRegistrationEvent;
 import io.github.jamalam360.jamlib.client.api.command.ClientCommandSourceStack;
 import io.github.jamalam360.jamlib.client.impl.JamLibClient;
@@ -12,6 +11,8 @@ import io.github.jamalam360.jamlib.client.impl.config.ConfigScreen;
 import io.github.jamalam360.jamlib.client.impl.config.SelectConfigScreen;
 import io.github.jamalam360.jamlib.client.impl.keymapping.neoforge.PlatformKeyMappingRegistryImpl;
 import io.github.jamalam360.jamlib.impl.network.JamLibPacket;
+import io.github.jamalam360.jamlib.impl.network.NetworkImpl;
+import io.github.jamalam360.jamlib.impl.network.neoforge.NeoForgeNetworkContext;
 import io.github.jamalam360.jamlib.impl.pack.neoforge.ClientPackReloadListenerRegistry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -70,6 +71,6 @@ public class JamLibNeoForgeClient {
 	// Networking
 	@SubscribeEvent
 	private void onRegisterClientPayloadHandlers(RegisterClientPayloadHandlersEvent ev) {
-		ev.register(JamLibPacket.TYPE, (payload, ctx) -> Network.receive(Network.Direction.CLIENT_BOUND, new NetworkContext(ctx.player()), payload));
+		ev.register(JamLibPacket.TYPE, (payload, ctx) -> NetworkImpl.receive(PacketDirection.CLIENTBOUND, new NeoForgeNetworkContext(ctx), payload));
 	}
 }

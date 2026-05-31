@@ -2,6 +2,7 @@ package io.github.jamalam360.jamlib;
 
 import io.github.jamalam360.jamlib.api.events.ServerConnectionEvents;
 import io.github.jamalam360.jamlib.api.network.Network;
+import io.github.jamalam360.jamlib.api.network.PacketDirection;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import io.github.jamalam360.jamlib.impl.JarRenamingChecker;
 import io.github.jamalam360.jamlib.impl.network.CapabilitiesPacket;
@@ -25,8 +26,7 @@ public class JamLib {
         checkForJarRenaming(JamLib.class);
 
         ServerConnectionEvents.CONNECT.listen(NetworkCapabilitiesImpl::onPlayerJoin);
-        Network.registerPayloadType(CapabilitiesPacket.TYPE, CapabilitiesPacket.INSTANCE);
-        Network.registerHandler(Network.Direction.SERVER_BOUND, CapabilitiesPacket.TYPE, NetworkCapabilitiesImpl::handleCapabilities);
+        Network.registerHandler(PacketDirection.SERVERBOUND, CapabilitiesPacket.KIND, NetworkCapabilitiesImpl::handleCapabilities);
     }
 
     /**

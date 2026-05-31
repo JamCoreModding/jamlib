@@ -4,7 +4,10 @@ import net.minecraft.world.entity.player.Player;
 
 /**
  * Context passed to a {@link NetworkPayloadHandler}.
- * @param player The player who received or sent the packet.
  */
-public record NetworkContext(Player player) {
+public interface NetworkContext {
+	/**
+	 * @return The player associated with the received packet.
+	 */
+	Player getPlayer();
 }

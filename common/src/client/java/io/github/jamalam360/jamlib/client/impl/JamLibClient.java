@@ -1,10 +1,9 @@
 package io.github.jamalam360.jamlib.client.impl;
 
-import static io.github.jamalam360.jamlib.JamLib.JAR_RENAMING_CHECKER;
-
 import io.github.jamalam360.jamlib.api.network.Network;
-import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
+import io.github.jamalam360.jamlib.api.network.PacketDirection;
 import io.github.jamalam360.jamlib.client.api.events.ClientConnectionEvents;
+import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
 import io.github.jamalam360.jamlib.client.impl.network.ClientNetworkCapabilitiesImpl;
 import io.github.jamalam360.jamlib.impl.network.CapabilitiesPacket;
 import net.minecraft.ChatFormatting;
@@ -12,6 +11,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
+
+import static io.github.jamalam360.jamlib.JamLib.JAR_RENAMING_CHECKER;
 
 public class JamLibClient {
     @ApiStatus.Internal
@@ -21,7 +22,7 @@ public class JamLibClient {
         ClientMouseScrollEvents.IN_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));
         ClientMouseScrollEvents.OUT_OF_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));
 
-        Network.registerHandler(Network.Direction.CLIENT_BOUND, CapabilitiesPacket.TYPE, ClientNetworkCapabilitiesImpl::handleServerCapabilities);
+        Network.registerHandler(PacketDirection.CLIENTBOUND, CapabilitiesPacket.KIND, ClientNetworkCapabilitiesImpl::handleServerCapabilities);
     }
 
     private static void onPlayerJoin(Minecraft minecraft) {
