@@ -5,8 +5,16 @@ package io.github.jamalam360.jamlib.api.network;
  */
 public interface NetworkCapability {
 	/**
-	 * @param type The type of payload to check for.
-	 * @return {@code true} if the connection that this capability represents can handle the packet type.
+	 * @param kind The packet kind to check for.
+	 * @return {@code true} if the connection that this capability represents can handle the packet kind.
 	 */
-	boolean canReceive(PayloadType<?> type);
+	default boolean canReceive(PacketKind<?> kind) {
+		return this.canReceive(kind.getIdentifier());
+	}
+
+	/**
+	 * @param identifier The identifier of packet kind to check for.
+	 * @return {@code true} if the connection that this capability represents can handle the packet kind.
+	 */
+	boolean canReceive(PacketIdentifier identifier);
 }

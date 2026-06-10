@@ -4,6 +4,7 @@ import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.network.NetworkContext;
 import io.github.jamalam360.jamlib.api.network.NetworkEvents;
+import io.github.jamalam360.jamlib.api.network.PacketDirection;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -45,15 +46,15 @@ public class NetworkCapabilitiesImpl {
 	}
 
 	public static void onPlayerJoin(ServerPlayer player) {
-		List<Identifier> capabilities = Network.getRegisteredHandlerTypes(Network.Direction.SERVER_BOUND);
+		List<Identifier> capabilities = NetworkImpl.getRegisteredHandlerTypes(PacketDirection.SERVERBOUND);
 		JamLib.LOGGER.info("Sending {} network {} to {}", capabilities.size(), capabilities.size() > 1 ? "capabilities" : "capability", player.getName().getString());
-		Network.sendToClient(player, CapabilitiesPacket.TYPE, new CapabilitiesPacket.Payload(capabilities));
+		Network.sendToClient(player, new CapabilitiesPacket(capabilities));
 	}
 
-	public static void handleCapabilities(NetworkContext context, CapabilitiesPacket.Payload payload) {
-		NetworkCapabilityImpl capabilities = getOrCreatePlayerCapability((ServerPlayer) context.player());
+	public static void handleCapabilities(NetworkContext context, CapabilitiesPacket payload) {
+		NetworkCapabilityImpl capabilities = getOrCreatePlayerCapability((ServerPlayer) context.getPlayer());
 		payload.capabilities().forEach(capabilities::addSupportedPayloadType);
-		JamLib.LOGGER.info("Received {} {} from {}", payload.capabilities().size(), payload.capabilities().size() > 1 ? "capabilities" : "capability", context.player().getName().getString());
-		NetworkEvents.CLIENT_CAPABILITIES_HANDSHAKE_COMPLETED.invoke(l -> l.onClientCapabilitiesHandshakeCompleted((ServerPlayer) context.player()));
+		JamLib.LOGGER.info("Received {} {} from {}", payload.capabilities().size(), payload.capabilities().size() > 1 ? "capabilities" : "capability", context.getPlayer().getName().getString());
+		NetworkEvents.CLIENT_CAPABILITIES_HANDSHAKE_COMPLETED.invoke(l -> l.onClientCapabilitiesHandshakeCompleted((ServerPlayer) context.getPlayer()));
 	}
 }

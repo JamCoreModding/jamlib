@@ -1,22 +1,25 @@
 package io.github.jamalam360.testmod.network;
 
-import io.github.jamalam360.jamlib.api.network.PayloadType;
-import io.github.jamalam360.jamlib.api.network.StreamCodecNetworkPayloadType;
+import io.github.jamalam360.jamlib.api.network.PacketKind;
+import io.github.jamalam360.jamlib.api.network.PacketPayload;
 import io.github.jamalam360.testmod.TestMod;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
-public class PotatoPacket implements StreamCodecNetworkPayloadType<PotatoPacket.Payload> {
-	public static final PotatoPacket INSTANCE = new PotatoPacket();
-	public static final PayloadType<PotatoPacket.Payload> TYPE = new PayloadType<>(TestMod.id("potato"));
+public record PotatoPacket(int random) implements PacketPayload<PotatoPacket> {
+	public static final StreamCodec<RegistryFriendlyByteBuf, PotatoPacket> STREAM_CODEC = StreamCodec.of(
+		(buf, payload) -> buf.writeInt(payload.random()),
+		(buf) -> new PotatoPacket(buf.readInt())
+	);
+	public static final PacketKind<PotatoPacket> KIND = PacketKind.of(TestMod.id("potato"), STREAM_CODEC);
 
 	@Override
-	public StreamCodec<RegistryFriendlyByteBuf, Payload> getStreamCodec() {
-		return StreamCodec.of(
-				(buf, payload) -> buf.writeInt(payload.random()),
-				(buf) -> new Payload(buf.readInt())
-		);
+	public PacketKind<PotatoPacket> getKind() {
+		return KIND;
 	}
 
-	public record Payload(int random) {}
+	@Override
+	public PotatoPacket getPayload() {
+		return this;
+	}
 }

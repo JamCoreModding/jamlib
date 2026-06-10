@@ -2,7 +2,8 @@ package io.github.jamalam360.testmod;
 
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
-import io.github.jamalam360.jamlib.api.network.PayloadType;
+import io.github.jamalam360.jamlib.api.network.PacketDirection;
+import io.github.jamalam360.jamlib.api.network.PacketIdentifier;
 import io.github.jamalam360.jamlib.api.pack.PackReloadListenerRegistry;
 import io.github.jamalam360.jamlib.client.api.command.ClientCommandBuilders;
 import io.github.jamalam360.jamlib.client.api.command.ClientCommandRegistrationEvent;
@@ -22,13 +23,13 @@ import org.lwjgl.glfw.GLFW;
 
 public class TestModClient {
 	public static void init() {
-		Network.registerHandler(Network.Direction.CLIENT_BOUND, PotatoPacket.TYPE, (ctx, payload) -> {
+		Network.registerHandler(PacketDirection.CLIENTBOUND, PotatoPacket.KIND, (ctx, payload) -> {
 			TestMod.LOGGER.info("Received potato packet with random: {}", payload.random());
 		});
 
         ClientNetworkEvents.SERVER_CAPABILITIES_HANDSHAKE_COMPLETED.listen(() -> {
-            boolean recvPotato = Network.getServerCapability().canReceive(PotatoPacket.TYPE);
-            boolean recvFake = Network.getServerCapability().canReceive(new PayloadType<>(TestMod.id("fake_packet")));
+            boolean recvPotato = Network.getServerCapability().canReceive(PotatoPacket.KIND);
+            boolean recvFake = Network.getServerCapability().canReceive(new PacketIdentifier(TestMod.id("fake_packet")));
             TestMod.LOGGER.info("Capabilities handshake with server completed! Can receive potato packet: {}, can receive fake packet: {}", recvPotato, recvFake);
         });
 
