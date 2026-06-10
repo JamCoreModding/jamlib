@@ -1,2 +1,3 @@
 - Add ServerConnectionEvents.
 - Add capabilities handshake system.
+- Add logical server lifecycle events (#38).
