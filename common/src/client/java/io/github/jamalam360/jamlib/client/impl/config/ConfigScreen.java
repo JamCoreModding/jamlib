@@ -9,13 +9,13 @@ import io.github.jamalam360.jamlib.api.config.HiddenInGui;
 import io.github.jamalam360.jamlib.api.platform.ModInfo;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.locale.Language;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
@@ -56,7 +56,7 @@ public class ConfigScreen<T> extends Screen {
     protected static Component createTitle(ConfigManager<?> manager) {
         String translationKey = createTranslationKey(manager.getModId(), manager.getConfigName(), "title");
 
-        if (I18n.exists(translationKey)) {
+        if (Language.getInstance().has(translationKey)) {
             return Component.translatable(translationKey);
         } else {
             return Component.literal(Platform.getMod(manager.getModId()).map(ModInfo::modName).orElse("Unknown"));
@@ -69,7 +69,7 @@ public class ConfigScreen<T> extends Screen {
 
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, button -> {
             this.manager.reloadFromDisk();
-            Objects.requireNonNull(this.minecraft).setScreen(this.parent);
+            Objects.requireNonNull(this.minecraft).gui.setScreen(this.parent);
         }).pos(this.width / 2 - 154, this.height - 28).size(150, 20).build());
 
         this.doneButton = this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> {
@@ -77,7 +77,7 @@ public class ConfigScreen<T> extends Screen {
                 this.manager.save();
             }
 
-            Objects.requireNonNull(this.minecraft).setScreen(this.parent);
+            Objects.requireNonNull(this.minecraft).gui.setScreen(this.parent);
         }).pos(this.width / 2 + 4, this.height - 28).size(150, 20).build());
 
         SpriteIconButton editManuallyButton = this.addRenderableWidget(
@@ -87,7 +87,7 @@ public class ConfigScreen<T> extends Screen {
                     }
 
                     Util.getPlatform().openFile(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5").toFile());
-                    Objects.requireNonNull(this.minecraft).setScreen(this.parent);
+                    Objects.requireNonNull(this.minecraft).gui.setScreen(this.parent);
                 }, true).sprite(JamLib.id("writable_book"), 16, 16).size(20, 20).build()
         );
         editManuallyButton.setX(7);

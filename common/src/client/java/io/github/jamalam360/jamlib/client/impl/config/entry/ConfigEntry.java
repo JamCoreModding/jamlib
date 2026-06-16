@@ -12,7 +12,7 @@ import net.minecraft.client.gui.components.ImageWidget;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +61,7 @@ public abstract class ConfigEntry<T, V> {
 		this.originalValue = this.cloneObject(this.getFieldValue());
 		this.translationKey = ConfigScreen.createTranslationKey(modId, configName, field.getName());
 
-		if (I18n.exists(this.translationKey + ".tooltip")) {
+		if (Language.getInstance().has(this.translationKey + ".tooltip")) {
 			this.tooltip = Component.translatable(this.translationKey + ".tooltip");
 		} else {
 			this.tooltip = null;

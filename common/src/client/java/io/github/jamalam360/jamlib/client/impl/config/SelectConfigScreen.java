@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
@@ -30,7 +30,7 @@ public class SelectConfigScreen extends Screen {
     private static Component createTitle(String modId) {
         String translationKey = "config." + modId + ".title";
 
-        if (I18n.exists(translationKey)) {
+        if (Language.getInstance().has(translationKey)) {
             return Component.translatable(translationKey);
         } else {
             return Component.translatable("config.jamlib.selection_screen_title", Platform.getMod(modId).map(ModInfo::modName).orElse("Unknown"));
@@ -41,7 +41,7 @@ public class SelectConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> Objects.requireNonNull(this.minecraft).setScreen(this.parent)).pos(this.width / 2 - 75, this.height - 28).size(150, 20).build());
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> Objects.requireNonNull(this.minecraft).gui.setScreen(this.parent)).pos(this.width / 2 - 75, this.height - 28).size(150, 20).build());
 
         ConfigSelectionList list = new ConfigSelectionList(this.minecraft, this.width, this.height - 64, 32, 25);
         ConfigManager.MANAGERS.values().stream().filter(m -> m.getModId().equals(this.modId)).forEach(list::addEntry);
@@ -63,7 +63,7 @@ public class SelectConfigScreen extends Screen {
             List<FormattedCharSequence> tooltip = null;
             String tooltipTranslationKey = ConfigScreen.createTranslationKey(manager.getModId(), manager.getConfigName(), "tooltip");
 
-            if (I18n.exists(tooltipTranslationKey)) {
+            if (Language.getInstance().has(tooltipTranslationKey)) {
                 tooltip = Minecraft.getInstance().font.split(Component.translatable(tooltipTranslationKey), 200);
             }
 
@@ -71,7 +71,7 @@ public class SelectConfigScreen extends Screen {
                   ConfigScreen.createTitle(manager),
                   tooltip,
                   List.of(
-                        Button.builder(Component.translatable("config.jamlib.open"), b -> this.minecraft.setScreen(new ConfigScreen<>(manager, this.minecraft.screen))).pos(this.width - 160, this.height - 28).size(150, 20).build()
+                        Button.builder(Component.translatable("config.jamlib.open"), b -> this.minecraft.gui.setScreen(new ConfigScreen<>(manager, this.minecraft.gui.screen()))).pos(this.width - 160, this.height - 28).size(150, 20).build()
                   )
             ));
         }

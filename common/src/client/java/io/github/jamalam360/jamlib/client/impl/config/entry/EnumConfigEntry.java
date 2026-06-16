@@ -2,7 +2,7 @@ package io.github.jamalam360.jamlib.client.impl.config.entry;
 
 import io.github.jamalam360.jamlib.client.impl.config.ConfigScreen;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +47,7 @@ public class EnumConfigEntry<T, V extends Enum<V>> extends ConfigEntry<T, V> {
 	private Component getComponent() {
 		String translationKey = ConfigScreen.createTranslationKey(this.configManager.getModId(), this.configManager.getConfigName(), field.getBackingField().getName() + "." + this.getFieldValue().name().toLowerCase());
 
-		if (I18n.exists(translationKey)) {
+		if (Language.getInstance().has(translationKey)) {
 			return Component.translatable(translationKey);
 		} else {
 			return Component.literal(this.getFieldValue().name());
