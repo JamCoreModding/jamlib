@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ClientNetworkCapabilitiesImpl {
 	public static void handleServerCapabilities(NetworkContext ctx, CapabilitiesPacket payload) {
-		NetworkCapabilityImpl capability = NetworkCapabilitiesImpl.getOrCreateServerCapability();
+		NetworkCapabilityImpl capability = NetworkCapabilitiesImpl.getServerCapability();
 		payload.capabilities().forEach(capability::addSupportedPayloadType);
 		List<Identifier> clientCapabilities = NetworkImpl.getRegisteredHandlerTypes(PacketDirection.CLIENTBOUND);
 		Network.sendToServer(new CapabilitiesPacket(clientCapabilities));
