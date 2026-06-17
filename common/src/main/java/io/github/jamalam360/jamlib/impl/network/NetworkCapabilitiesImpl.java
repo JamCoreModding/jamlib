@@ -36,8 +36,13 @@ public class NetworkCapabilitiesImpl {
 
 	public static void onPlayerJoin(ServerPlayer player) {
 		List<Identifier> capabilities = NetworkImpl.getRegisteredHandlerTypes(PacketDirection.SERVERBOUND);
-		JamLib.LOGGER.info("Sending {} network {} to {}", capabilities.size(), capabilities.size() > 1 ? "capabilities" : "capability", player.getName().getString());
-		Network.sendToClient(player, new CapabilitiesPacket(capabilities));
+
+		if (PlatformNetwork.canClientReceiveJamLibPackets(player)) {
+			JamLib.LOGGER.info("Sending {} network {} to {}", capabilities.size(), capabilities.size() > 1 ? "capabilities" : "capability", player.getName().getString());
+			Network.sendToClient(player, new CapabilitiesPacket(capabilities));
+		} else {
+			JamLib.LOGGER.info("Not sending network capabilities to {} as JamLib is not installed", player.getName().getString());
+		}
 	}
 
 	public static void handleCapabilities(NetworkContext context, CapabilitiesPacket payload) {

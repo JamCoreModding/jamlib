@@ -28,4 +28,8 @@ public class PlatformNetworkImpl {
 		JamLibPacket packet = new JamLibPacket(kind.getIdentifier(), payloadData);
 		PacketDistributor.sendToPlayer(target, packet);
 	}
+
+	public static boolean canClientReceiveJamLibPackets(ServerPlayer target) {
+		return target.connection.hasChannel(JamLibPacket.JAMLIB_PACKET_ID);
+	}
 }
