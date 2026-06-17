@@ -14,22 +14,11 @@ import java.util.Map;
 
 public class NetworkCapabilitiesImpl {
 	private static final Map<ServerPlayer, NetworkCapabilityImpl> PLAYER_CAPABILITIES = new HashMap<>();
-	private static NetworkCapabilityImpl serverCapability = null;
+	// Only used client-side
+	private static final NetworkCapabilityImpl SERVER_CAPABILITY = new NetworkCapabilityImpl();
 
 	public static NetworkCapabilityImpl getServerCapability() {
-		if (serverCapability == null) {
-			JamLib.LOGGER.warn("Server capability has not been initialized yet - was getServerCapability called on the server?");
-		}
-
-		return serverCapability;
-	}
-
-	public static NetworkCapabilityImpl getOrCreateServerCapability() {
-		if (serverCapability == null) {
-			serverCapability = new NetworkCapabilityImpl();
-		}
-
-		return serverCapability;
+		return SERVER_CAPABILITY;
 	}
 
 	public static NetworkCapabilityImpl getPlayerCapability(ServerPlayer player) {

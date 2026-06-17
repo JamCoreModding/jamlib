@@ -1,1 +1,1 @@
-Update to 26.2
+- Fix network capability crash when connecting to a modded server (#41).
