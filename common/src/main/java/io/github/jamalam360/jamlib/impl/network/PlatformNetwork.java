@@ -16,4 +16,9 @@ public class PlatformNetwork {
 	public static <T> void sendToClient(ServerPlayer target, PacketKind<T> kind, T payload) {
 		JamLib.expectPlatform();
 	}
+
+	@ExpectPlatform
+	public static boolean canClientReceiveJamLibPackets(ServerPlayer target) {
+		return JamLib.expectPlatform();
+	}
 }
