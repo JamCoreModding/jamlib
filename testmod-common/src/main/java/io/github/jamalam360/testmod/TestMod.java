@@ -39,7 +39,7 @@ public class TestMod {
     public static final ConfigManager<NestedConfigChild> NESTED_CONFIG = new ConfigManager<>(MOD_ID, "nested", NestedConfigChild.class);
 
     public static final DeferredRegistry<Item> ITEMS = DeferredRegistry.create(MOD_ID, BuiltInRegistries.ITEM);
-    public static final RegistryObject<Item> POTATO_ITEM = ITEMS.register("packet_potato", (key) -> new PacketPotatoItem(new Item.Properties().setId(key)));
+    public static final RegistryObject<PacketPotatoItem> POTATO_ITEM = ITEMS.register("packet_potato", (key) -> new PacketPotatoItem(new Item.Properties().setId(key)));
 
     public static void init() {
         LOGGER.info("Initializing JamLib Test Mod on {}", Platform.getModLoader());

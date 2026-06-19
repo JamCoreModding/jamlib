@@ -45,7 +45,7 @@ public class DeferredRegistry<T> {
 	 * @param object The object supplier.
 	 * @return A registry object holding the object.
 	 */
-	public RegistryObject<T> register(String path, Supplier<T> object) {
+	public <O extends T> RegistryObject<O> register(String path, Supplier<O> object) {
 		return this.register(Identifier.fromNamespaceAndPath(this.modId, path), (ignored) -> object.get());
 	}
 
@@ -55,7 +55,7 @@ public class DeferredRegistry<T> {
 	 * @param object The object supplier.
 	 * @return A registry object holding the object.
 	 */
-	public RegistryObject<T> register(Identifier identifier, Supplier<T> object) {
+	public <O extends T> RegistryObject<O> register(Identifier identifier, Supplier<O> object) {
 		return this.register(identifier, (ignored) -> object.get());
 	}
 
@@ -65,7 +65,7 @@ public class DeferredRegistry<T> {
 	 * @param object The object supplier.
 	 * @return A registry object holding the object.
 	 */
-	public RegistryObject<T> register(String path, Function<ResourceKey<T>, T> object) {
+	public <O extends T> RegistryObject<O> register(String path, Function<ResourceKey<T>, O> object) {
 		return this.register(Identifier.fromNamespaceAndPath(this.modId, path), object);
 	}
 
@@ -75,9 +75,10 @@ public class DeferredRegistry<T> {
 	 * @param object The object supplier.
 	 * @return A registry object holding the object.
 	 */
-	public RegistryObject<T> register(Identifier identifier, Function<ResourceKey<T>, T> object) {
-		RegistryObject<T> registryObject = new MemoizedRegistryObject<>(object);
-		this.queue.put(identifier, registryObject);
+	@SuppressWarnings("unchecked")
+	public <O extends T> RegistryObject<O> register(Identifier identifier, Function<ResourceKey<T>, O> object) {
+		RegistryObject<O> registryObject = (RegistryObject<O>) new MemoizedRegistryObject<>((Function<ResourceKey<T>, T>) object);
+		this.queue.put(identifier, (RegistryObject<T>) registryObject);
 		return registryObject;
 	}
 
