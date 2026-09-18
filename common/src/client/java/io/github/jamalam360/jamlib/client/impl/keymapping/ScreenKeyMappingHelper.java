@@ -30,7 +30,7 @@ public class ScreenKeyMappingHelper {
 
 		for (KeyMapping mapping : MAPPINGS) {
 			if (mapping.matches(ev)) {
-				KeyMapping.click(InputConstants.Type.KEYSYM.getOrCreate(ev.key()));
+				KeyMapping.click(InputConstants.Type.KEYBOARD.getOrCreate(ev.key()));
 				return true;
 			}
 		}

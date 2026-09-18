@@ -1,1 +1,1 @@
-- Properly type `DeferredRegistry` methods (#42).
+- Updated to 26.3.

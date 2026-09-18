@@ -1,5 +1,6 @@
 package io.github.jamalam360.testmod;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import io.github.jamalam360.jamlib.api.events.core.EventResult;
 import io.github.jamalam360.jamlib.api.network.Network;
 import io.github.jamalam360.jamlib.api.network.PacketDirection;
@@ -19,7 +20,6 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
-import org.lwjgl.glfw.GLFW;
 
 public class TestModClient {
 	public static void init() {
@@ -36,8 +36,8 @@ public class TestModClient {
         ClientConnectionEvents.CONNECT.listen(client -> TestMod.LOGGER.info("[C] Joined server!"));
         ClientConnectionEvents.DISCONNECT.listen(client -> TestMod.LOGGER.info("[C] Left server!"));
 
-		KeyMapping mapping = KeyMappingRegistry.register(new KeyMapping("test", GLFW.GLFW_KEY_M, KeyMapping.Category.GAMEPLAY));
-		KeyMapping screenMapping = KeyMappingRegistry.register(new KeyMapping("screen", GLFW.GLFW_KEY_U, KeyMapping.Category.GAMEPLAY), true);
+		KeyMapping mapping = KeyMappingRegistry.register(new KeyMapping("test", InputConstants.KEY_M, KeyMapping.Category.GAMEPLAY));
+		KeyMapping screenMapping = KeyMappingRegistry.register(new KeyMapping("screen", InputConstants.KEY_U, KeyMapping.Category.GAMEPLAY), true);
 		ClientLevelTickEvents.POST_TICK.listen(ignored -> {
 			while (mapping.consumeClick()) {
 				TestMod.LOGGER.info("Key pressed!");

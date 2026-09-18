@@ -1,5 +1,6 @@
 package io.github.jamalam360.jamlib.client.impl.config;
 
+import com.mojang.blaze3d.Blaze3D;
 import io.github.jamalam360.jamlib.JamLib;
 import io.github.jamalam360.jamlib.client.impl.config.entry.ConfigEntry;
 import io.github.jamalam360.jamlib.client.api.gui.WidgetList;
@@ -10,7 +11,6 @@ import io.github.jamalam360.jamlib.api.platform.ModInfo;
 import io.github.jamalam360.jamlib.api.platform.Platform;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.locale.Language;
-import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -86,7 +86,7 @@ public class ConfigScreen<T> extends Screen {
                         this.manager.save();
                     }
 
-                    Util.getPlatform().openFile(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5").toFile());
+                    Blaze3D.openPath(Platform.getConfigFolder().resolve(this.manager.getConfigName() + ".json5"));
                     Objects.requireNonNull(this.minecraft).gui.setScreen(this.parent);
                 }, true).sprite(JamLib.id("writable_book"), 16, 16).size(20, 20).build()
         );
@@ -118,7 +118,7 @@ public class ConfigScreen<T> extends Screen {
                 SpriteIconButton linkButton = this.addRenderableWidget(
                         SpriteIconButton.builder(link.getTooltip(), button -> {
                             try {
-                                Util.getPlatform().openUri(link.getUrl().toURI());
+                                Blaze3D.openUri(link.getUrl().toURI());
                             } catch (Exception e) {
                                 JamLib.LOGGER.error("Failed to open link", e);
                             }
