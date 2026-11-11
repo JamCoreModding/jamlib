@@ -1,2 +1,1 @@
-- Fix network capability crash when connecting to a modded server (#41).
-- Only send network capabilities to clients with JamLib installed.
+- Ensure that players without JamLib installed are able to connect to servers that use it (necessary for server-side mods.)
