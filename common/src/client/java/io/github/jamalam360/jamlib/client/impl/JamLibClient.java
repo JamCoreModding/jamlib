@@ -6,6 +6,7 @@ import io.github.jamalam360.jamlib.client.api.events.ClientConnectionEvents;
 import io.github.jamalam360.jamlib.client.api.events.ClientMouseScrollEvents;
 import io.github.jamalam360.jamlib.client.impl.network.ClientNetworkCapabilitiesImpl;
 import io.github.jamalam360.jamlib.impl.network.CapabilitiesPacket;
+import io.github.jamalam360.jamlib.impl.network.NetworkCapabilitiesImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -18,6 +19,7 @@ public class JamLibClient {
     @ApiStatus.Internal
     public static void init() {
         ClientConnectionEvents.CONNECT.listen(JamLibClient::onPlayerJoin);
+        ClientConnectionEvents.DISCONNECT.listen(_ -> NetworkCapabilitiesImpl.resetServerCapability());
 
         ClientMouseScrollEvents.IN_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));
         ClientMouseScrollEvents.OUT_OF_SCREENS.listen((m, a) -> ClientMouseScrollEvents.ALWAYS.invokeCancellable(l -> l.onScroll(m, a)));

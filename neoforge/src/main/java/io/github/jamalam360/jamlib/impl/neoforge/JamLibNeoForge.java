@@ -35,7 +35,8 @@ public class JamLibNeoForge {
 	// Networking
 	@SubscribeEvent
 	private void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1").executesOn(HandlerThread.MAIN);
+		// Optional so that NeoForge clients/servers without JamLib (and vanilla) can still connect.
+		final PayloadRegistrar registrar = event.registrar("1").optional().executesOn(HandlerThread.MAIN);
 		registrar.playBidirectional(JamLibPacket.TYPE, JamLibPacket.CODEC, (payload, ctx) -> NetworkImpl.receive(PacketDirection.SERVERBOUND, new NeoForgeNetworkContext(ctx), payload));
 	}
 }

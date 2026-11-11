@@ -1,1 +1,1 @@
-- Properly type `DeferredRegistry` methods (#42).
+- Ensure that players without JamLib installed are able to connect to servers that use it (necessary for server-side mods.)

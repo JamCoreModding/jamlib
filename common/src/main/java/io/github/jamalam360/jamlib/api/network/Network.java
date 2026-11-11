@@ -47,7 +47,8 @@ public class Network {
 	 * Gets the network capability of a player connected to the server.
 	 * Should only be called server-side.
 	 * @param player The player to get the capability of.
-	 * @return The player's network capability.
+	 * @return The player's network capability. If the player does not have JamLib installed (or has not completed the
+	 * handshake yet), this is an empty capability that cannot receive any packets. Never null.
 	 */
 	public static NetworkCapability getPlayerCapability(ServerPlayer player) {
 		return NetworkCapabilitiesImpl.getPlayerCapability(player);
