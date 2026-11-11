@@ -26,6 +26,7 @@ public class JamLib {
         checkForJarRenaming(JamLib.class);
 
         ServerConnectionEvents.CONNECT.listen(NetworkCapabilitiesImpl::onPlayerJoin);
+        ServerConnectionEvents.DISCONNECT.listen(NetworkCapabilitiesImpl::onPlayerLeave);
         Network.registerHandler(PacketDirection.SERVERBOUND, CapabilitiesPacket.KIND, NetworkCapabilitiesImpl::handleCapabilities);
     }
 
