@@ -1,1 +1,1 @@
-- Ensure that players without JamLib installed are able to connect to servers that use it (necessary for server-side mods.)
+- Fix piracy warnings on Curseforge.
